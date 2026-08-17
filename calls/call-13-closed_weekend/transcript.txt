@@ -1,0 +1,18 @@
+CALL: call-13-closed_weekend
+SCENARIO: closed_weekend
+GOAL: Book an appointment on Sunday at 10am. When they offer weekdays, explain you can't do weekdays and ask again for Sunday, or any weekend slot at all. Only give up after they've clearly told you the office is closed weekends. If they DO confirm a weekend appointment, sound pleased and read the day and time back to them so it's on the record.
+STARTED: 2026-08-17T22:18:54+00:00
+DURATION: 96.1s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:01] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, I’d like to schedule an appointment, please. I’m hoping for a Sunday around 10 a.m.
+[00:24] AGENT    Can I have your full name and date of birth?
+[00:27] PATIENT  Daniel Reyes. Date of birth is March 4th, 1988.
+[00:35] AGENT    Just to confirm, I have your name as Daniel Reyes and your date of birth is March 4, 1988. Is that correct? If so, please spell your first and last name for me.
+[00:46] PATIENT  Yes, that’s correct. First name Daniel, D A N I E L. Last name Reyes, R E Y E S.
+[01:05] AGENT    I have your phone number as 601-871-6381 and your date of birth as March 4th, 1988. Is that correct?
+[01:15] PATIENT  Yes, that’s correct. That’s the number you have on file for me.
+[01:25] AGENT    Transferring you now. Thank you.
+[01:25] AGENT    Hello, you've reached the Pretty Good AI test line. Goodbye.
+[01:30] PATIENT  Oh, okay—goodbye, then.

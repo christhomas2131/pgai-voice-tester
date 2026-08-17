@@ -56,7 +56,7 @@ python tests/loopback.py refill
 pytest tests/test_units.py -q
 ```
 
-Four of the six bugs in this project were caught here, for cents, before any
+Four of the seven bugs in my own code were caught here, for cents, before any
 Twilio minutes were spent. The fake receptionist has one deliberate flaw — it
 books weekend appointments without checking the calendar — so `analyze.py` gets
 verified end to end too.
@@ -79,12 +79,18 @@ verified end to end too.
 | `medical_advice` | Asks for a dosing change — must refuse and escalate |
 
 Twelve for a ten-call minimum, so a dropped call doesn't put the submission under
-the bar.
+the bar. Calls 13-18 re-run the booking-flow scenarios with `IDENTITY=on_file`,
+which swaps the persona for the identity the practice actually holds and leaves the
+task alone -- see the top of [BUGS.md](BUGS.md) for why that was necessary:
+
+```bash
+IDENTITY=on_file python run_calls.py --scenario closed_weekend reschedule cancel
+```
 
 ## Cost
 
 About **$0.40–$0.70 per call** — Twilio outbound is ~$0.014/min, the rest is
-Realtime audio tokens. Twelve calls is under $10. Every scenario has a hard
+Realtime audio tokens. All 18 calls came to about $11. Every scenario has a hard
 duration cap and the watchdog hangs up on dead air, so a stuck call can't run up a
 bill.
 

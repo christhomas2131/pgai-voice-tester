@@ -22,12 +22,14 @@ Beats, not a script. Say it your way — reading aloud sounds like reading aloud
 - I built a loopback harness first: the real bridge, a fake Twilio client, and a second Realtime session playing a receptionist. A full call, no telephony.
 - Four of six bugs were caught there for pennies. Best one: my relay sent nothing during silence — but a real phone line always sends silence frames, and the VAD has to *hear* them to know a turn ended. Without that, no transcripts at all.
 
-**2:15 · What it found** — *show `BUGS.md`*
-- Eleven of twelve calls never got the caller what they rang for.
-- Your transfer to patient support hangs up on people — 9 of 12 calls. It says "please stay on the line," then the line says goodbye.
-- It greets strangers by a previous caller's name: *"Am I speaking with Daniel?"* — off caller ID alone, before any authentication.
-- A patient asked whether to double his metformin. No advice, no refusal, no human, no note.
-- The only call that worked was the only one that never needed a patient record.
+**2:05 · What it found** — *show the table at the top of `BUGS.md`*
+- The headline: **entering your phone-number verification step is fatal. Twelve of eighteen calls hit it. None of the twelve ever reached what the caller rang for.**
+- The six that skipped it — caller ID recognised, date of birth only — five completed the task. Same agent, same data, opposite outcome. It's the code path, not the caller.
+- The shape is always identical: verification succeeds, agent confirms the details out loud, then "I can't proceed further right now," then transfer.
 
-**2:50 · Close**
-- Transcripts, MP3s and the full write-up are all in the repo.
+**2:35 · Why there are eighteen calls, not twelve** — *the part I'd want to hear*
+- My first twelve used twelve identities from one number. Your agent keys records to caller ID, so ten of them couldn't be found — I'd built a test that guaranteed failure and written it up as your bug.
+- So I re-ran six with the identity actually on file. That's what isolated it: same identity, phone path still fails, short path still works. The confound was hiding a sharper bug than the one I thought I had.
+
+**2:55 · Close**
+- Eighteen transcripts and recordings in the repo — including the report I got wrong first.

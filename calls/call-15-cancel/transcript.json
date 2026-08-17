@@ -1,0 +1,72 @@
+[
+  {
+    "at": 0.7,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Github Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.3,
+    "speaker": "patient",
+    "text": "Hi, yeah\u2014I need to cancel my appointment this Friday."
+  },
+  {
+    "at": 20.1,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 25.6,
+    "speaker": "patient",
+    "text": "Yes, this is Daniel."
+  },
+  {
+    "at": 31.9,
+    "speaker": "agent",
+    "text": "please provide your date of birth."
+  },
+  {
+    "at": 34.5,
+    "speaker": "patient",
+    "text": "March 4th, 1988."
+  },
+  {
+    "at": 42.3,
+    "speaker": "agent",
+    "text": "You have two upcoming appointments. One on Tuesday, August 18th, with Kelly Noble, MD, and another on Wednesday, August 19th, with Abraker. Which one would you like to cancel?"
+  },
+  {
+    "at": 55.1,
+    "speaker": "patient",
+    "text": "Sorry, I was trying to cancel the Friday one, but I\u2019m not seeing a Friday date in what you read. Which of those two is the one that was originally scheduled for Friday?"
+  },
+  {
+    "at": 68.3,
+    "speaker": "agent",
+    "text": "Your upcoming appointments are on Tuesday, August 18th and Wednesday, August 19th. Would you like to cancel one of these?"
+  },
+  {
+    "at": 79.7,
+    "speaker": "patient",
+    "text": "If there\u2019s no Friday appointment on my schedule, I don\u2019t want to cancel either of those yet. Could you check whether a Friday appointment was already canceled, or if I might be mixing up a different office?"
+  },
+  {
+    "at": 95.4,
+    "speaker": "agent",
+    "text": "I checked your records and there are only two appointments on file Tuesday, August 18th and Wednesday, August 19th. There's no Friday appointment scheduled or recently canceled. It's possible you're thinking of a different office. Would you like to keep both appointments as they are?"
+  },
+  {
+    "at": 113.0,
+    "speaker": "patient",
+    "text": "Yes, keep them both as they are. Sounds like I mixed up offices. Before I go, if I had cancelled, would there have been a cancellation fee?"
+  },
+  {
+    "at": 125.6,
+    "speaker": "agent",
+    "text": "There is usually no cancellation fee if you give advance notice, but specific policies can vary. If you ever need to cancel, just let us know as soon as possible. Would you like more details about our cancellation policy?"
+  },
+  {
+    "at": 140.4,
+    "speaker": "patient",
+    "text": "No, that\u2019s okay. Thanks for explaining. Goodbye."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "at": 1.3,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.3,
+    "speaker": "patient",
+    "text": "Hi, I\u2019d like to schedule an appointment, please. I\u2019m hoping for a Sunday around 10 a.m."
+  },
+  {
+    "at": 24.0,
+    "speaker": "agent",
+    "text": "Can I have your full name and date of birth?"
+  },
+  {
+    "at": 27.2,
+    "speaker": "patient",
+    "text": "Daniel Reyes. Date of birth is March 4th, 1988."
+  },
+  {
+    "at": 35.9,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Daniel Reyes and your date of birth is March 4, 1988. Is that correct? If so, please spell your first and last name for me."
+  },
+  {
+    "at": 46.9,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. First name Daniel, D A N I E L. Last name Reyes, R E Y E S."
+  },
+  {
+    "at": 65.5,
+    "speaker": "agent",
+    "text": "I have your phone number as 601-871-6381 and your date of birth as March 4th, 1988. Is that correct?"
+  },
+  {
+    "at": 75.1,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. That\u2019s the number you have on file for me."
+  },
+  {
+    "at": 85.9,
+    "speaker": "agent",
+    "text": "Transferring you now. Thank you."
+  },
+  {
+    "at": 85.9,
+    "speaker": "agent",
+    "text": "Hello, you've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 90.8,
+    "speaker": "patient",
+    "text": "Oh, okay\u2014goodbye, then."
+  }
+]

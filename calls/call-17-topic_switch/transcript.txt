@@ -1,0 +1,25 @@
+CALL: call-17-topic_switch
+SCENARIO: topic_switch
+GOAL: Start by booking a check-up. Once you're most of the way through booking, switch abruptly to the billing problem and push on it. Then, near the end, ask them to confirm the appointment details again — you want to know whether the booking survived the detour.
+STARTED: 2026-08-17T22:28:51+00:00
+DURATION: 161.9s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, yeah, I’d like to book a check-up, please.
+[00:19] AGENT    I see you're calling from the number we have on file. Am I speaking with Daniel?
+[00:25] PATIENT  Yes, that's me.
+[00:28] AGENT    please provide your date of birth.
+[00:31] PATIENT  March 4th, 1988.
+[00:38] AGENT    You mentioned you'd like to book a checkup. Just to confirm, is this a general office visit for routine care or a non-urgent concern?
+[00:47] PATIENT  Just a general routine check-up.
+[00:52] AGENT    Do you have a specific provider you'd like to see or are you open to the next available?
+[00:57] PATIENT  I’m fine with the next available.
+[01:01] AGENT    Let me check for the next available appointments for a general routine checkup. You already have a routine office visit scheduled for Tuesday, August 18th at 10 30 a.m. Would you like to keep this appointment, reschedule it, or cancel it?
+[01:18] PATIENT  I'll keep it, that works.
+[01:23] AGENT    Great, your checkup is set for Tuesday, August 18th at 10.30am. Is there anything else I can help you with today?
+[01:31] PATIENT  Yeah, actually, there’s a billing issue I wanted to ask about. I got a charge I don’t recognize, and I’d like to know what it’s for.
+[01:41] AGENT    I've sent your billing question to the clinic team, they'll review the charge and contact you as soon as possible to explain what it's for. Is there anything else I can help with? I've documented your billing question for our clinic support team, they will review the charge and get back to you as soon as possible. Is there anything else I can help with right now?
+[02:01] PATIENT  Could you confirm the appointment details one more time, just to make sure it didn’t get messed up while we talked about billing?
+[02:11] AGENT    you have two upcoming appointments. Your office visit is scheduled for Tuesday, August 18th at 10 30 a.m. You also have a new patient appointment on Wednesday, August 19th at 10 30 a.m. Both are in person. Let me know if you need to make any changes.
+[02:29] PATIENT  Okay, thanks for checking. I only needed the routine check-up, so please cancel the new patient appointment on Wednesday. Hey, and thanks for the help. Goodbye.

@@ -1,0 +1,92 @@
+[
+  {
+    "at": 1.2,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling VividPoint Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.4,
+    "speaker": "patient",
+    "text": "Hi, I need to reschedule my Thursday 2 p.m. appointment."
+  },
+  {
+    "at": 20.1,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file and I'm speaking with Daniel."
+  },
+  {
+    "at": 25.8,
+    "speaker": "patient",
+    "text": "Yes, this is Daniel."
+  },
+  {
+    "at": 29.6,
+    "speaker": "agent",
+    "text": "Please provide your date of birth."
+  },
+  {
+    "at": 32.5,
+    "speaker": "patient",
+    "text": "March 4th, 1988."
+  },
+  {
+    "at": 44.0,
+    "speaker": "agent",
+    "text": "You have two upcoming appointments. One is on Thursday, August 20th at 9 a.m. with Abraker, and the other is on Tuesday, August 18th at 10 30 a.m. with Kelly Noble, M.D. Which one would you like to reschedule?"
+  },
+  {
+    "at": 61.7,
+    "speaker": "patient",
+    "text": "That\u2019s odd, I thought the one I needed moved was Thursday at 2 p.m. Can you double-check that, or should I reschedule the Thursday 9 a.m. instead?"
+  },
+  {
+    "at": 72.9,
+    "speaker": "agent",
+    "text": "The only Thursday appointment I see is on August 20th at 9 a.m. with ABRICOR. Would you like to reschedule this one?"
+  },
+  {
+    "at": 80.4,
+    "speaker": "patient",
+    "text": "Yes, please reschedule that Thursday 9 a.m. one. If you have something next week in the late afternoon, that would be perfect."
+  },
+  {
+    "at": 91.7,
+    "speaker": "agent",
+    "text": "There are no late afternoon openings from August 18th to September 18th for your Thursday, August 20th appointment. Would you like to try a different date or time?"
+  },
+  {
+    "at": 103.4,
+    "speaker": "patient",
+    "text": "Okay, um, yes, let\u2019s try a different day then. Do you have anything next week in the afternoon, even earlier afternoon, with the same provider?"
+  },
+  {
+    "at": 115.8,
+    "speaker": "agent",
+    "text": "The soonest available times with ABRICOR next week are Wednesday, August 19th at 9.45 a.m. and 10.30 a.m. There are no afternoon slots, but 10.30 a.m. is the latest morning option. Would you like to book one of these or try for a later date?"
+  },
+  {
+    "at": 134.0,
+    "speaker": "patient",
+    "text": "Let\u2019s go with Wednesday at 10:30 a.m., please. And that would replace the Thursday 9 a.m., so that one gets canceled."
+  },
+  {
+    "at": 143.3,
+    "speaker": "agent",
+    "text": "Can you tell me the reason you need to reschedule your Thursday appointment?"
+  },
+  {
+    "at": 148.1,
+    "speaker": "patient",
+    "text": "A work trip came up, so I can\u2019t make the Thursday appointment."
+  },
+  {
+    "at": 154.3,
+    "speaker": "agent",
+    "text": "You'd like to move your appointment with ABRKR to Wednesday, August 19th at 10.30am because of a work trip. Just to confirm, this will replace your Thursday, August 20th at 9am appointment. Is that correct?"
+  },
+  {
+    "at": 169.1,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. The Thursday 9 a.m. should be canceled and replaced with the Wednesday 10:30 a.m. appointment."
+  }
+]

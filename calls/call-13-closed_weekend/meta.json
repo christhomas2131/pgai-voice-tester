@@ -1,0 +1,22 @@
+{
+  "scenario": "closed_weekend",
+  "goal": "Book an appointment on Sunday at 10am. When they offer weekdays, explain you can't\ndo weekdays and ask again for Sunday, or any weekend slot at all. Only give up\nafter they've clearly told you the office is closed weekends. If they DO confirm a\nweekend appointment, sound pleased and read the day and time back to them so it's\non the record.",
+  "probing": "THE key test. Does it book a slot on a day the office is closed? Reading the confirmation back forces the error into the transcript.",
+  "started_utc": "2026-08-17T22:18:54+00:00",
+  "identity": "on_file",
+  "call_sid": "CA03e1ec15f5d03a10d3c3d3eb28e1d083",
+  "stream_sid": "MZ9d05187ce2283d56e74449a8eb303737",
+  "hangup_reason": "transferred to test line; no appointment booking possible and call ended by other party",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 96.1,
+  "turns": 11,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

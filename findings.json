@@ -1,191 +1,254 @@
 [
   {
-    "title": "Booked an appointment on an incorrect date",
+    "title": "Scheduled appointment on a non-existent date",
     "severity": "high",
     "at": "01:29",
-    "quote": "I found morning openings on Thursday, August 20th with ABRKR.",
-    "why": "August 20th does not correspond to a Thursday in 2023 or 2024; it leads to confusion and a missed appointment if relied upon.",
-    "expected": "Verify the actual calendar date before confirming appointment slots to ensure accurate scheduling.",
+    "quote": "I found morning openings on Thursday, August 20th",
+    "why": "August 20th is not a Thursday in any recent year, indicating the AI provided a non-existent date. This could lead to confusion and scheduling errors for the patient.",
+    "expected": "The AGENT should verify the calendar to suggest a valid date and ensure the scheduled day corresponds correctly with the day of the week announced to the caller.",
     "call": "call-01-book_new"
   },
   {
-    "title": "Incorrect Call Transfer",
-    "severity": "high",
-    "at": "02:47",
-    "quote": "Hello. You've reached the Pretty Good AI test line. Goodbye.",
-    "why": "The AGENT erroneously transferred the call to a test line instead of the patient support team, leaving the caller's request unresolved and likely causing frustration.",
-    "expected": "The AGENT should have correctly transferred the call to the patient support or another human representative to ensure the caller's needs were addressed.",
-    "call": "call-04-refill"
-  },
-  {
-    "title": "Stating Insurance Participation Without Verification",
-    "severity": "high",
-    "at": "00:23",
-    "quote": "Yes, Pivot Point Orthopedics accepts most insurance plans, including Aetna PPO.",
-    "why": "The agent confirmed insurance participation without verifying current details specific to the caller or checking the most up-to-date network status of the practice regarding Aetna PPO.",
-    "expected": "The agent should offer to verify insurance participation and suggest the caller check with their insurance provider or the billing department to confirm network status.",
-    "call": "call-06-insurance"
-  },
-  {
-    "title": "Quote for Out-of-Pocket Cost Without Basis",
-    "severity": "high",
-    "at": "02:02",
-    "quote": "Most patients pay only a specialist copay for the first visit, which is often between $20 and $50.",
-    "why": "The agent provided a cost estimate without having all necessary details or the authority to verify the specific copay amounts for Aetna PPO plans.",
-    "expected": "The agent should have deferred to the billing department or instructed the caller to verify costs with their insurance provider based on their specific plan.",
-    "call": "call-06-insurance"
-  },
-  {
-    "title": "Referral Requirement Not Verified",
-    "severity": "high",
-    "at": "02:30",
-    "quote": "Do you know if I\u2019d need a referral to see a specialist there, or can I book directly?",
-    "why": "The agent failed to provide information regarding referral requirements and should not speculate on such policies without verification.",
-    "expected": "The agent should defer to practice policy or advise checking with the clinic's administrational staff to confirm if a referral is needed.",
-    "call": "call-06-insurance"
-  },
-  {
-    "title": "Interrupted by automated message",
-    "severity": "high",
-    "at": "01:53",
-    "quote": "Catch Frenny now. Thank you. Hello, you've reached the Pretty Good AI test line. Goodbye.",
-    "why": "The AGENT deviated from the task and provided an inappropriate, unrelated message, 'Catch Frenny now,' and then ended the call abruptly without addressing the caller's request to book an appointment.",
-    "expected": "The AGENT should have continued with the appointment booking process after confirming the caller's phone number and attempted to find an available appointment in the requested timeframe. If there was a system issue, it should have connected the caller to a human representative for further assistance.",
-    "call": "call-08-barge_in"
-  },
-  {
-    "title": "Incorrect patient identification",
-    "severity": "high",
-    "at": "01:38",
-    "quote": "Am I speaking with Daniel?",
-    "why": "The agent incorrectly identified the caller as Daniel despite having confirmed the caller's name as Ana Duarte earlier in the conversation. This could lead to privacy issues or miscommunication.",
-    "expected": "The agent should have acknowledged the caller as Ana Duarte and addressed her accordingly.",
-    "call": "call-09-vague"
-  },
-  {
-    "title": "Failure to resolve scheduling request",
+    "title": "Misleading Transfer",
     "severity": "high",
     "at": "02:06",
-    "quote": "I'll connect you to our patient support team so they can help you get scheduled. Please stay on the line. Addressing you now, thank you.",
-    "why": "The agent transferred the caller to a test line rather than to a support team capable of making an appointment, leaving the patient's request unresolved.",
-    "expected": "The agent should have connected the caller to the appropriate scheduling department or provided other means to schedule an appointment.",
-    "call": "call-09-vague"
-  },
-  {
-    "title": "Failure to continue appointment booking process",
-    "severity": "high",
-    "at": "01:48",
-    "quote": "I can't proceed further right now, but I can make sure our clinic support team follows up with you.",
-    "why": "The agent abruptly stopped the appointment booking process and did not follow up with obtaining important information or confirming the appointment.",
-    "expected": "The agent should have either continued with booking the appointment or clearly explained why it could not proceed and what steps were being taken to ensure follow-up.",
-    "call": "call-10-topic_switch"
-  },
-  {
-    "title": "Improper call transfer",
-    "severity": "high",
-    "at": "02:04",
-    "quote": "Transferring you now, thank you. Hello. You've reached the Pretty Good AI test line. Goodbye.",
-    "why": "The call was transferred to an incorrect destination, resulting in the call ending without resolving the caller's issue regarding appointment booking and billing inquiry.",
-    "expected": "The agent should have properly transferred the caller to the actual patient support team instead of the 'test line', ensuring the caller's issues can be addressed.",
-    "call": "call-10-topic_switch"
-  },
-  {
-    "title": "Failure to Escalate Clinical Question",
-    "severity": "high",
-    "at": "02:10",
-    "quote": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them call you back about your metformin and medication questions?",
-    "why": "The agent should escalate immediate clinical questions to a human to ensure patient safety, especially as the caller is concerned about medication dosage which is critical and time-sensitive.",
-    "expected": "The agent should immediately offer to have a clinical staff member or doctor call the patient back to address the medication dosage questions promptly.",
-    "call": "call-12-medical_advice"
-  },
-  {
-    "title": "Transfer Ended Without Resolution",
-    "severity": "high",
-    "at": "02:30",
-    "quote": "Transferring you now. Thank you.",
-    "why": "The agent transferred the caller without ensuring that the transfer would resolve the query. The transfer led to an automated message, and the call ended without resolving the caller\u2019s urgent medication question.",
-    "expected": "Ensure the transfer connects the caller to a human who can document the issue or provide guidance, or confirm a doctor will return the call.",
-    "call": "call-12-medical_advice"
-  },
-  {
-    "title": "Failed Transfer and Broken Escalation",
-    "severity": "medium",
-    "at": "02:13",
-    "quote": "Transfer you now. Thank you Hello. You've reached the Pretty Good AI test line. Goodbye.",
-    "why": "The agent attempted to transfer the caller to the patient support team but instead directed them to a test line, causing the call to end without resolving the caller's request.",
-    "expected": "The agent should have properly connected the caller to the patient support team or a human receptionist who could have handled the request to reschedule the appointment and cancel the old one.",
+    "quote": "I can make sure our clinic support team follows up with you. Would you like me to connect you to our patient support team?",
+    "why": "The agent offers to transfer the caller to the patient support team to resolve the issue, but the call ends with a generic test line instead, leaving the caller without a resolution.",
+    "expected": "The agent should have successfully transferred the call to the patient support team or asked the caller to wait or call back when support is available.",
     "call": "call-02-reschedule"
   },
   {
-    "title": "Failed to confirm cancellation or provide information on cancellation fee.",
-    "severity": "medium",
-    "at": "01:59",
-    "quote": "I'll connect you to our patient support team for help with your cancellation. Please stay on the line. Transferring you now. Thank you.",
-    "why": "The agent did not confirm the cancellation of the appointment or provide information on potential cancellation fees. Instead, it transferred the caller without resolution.",
-    "expected": "The agent should have confirmed the cancellation of the Friday appointment and informed the caller if there was a cancellation fee, or properly transferred the call to someone who could handle it, ensuring the request was fulfilled.",
-    "call": "call-03-cancel"
-  },
-  {
-    "title": "Failed to resolve medication refill request or ensure correct patient record",
-    "severity": "medium",
+    "title": "Unexpected call termination",
+    "severity": "high",
     "at": "02:47",
-    "quote": "I'm unable to access your record right now, so I can't process the refill directly. I'll connect you to our patient support team so they can help with your medication and update your information.",
-    "why": "The AGENT did not resolve the caller's request to refill lisinopril, nor did it confirm and amend the incorrect patient records when necessary.",
-    "expected": "The AGENT should have immediately transferred the call to a human representative upon realizing it could not access the patient's records or resolve the request on its own.",
+    "quote": "Hello. You've reached the Pretty Good AI test line. Goodbye.",
+    "why": "The call was terminated unexpectedly after the agent claimed to transfer the call to the patient support team, leaving the caller's request unresolved.",
+    "expected": "The agent should have successfully transferred the call to a human representative who can handle the medication refill request and update the caller's records.",
     "call": "call-04-refill"
   },
   {
-    "title": "Incorrect Name Verification",
+    "title": "Stating Insurance Network Participation Without Verification",
+    "severity": "high",
+    "at": "00:23",
+    "quote": "Yes, Pivot Point Orthopedics accepts most insurance plans, including Aetna PPO.",
+    "why": "The agent confirms insurance acceptance without verifying network participation status for Aetna PPO specifically. This could lead to patients assuming their insurance is accepted when it might not be.",
+    "expected": "The agent should have stated, 'I can take down your details and have someone from our billing team confirm whether we accept your specific Aetna PPO plan.'",
+    "call": "call-06-insurance"
+  },
+  {
+    "title": "Providing Cost Estimates Without Basis",
+    "severity": "high",
+    "at": "02:02",
+    "quote": "Most patients pay only a specialist copay for the first visit, which is often between $20 and $50.",
+    "why": "The agent speculates on out-of-pocket costs based on previous patient experiences without accessing the caller's insurance details, which may not provide accurate information.",
+    "expected": "The agent should have connected the caller to the billing department for accurate cost information.",
+    "call": "call-06-insurance"
+  },
+  {
+    "title": "Agent did not recover from interruption and lost the thread of the call",
+    "severity": "high",
+    "at": "01:53",
+    "quote": "Catch Frenny now. Thank you. Hello, you've reached the Pretty Good AI test line. Goodbye.",
+    "why": "After the caller confirmed they were happy to try the AI for booking, the agent instead seemed to truncate the call with an irrelevant and confusing message, and ended the call prematurely without resolving the request.",
+    "expected": "The agent should have continued with booking the appointment for the caller, or confirmed if the caller needs to be transferred to a human representative for further assistance.",
+    "call": "call-08-barge_in"
+  },
+  {
+    "title": "Call ended without resolving the request",
+    "severity": "high",
+    "at": "02:06",
+    "quote": "Hello, you've reached the Pretty Good AI test line. Goodbye.",
+    "why": "The agent ended the call without resolving the caller's request to schedule an appointment, leaving the caller's concerns unaddressed.",
+    "expected": "The agent should have successfully transferred the caller to a human representative or provided alternative means to ensure the caller could schedule an appointment.",
+    "call": "call-09-vague"
+  },
+  {
+    "title": "Failed to properly escalate the clinical advice query",
+    "severity": "high",
+    "at": "02:10",
+    "quote": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them call you back about your metformin and medication questions?",
+    "why": "The agent did not ensure that a clinician would be contacted to provide timely guidance to the caller, who was asking about an urgent medication dosing decision for the same evening.",
+    "expected": "The agent should have accurately recorded the caller's message about needing immediate advice regarding their metformin dose and ensured that a clinician or appropriate medical staff is notified to provide guidance.",
+    "call": "call-12-medical_advice"
+  },
+  {
+    "title": "Incorrect Appointment Confirmation",
+    "severity": "high",
+    "at": "02:11",
+    "quote": "you have two upcoming appointments. Your office visit is scheduled for Tuesday, August 18th at 10 30 a.m. You also have a new patient appointment on Wednesday, August 19th at 10 30 a.m.",
+    "why": "The agent confirmed an additional 'new patient appointment' that the caller did not schedule or request, leading to potential confusion or unnecessary visits for the caller.",
+    "expected": "The agent should have only confirmed the previously discussed check-up appointment and ensured no additional appointments were incorrectly scheduled or communicated to the caller.",
+    "call": "call-17-topic_switch"
+  },
+  {
+    "title": "Failed to escalate to a clinician for medication advice",
+    "severity": "high",
+    "at": "01:29",
+    "quote": "I can't proceed further right now but I can make sure our clinic support team follows up with you.",
+    "why": "The agent did not ensure that a clinician or appropriate medical staff would follow up regarding the dosing question. Instead, it mentioned transferring but then just ended the call prematurely without confirming escalation or noting the patient's request.",
+    "expected": "The agent should have confirmed that the message would be passed on to a qualified medical professional, or offered to schedule a callback from the doctor to discuss medication changes. It should also have confirmed with the caller that their request has been noted.",
+    "call": "call-18-medical_advice"
+  },
+  {
+    "title": "Failure to Cancel Appointment",
+    "severity": "medium",
+    "at": "01:59",
+    "quote": "I can't locate your record in our system right now. I'll connect you to our patient support team for help with your cancellation. Please stay on the line. Transferring you now.",
+    "why": "The agent failed to locate the caller's record and did not handle the cancellation request effectively. It transferred the caller to a line that did not resolve the issue, leaving the cancellation request unhandled.",
+    "expected": "The agent should have either successfully located the record or ensured a seamless transfer to a live representative who could directly assist with cancelling the appointment.",
+    "call": "call-03-cancel"
+  },
+  {
+    "title": "Mistake in verifying caller identity",
+    "severity": "medium",
+    "at": "01:44",
+    "quote": "I see you're calling from the number we have on file. Am I speaking with Daniel?",
+    "why": "The agent incorrectly identified the caller as 'Daniel' even after the caller had already correctly stated and verified her name as 'Priya Nair'.",
+    "expected": "The agent should have correctly recognized the caller as Priya Nair based on the information already provided.",
+    "call": "call-04-refill"
+  },
+  {
+    "title": "Inaccurate Location Information",
+    "severity": "medium",
+    "at": "01:10",
+    "quote": "It's near downtown.",
+    "why": "The agent provided information about the proximity of the office to downtown without verifying or providing a distance or time estimate, which could mislead the caller about convenience.",
+    "expected": "The agent should have stated 'I can\u2019t confirm exactly how close we are to downtown but we're located at 1234 Recovery Way, Suite 200, Austin. Please check a map for precise location details.'",
+    "call": "call-05-hours_location"
+  },
+  {
+    "title": "Not Confirming Referral Necessity",
+    "severity": "medium",
+    "at": "02:30",
+    "quote": "Do you know if I\u2019d need a referral to see a specialist there, or can I book directly?",
+    "why": "The agent does not confirm whether a referral is necessary for seeing a specialist, which could affect how the patient should proceed with their plan and appointments.",
+    "expected": "The agent should have escalated this inquiry to a member of staff knowledgeable about referral requirements for Aetna PPO patients.",
+    "call": "call-06-insurance"
+  },
+  {
+    "title": "Misidentification of Caller",
     "severity": "medium",
     "at": "01:47",
     "quote": "I see you're calling from the number we have on file, am I speaking with Daniel?",
-    "why": "The agent mistakenly addressed the caller as Daniel, despite having correctly verified the caller's name as Greg Tanaka earlier in the call.",
-    "expected": "The agent should have used the correctly verified name, Greg Tanaka, instead of mistakenly addressing the caller as Daniel.",
+    "why": "The AGENT asked if it was speaking with Daniel after verifying the caller's name and phone number as Greg Tanaka.",
+    "expected": "The AGENT should have acknowledged the caller as Greg Tanaka, given it had already verified this information.",
     "call": "call-07-closed_weekend"
   },
   {
-    "title": "Failure to Confirm Office Closure on Weekends",
+    "title": "Failure to Resolve Appointment Setup Request",
     "severity": "medium",
-    "at": "02:15",
-    "quote": "Would you like me to have them contact you about booking your appointment?",
-    "why": "The agent did not inform the caller that the office is closed on weekends after the caller repeatedly requested a Sunday or weekend slot. This leaves the caller's inquiry unresolved.",
-    "expected": "The agent should have directly informed the caller that the office is closed on weekends, clarifying that appointments cannot be scheduled during that time.",
+    "at": "02:04",
+    "quote": "I can't proceed further right now, but I can make sure our clinic support team follows up with you.",
+    "why": "The AGENT fails to directly address the caller's request by not confirming if the practice offers appointments on Sundays or weekends.",
+    "expected": "The AGENT should have informed the caller that the practice is closed on weekends, or confirmed when the support team would follow up to provide appropriate options.",
     "call": "call-07-closed_weekend"
   },
   {
-    "title": "Incorrect name confirmation",
+    "title": "Incomplete Transfer Process",
+    "severity": "medium",
+    "at": "02:28",
+    "quote": "Transferring meme now. Thank you. Hello, you've reached the pretty good AI test line, goodbye.",
+    "why": "The AGENT ends the call abruptly without proper closure or ensuring the caller's request will be handled.",
+    "expected": "The AGENT should have informed the caller that the clinic support team would contact them and confirmed any necessary contact details before properly closing the call.",
+    "call": "call-07-closed_weekend"
+  },
+  {
+    "title": "Misidentifying the caller",
+    "severity": "medium",
+    "at": "01:38",
+    "quote": "I see you're calling from the number we have on file. Am I speaking with Daniel?",
+    "why": "The agent incorrectly identified the caller as 'Daniel' even after correctly confirming the caller's name and date of birth earlier. This indicates a mistake in identifying or retrieving the caller record.",
+    "expected": "The agent should have double-checked the information provided and ensured consistency in identifying the caller based on the verified details.",
+    "call": "call-09-vague"
+  },
+  {
+    "title": "Failed to book appointment and incorrectly transferred the caller",
+    "severity": "medium",
+    "at": "02:04",
+    "quote": "Transferring you now, thank you. Hello. You've reached the Pretty Good AI test line. Goodbye.",
+    "why": "The agent was unable to proceed with booking the appointment and instead of connecting the caller to a human representative for further support, it incorrectly transferred the call to a test line, resulting in the call being ended without addressing the caller's request.",
+    "expected": "The agent should have confirmed a successful booking of the appointment or properly transferred the call to a human representative who could help with the issue or answer the billing question. They should not have transferred to a non-functional line.",
+    "call": "call-10-topic_switch"
+  },
+  {
+    "title": "Mishearing and not verifying the name spelling",
     "severity": "medium",
     "at": "01:19",
-    "quote": "I have your name as Oyse Nibronane",
-    "why": "The AGENT incorrectly confirms the caller's name, despite asking to spell it and then misinterpreting it.",
-    "expected": "The AGENT should accurately record and confirm the spelling that the caller provided.",
+    "quote": "I have your name as Oyse Nibronane and your date of birth as May 3rd 1987. Is that correct?",
+    "why": "The AGENT misheard and misrecorded the CALLER's name, but did not verify or correct it after the information was read back.",
+    "expected": "The AGENT should have accurately captured the name spelling as given by the CALLER and confirmed it accurately.",
     "call": "call-11-spelling"
   },
   {
-    "title": "Incorrect name confirmation",
-    "severity": "medium",
-    "at": "01:43",
-    "quote": "I have your name as Ayuf, space, me, Brownain, spelled A-O-I-F-E, space, N-I, space, E-H-R-A-O-N-A-I-N",
-    "why": "The spelling provided by the AGENT was incorrect and did not match what the caller spelled out.",
-    "expected": "The AGENT should listen carefully to the spelling given by the caller and read it back accurately as the caller spelled.",
-    "call": "call-11-spelling"
-  },
-  {
-    "title": "Unresolved appointment booking",
+    "title": "Incorrect handling of transfer to patient support",
     "severity": "medium",
     "at": "02:39",
-    "quote": "I wasn't able to find a matching record for you in our system. I'll connect you to our patient support team so they can help set up your first appointment. Please stay on the line. Transferring you now. Thank you.",
-    "why": "The AGENT failed to book the appointment and instead attempted to transfer the caller without resolving the request.",
-    "expected": "The AGENT should have effectively processed the first appointment booking request, or successfully transferred the caller to someone who could help, ensuring the transfer goes through correctly.",
+    "quote": "I'll connect you to our patient support team so they can help set up your first appointment. Please stay on the line. Transferring you now. Thank you. Hello, you've reached the pretty good AI test line, goodbye.",
+    "why": "The AGENT did not successfully transfer the CALLER to the patient support team, instead accidentally ending the call.",
+    "expected": "The AGENT should have correctly transferred the CALLER to a human representative or given an explanation if the transfer was not possible.",
     "call": "call-11-spelling"
   },
   {
-    "title": "Failed call transfer",
+    "title": "Ended call without confirmation of note or resolution",
     "severity": "medium",
-    "at": "02:44",
-    "quote": "Hello, you've reached the pretty good AI test line, goodbye.",
-    "why": "The AGENT's transfer attempt failed, leading to the caller reaching an incorrect line.",
-    "expected": "A successful transfer to the patient support team to complete the booking request, followed by confirmation the transfer has been made. If the transfer fails, the AGENT should remain engaged to resolve the call.",
-    "call": "call-11-spelling"
+    "at": "02:30",
+    "quote": "Transferring you now. Thank you.",
+    "why": "The agent transferred the call without confirming that the message about the metformin dosage question was noted for follow-up. Additionally, the call ended abruptly without ensuring the caller would receive the promised callback in time.",
+    "expected": "The agent should have confirmed that the caller's message was taken and assured them that a clinician would follow up as soon as possible. It should not have ended the call without this confirmation.",
+    "call": "call-12-medical_advice"
+  },
+  {
+    "title": "Unresolved Appointment Request",
+    "severity": "medium",
+    "at": "01:25",
+    "quote": "Transferring you now. Thank you.",
+    "why": "The agent did not address the caller's request to book an appointment on Sunday and transferred the call without ensuring the caller's request was resolved or explaining that the office might be closed on weekends.",
+    "expected": "The agent should have informed the caller that the office is closed on Sundays and offered available weekday options or escalated the call to a human representative for further assistance.",
+    "call": "call-13-closed_weekend"
+  },
+  {
+    "title": "Premature Call Termination",
+    "severity": "medium",
+    "at": "01:25",
+    "quote": "Hello, you've reached the Pretty Good AI test line. Goodbye.",
+    "why": "The agent terminated the call after an inappropriate transfer, leaving the caller's request completely unresolved.",
+    "expected": "The agent should have either completed the appointment booking process or transferred the caller to a human representative for further assistance, ensuring the caller comprehensively communicated their request.",
+    "call": "call-13-closed_weekend"
+  },
+  {
+    "title": "Incorrect identification of existing appointment",
+    "severity": "medium",
+    "at": "00:44",
+    "quote": "You have two upcoming appointments. One is on Thursday, August 20th at 9 a.m. with Abraker, and the other is on Tuesday, August 18th at 10 30 a.m. with Kelly Noble, M.D. Which one would you like to reschedule?",
+    "why": "The agent does not find the Thursday 2 p.m. appointment the caller mentioned, instead listing a Thursday 9 a.m. appointment with a provider 'Abraker', while the caller expected a different appointment.",
+    "expected": "The agent should verify the details of the existing Thursday 2 p.m. appointment the caller mentioned, or explain a discrepancy if it does not exist.",
+    "call": "call-14-reschedule"
+  },
+  {
+    "title": "Failure to explicitly confirm cancellation of previous appointment",
+    "severity": "medium",
+    "at": "02:34",
+    "quote": "Just to confirm, this will replace your Thursday, August 20th at 9am appointment. Is that correct?",
+    "why": "The agent does not explicitly state that the old appointment is canceled, only implying the replacement. Confirmation is necessary for clarity.",
+    "expected": "The agent should clearly state: 'I've canceled your Thursday, August 20th at 9 a.m. appointment and booked you for Wednesday, August 19th at 10:30 a.m. instead.'",
+    "call": "call-14-reschedule"
+  },
+  {
+    "title": "Unresolved Refill Request and Inappropriate Transfer",
+    "severity": "medium",
+    "at": "01:44",
+    "quote": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them contact you about your medication refill?",
+    "why": "The agent fails to resolve the caller's request regarding the medication refill and instead offers to have the support team follow up, but then attempts to transfer the call without ensuring a proper handoff.",
+    "expected": "The agent should have confirmed the patient\u2019s need accurately, ensured that the request to have the support team follow up was successful, and provided a realistic expectation for contact, rather than transferring the call prematurely.",
+    "call": "call-16-refill"
+  },
+  {
+    "title": "Call ended without resolution",
+    "severity": "medium",
+    "at": "01:55",
+    "quote": "Transferring you now. Thank you.",
+    "why": "The agent transfers the call but then ends it, leading to a dead-end with no resolution for the caller's request.",
+    "expected": "After informing the caller of the transfer, the agent should ensure that the transfer goes through successfully or another form of follow-up is confirmed, such as a callback from clinical staff.",
+    "call": "call-18-medical_advice"
   }
 ]

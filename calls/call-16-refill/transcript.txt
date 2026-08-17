@@ -1,0 +1,29 @@
+CALL: call-16-refill
+SCENARIO: refill
+GOAL: Get the lisinopril refill sent to that CVS. Mention you're nearly out. Find out how long it'll take and whether you need to be seen before they'll refill it.
+STARTED: 2026-08-17T22:26:39+00:00
+DURATION: 119.1s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:06] AGENT    Esta llamada puede ser grabada para motivos de calidad y entrenamiento.
+[00:06] AGENT    Thanks for calling Pivot Point Orthopedics. Part of Pretty Good AI.
+[00:11] PATIENT  Hi, this is Daniel Reyes. I’m calling about a medication refill.
+[00:18] AGENT    please provide your date of birth.
+[00:21] PATIENT  March 4th, 1988.
+[00:28] AGENT    Can you please spell your first and last name for me just to make sure I have it right? Your date of birth is March 4, 1988, correct?
+[00:36] PATIENT  Yeah, that’s right. 
+
+Daniel is D A N I E L. Reyes is R E Y E S.
+[00:50] AGENT    Would you like to use your phone number to look up your record? If so, please tell me the number you have on file with us. If you're not sure, just let me know.
+[00:59] PATIENT  Sure, the number on file should be 601-871-6381.
+[01:10] AGENT    I have your phone number as 601-871-6381, and your date of birth is March 4th, 1988. Is that correct?
+[01:20] PATIENT  Yes, that’s correct.
+[01:24] AGENT    Thank you for confirming one mobile and I look up your record.
+[01:30] PATIENT  Okay. I’ll wait.
+[01:34] AGENT    I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them contact you about your medication refill?
+[01:44] PATIENT  Yes, please have them reach out. I’m nearly out of lisinopril, and I need the refill sent to the CVS. I’d also like to know how long it’ll take and if I need to be seen first.
+
+Thanks for your help—goodbye.
+[01:50] AGENT    Transferring you now. Thank you.
+[01:50] AGENT    Hello, you've reached the pretty good AI test line, goodbye.
+[01:56] PATIENT  Goodbye.

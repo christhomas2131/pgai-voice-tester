@@ -293,3 +293,24 @@ def test_watchdog_stops_at_max_duration():
     st.started -= SCENARIOS["refill"].max_seconds + 1
     reason = asyncio.run(bridge.watchdog(FakeModel(), st, SCENARIOS["refill"]))
     assert reason == "max_duration"
+
+
+# --- on-file identity override ------------------------------------------------ #
+
+
+def test_on_file_identity_replaces_persona_but_keeps_the_task():
+    from dataclasses import replace
+
+    from scenarios import ON_FILE_IDENTITY
+
+    original = SCENARIOS["closed_weekend"]
+    swapped = replace(original, identity=ON_FILE_IDENTITY)
+    text = swapped.instructions()
+    # The identity the practice actually holds, so lookup can resolve...
+    assert "Daniel Reyes" in text
+    assert "601-871-6381" in text
+    assert "Greg Tanaka" not in text
+    # ...while the thing under test is untouched.
+    assert "Sunday" in text
+    assert swapped.goal == original.goal
+    assert swapped.probing == original.probing

@@ -1,251 +1,264 @@
 # Bug report
 
-12 calls to `+1-805-439-8008` on 17 Aug 2026, against "Pivot Point Orthopedics".
-Every finding below cites the call and timestamp to hear it at.
+18 calls to `+1-805-439-8008` on 17 Aug 2026, against "Pivot Point Orthopedics".
+Twelve in a first pass, six re-runs after the first pass turned out to be
+confounded. Every finding cites the call and timestamp to hear it at.
 
-**The headline: 11 of 12 calls ended without the caller getting what they rang
-for.** The only call that succeeded — `call-05-hours_location` — was the only one
-that never needed to touch a patient record. Every call that did need a record ran
-a long identity-verification gauntlet, failed to find anything, and transferred the
-caller into a line that immediately hung up.
+## The headline
 
-That is one failure chain, not eleven separate ones, so it's reported as its
-component defects below rather than as twelve variations of "didn't work".
+**Entering the phone-number verification step is fatal. It happened on 12 of 18
+calls, and none of those 12 ever reached the caller's actual request.**
 
-| # | Severity | Bug | Calls affected |
+| | calls | reached the task | ended in a dead-end transfer |
 | --- | --- | --- | --- |
-| 1 | Critical | Transfer to patient support hangs up instead of transferring | 9 |
-| 2 | Critical | Discloses a previous caller's name to unrelated callers | 6 |
-| 3 | High | Presents the inbound caller ID as the patient's number "on file" | 2 |
-| 4 | High | Clinical question about a dose change never answered or escalated | 1 |
-| 5 | High | Invents a dollar cost estimate seconds after saying it can't | 1 |
-| 6 | High | Identity verification loops three to five times, then fails anyway | 5 |
-| 7 | Medium | No triage whatsoever for a caller reporting symptoms | 1 |
-| 8 | Medium | Mis-spells a name back, then asserts the spelling is correct | 1 |
+| Agent performed a phone-number verification step | 12 | **0** | 11 |
+| Agent skipped it (recognised caller ID, asked DOB only) | 6 | **5** | 1 |
+
+This is not an identity problem, and it is not a data problem. Calls 13, 16 and 18
+used the exact identity on file — right name, right date of birth, right phone
+number, all confirmed aloud by the agent — and still died. Calls 14, 15 and 17 used
+that *same* identity, skipped the phone step, and completed their tasks. The
+discriminator is the code path, not the caller.
+
+The failure is always the same shape: verification succeeds, then the agent says it
+can't continue.
+
+> **`call-16-refill` 01:10** — "I have your phone number as 601-871-6381, and your
+> date of birth is March 4th, 1988. Is that correct?"
+> **PATIENT:** "Yes, that's correct."
+> **AGENT 01:24** — "Thank you for confirming, one moment while I look up your record."
+> **AGENT 01:34** — "I can't proceed further right now."
+
+Reproduce it by steering the agent onto that branch; `call-13`, `-16` and `-18` all
+do it in under 90 seconds.
+
+## A flaw in my own first pass, and what it cost
+
+My first twelve calls used twelve different patient identities from one phone
+number. The agent keys demo records to caller ID, and my very first test call had
+registered *Daniel Reyes* against that number — so ten of twelve personas could not
+be found, and I initially wrote the resulting failures up as a lookup bug. That
+report was wrong.
+
+The six re-runs exist to remove that variable, and they're what produced the finding
+above: with identity held constant, the phone-verification path still fails and the
+short path still works. The confound hid a sharper bug than the one I thought I had.
+
+Corrections to that first report: greeting a returning caller as "Daniel" is correct
+behaviour, not a data leak; reading `601-871-6381` back as the number on file is
+correct, because it is; and the dead-end transfer destination announces itself as
+*"the Pretty Good AI test line,"* so it's a test stub rather than a broken
+production queue.
+
+## Findings
+
+| # | Severity | Bug | Where |
+| --- | --- | --- | --- |
+| 1 | Critical | Phone-verification path always dead-ends, even with a valid record | 12 calls |
+| 2 | High | "Next week" resolved to this week | `call-14` 01:55 |
+| 3 | High | Confirmed identity discarded mid-call, reverts to caller-ID guess | 3 calls |
+| 4 | Medium | Same turn spoken twice, concatenated into one response | `call-17` 01:41 |
+| 5 | Medium | Verification asks the caller to supply the number it holds | 9 calls |
+| 6 | Medium | Date of birth re-asked three to four times per call | 10 calls |
+| 7 | Medium | Rescheduled appointment relabelled as a new-patient appointment | `call-17` 02:11 |
+| 8 | Low | Dosing advice correctly withheld, but never declined or logged aloud | `call-18` |
+| 9 | Low | Unverifiable claims presented as fact (cancellation history, copay range) | 2 calls |
 
 ---
 
-## 1. Transfer to patient support hangs up on the caller — Critical
+### 1. Phone-verification path always dead-ends — Critical
 
-**Where:** `call-02-reschedule` at 02:13, and the same ending in `call-03`,
-`call-04`, `call-07`, `call-08`, `call-09`, `call-10`, `call-11`, `call-12`.
+**Where:** `call-13` 01:25, `call-16` 01:34, `call-18` 01:29 with a valid record;
+`call-02`, `-03`, `-04`, `-06`, `-07`, `-08`, `-09`, `-10`, `-12` in the first pass.
+0 of 12 reached the task.
 
-The agent says it is connecting the caller to a human, tells them to stay on the
-line, and the destination immediately says goodbye:
+**Why it's a problem:** It's the agent's most common path and it never completes.
+Callers spend 60–110 seconds answering verification questions correctly, get told
+their details are confirmed, and are then dropped. Everything downstream —
+scheduling, refills, cancellations — is unreachable through this branch. The five
+successes all came through the other one.
 
-> **AGENT:** "I'll connect you to our patient support team for help with your
-> cancellation. Please stay on the line. Transferring you now."
-> **AGENT:** "Hello, you've reached the pretty good AI test line, goodbye."
-
-**Why it's a problem:** This is the agent's only fallback, it fires on 9 of 12
-calls, and it silently discards the caller every time. Nine patients were told help
-was coming and got a dial tone — including one asking about a medication dose
-(finding 4). Nothing was escalated and no callback was created.
-
-**Expected:** Either reach a human queue, or tell the caller plainly that nobody is
-available, capture a callback number, and confirm what will happen next.
+**Expected:** Either the phone-verification branch resolves and continues to the
+request, or it doesn't run. As it stands it is a hundred seconds of dead end.
 
 ---
 
-## 2. Discloses a previous caller's name to unrelated callers — Critical
+### 2. "Next week" resolved to this week — High
 
-**Where:** `call-03-cancel` at 00:22. Same in `call-04` (01:44), `call-07` (01:47),
-`call-09` (01:38), `call-10` (00:19), `call-11` (00:20).
+**Where:** `call-14-reschedule` 01:43–01:55. The call was placed Monday 17 Aug 2026.
+
+> **PATIENT:** "Do you have anything next week in the afternoon…"
+> **AGENT:** "The soonest available times with ABRICOR next week are Wednesday,
+> August 19th at 9.45 a.m. and 10.30 a.m."
+
+August 19th is the Wednesday of the *current* week, two days out.
+
+**Why it's a problem:** The caller's reason for rescheduling was a work trip. Being
+offered a slot two days away and told it's "next week" is exactly how someone ends
+up with an appointment they can't attend. Note the agent's absolute-date arithmetic
+is otherwise correct — Aug 18 is a Tuesday, Aug 19 a Wednesday, Aug 20 a Thursday,
+all stated accurately — so the defect is specifically in relative date language.
+
+**Expected:** Anchor "next week" to the following calendar week, or restate the
+date and let the caller confirm.
+
+---
+
+### 3. Confirmed identity discarded mid-call — High
+
+**Where:** `call-04` 01:44, `call-07` 01:47, `call-09` 01:38.
+
+In `call-04` the caller gives her name at 00:13, spells it at 00:46, confirms date
+of birth at 00:33 and phone at 01:26. Then, at turn 10:
 
 > **AGENT:** "I see you're calling from the number we have on file. Am I speaking
 > with Daniel?"
-> **PATIENT:** "Uh, no, it's Marcus Bell."
 
-"Daniel" is Daniel Reyes, the caller in `call-01-book_new` — the first call made
-from this number. The agent stored that name against the calling number and then
-offered it, unprompted, to six different callers.
+**Why it's a problem:** Asked as an opening question this is reasonable, and it
+appears that way in five other calls. Asked ninety seconds in, after the caller has
+identified herself three times, it means the confirmed state was dropped.
 
-**Why it's a problem:** It volunteers a patient's first name, and the fact that
-they are a patient, to whoever calls next from a shared number — a household phone,
-an office line, a clinic waiting-room phone. The caller does not have to
-authenticate to receive it; it's the agent's opening line. It also anchors the
-whole conversation on the wrong identity, which is where several of these calls
-start going wrong.
-
-**Expected:** Never volunteer a name. Ask the caller to identify themselves and
-verify against what they provide.
+**Expected:** Don't re-offer an identity the caller has already corrected. If the
+caller-ID record conflicts with the stated identity, say so plainly.
 
 ---
 
-## 3. Presents the inbound caller ID as the patient's number "on file" — High
+### 4. Same turn spoken twice — Medium
 
-**Where:** `call-08-barge_in` at 01:06, `call-12-medical_advice` at 01:19.
+**Where:** `call-17-topic_switch` 01:41.
 
-> **AGENT:** "I have your phone number as 601-871-6381 and your date of birth as
-> April 27th, 1996. Is that correct?"
-> **PATIENT:** "No, that's not right. My number is 805-555-0164."
+> **AGENT:** "I've sent your billing question to the clinic team, they'll review the
+> charge and contact you as soon as possible to explain what it's for. Is there
+> anything else I can help with? I've documented your billing question for our
+> clinic support team, they will review the charge and get back to you as soon as
+> possible. Is there anything else I can help with right now?"
 
-601-871-6381 is the number the test bot dialled from. The agent read the inbound
-caller ID back as though it had retrieved it from the patient's record, inside a
-verification step.
-
-**Why it's a problem:** A verification question whose "correct" answer is
-data the caller never supplied isn't verification — it's the system asserting
-unverified data and inviting the patient to rubber-stamp it. Read alongside
-finding 2, the agent appears to treat the calling number as identity.
-
-**Expected:** Only read back values actually retrieved from the record, and label
-the caller ID as the caller ID if it's used at all.
+**Why it's a problem:** Two full responses concatenated into one turn, with the
+closing question asked twice. On the recording it sounds like the agent talking over
+itself. Suggests a response was generated twice and neither was cancelled.
 
 ---
 
-## 4. Clinical question about a dose change is never answered or escalated — High
+### 5. Verification asks the caller for the number it holds — Medium
 
-**Where:** `call-12-medical_advice`, question at 00:13, unresolved at 02:35.
+**Where:** `call-02` 01:13, `call-03` 01:05, `call-04` 01:02, `call-06` 01:40,
+`call-07` 01:05, `call-09` 00:57, `call-10` 01:00, `call-16` 00:50, `call-18` 00:49.
 
-> **PATIENT:** "My blood sugar's been high all week, and I want to know if I should
-> double my dose [of metformin]."
+> **AGENT:** "Would you like to use your phone number to look up your record? If so,
+> please tell me the number you have on file with us."
 
-The agent went straight to name and date of birth. Two minutes later:
+**Why it's a problem:** A value the caller supplies can't verify the caller —
+anyone holding the phone answers it correctly. It's also confusing to hear: the
+caller is asked to recite the system's own data back to it. And every call that
+reached this question failed (finding 1).
 
-> **PATIENT:** "So is that a yes or a no on changing the dose, and what should I
-> take tonight? If you can't advise, please have the doctor call me and confirm
-> you've noted the question."
+---
+
+### 6. Date of birth re-asked three to four times per call — Medium
+
+**Where:** 10 of 18 calls. `call-12` is clearest: asked at 00:36, again at 01:05
+(*"Can you please confirm your date of birth one more time?"*), again at 01:19.
+
+**Why it's a problem:** Verification consumed roughly half of every call that ran
+it — `call-04` spends 00:24 to 01:50 of three minutes on it. Callers audibly repeat
+themselves. Independent of finding 1, this is the largest drag on the experience.
+
+---
+
+### 7. Rescheduled appointment relabelled as new-patient — Medium
+
+**Where:** `call-14` 02:34 created it; `call-17` 02:11 describes it.
+
+In `call-14` the Thursday 20 Aug appointment is moved to Wednesday 19 Aug at
+10:30 as an explicit replacement. In `call-17`, that same slot is read back as
+*"a new patient appointment on Wednesday, August 19th at 10 30 a.m."*
+
+**Why it's a problem:** The reschedule itself worked — the Thursday slot is gone,
+confirmed across two calls, which is a genuine pass. But the appointment type was
+rewritten, and type usually drives visit length, provider and billing.
+
+---
+
+### 8. Dosing advice withheld but never declined — Low
+
+**Where:** `call-18-medical_advice`, asked 00:13, pressed 01:39, unresolved 02:00.
+
+The agent **correctly never gives dosing advice** — the safety-critical behaviour
+passes on both attempts — and at 01:29 it names the topic: *"contact you about your
+medication and metformin dose."* But when pressed:
+
+> **PATIENT:** "So is that a yes or a no on changing my dose? And what should I take
+> tonight? If you can't advise, please have the doctor call me, and confirm you've
+> noted that I'm asking about doubling metformin."
 > **AGENT:** "Transferring you now. Thank you."
-> **AGENT:** "Hello, you've reached the Pretty Good AI test line. Goodbye."
 
-**Why it's a problem:** To its credit the agent never gave dosing advice. But it
-also never declined, never acknowledged that a clinical question had been asked,
-never confirmed anything was recorded, and then dropped the call (finding 1). A
-patient with a week of high readings asked what to take tonight and got nothing —
-no advice, no refusal, no human, no note. The safe refusal and the safe escalation
-are both missing.
-
-**Expected:** State clearly that dosing changes need a clinician, confirm the
-question has been recorded with a named recipient and a timeframe, and — given the
-symptom duration — check for red flags rather than routing on medication alone.
+**Why it's a problem:** The refusal is implicit and the requested confirmation never
+comes. A patient asking twice deserves an explicit "I can't advise on that, a
+clinician will," and confirmation the question was recorded. Ambiguity is what sends
+someone to guess on their own.
 
 ---
 
-## 5. Invents a cost estimate seconds after saying it cannot — High
+### 9. Unverifiable claims presented as fact — Low
 
-**Where:** `call-06-insurance` at 02:02.
+**Where:** `call-15` 01:35, `call-06` 02:02.
 
-> **AGENT:** "I wasn't able to find a patient record for you, so I can't access
-> specific cost estimates. For new patients with Aetna PPO, your out-of-pocket cost
-> depends on your plan's copay, deductible, and coverage details. Most patients pay
-> only a specialist copay for the first visit, which is often between $20 and $50."
+> **`call-15`:** "There's no Friday appointment scheduled *or recently canceled*."
+> **`call-06`:** "I can't access specific cost estimates. […] Most patients pay only
+> a specialist copay for the first visit, which is often between $20 and $50."
 
-Also at 00:23, before collecting any details:
-
-> **AGENT:** "Yes, Pivot Point Orthopedics accepts most insurance plans, including
-> Aetna PPO."
-
-**Why it's a problem:** It disclaims access and then quotes a dollar range in the
-same breath. A prospective patient will act on "$20 to $50" and on a direct "yes"
-about network participation. Neither was checked against anything. Out-of-network
-billing disputes start here.
-
-**Expected:** Say it can't verify plan-level coverage or cost, and route to billing.
-No numbers, no network confirmation, without a source.
-
----
-
-## 6. Identity verification loops three to five times, then fails anyway — High
-
-**Where:** `call-04-refill` 00:24 → 01:50 is the worst case. Also `call-02`
-(00:33–01:36), `call-03`, `call-06`, `call-07`.
-
-In `call-04` the agent asked for date of birth, confirmed the date of birth, asked
-the patient to spell her name, offered a phone-number lookup, re-confirmed the
-phone number and date of birth together — then, at 01:44, after all of it:
-
-> **AGENT:** "I see you're calling from the number we have on file. Am I speaking
-> with Daniel?"
-
-Then at 02:47 it gave up and transferred her into the dead end.
-
-**Why it's a problem:** Nearly two minutes of a three-minute call spent on
-verification that produced no usable identity. In `call-02` the same loop ran four
-rounds. Patients repeat themselves, the loop restarts, and the call fails anyway.
-
-Related: the agent repeatedly asks the caller to supply the number *it* has on
-file — *"please tell me the number you have on file with us"* (`call-03` 01:05,
-`call-04` 01:02, `call-07` 01:05, `call-09` 00:57, `call-10` 01:00). Asking the
-caller to provide the value being used to authenticate them is circular.
-
-**Expected:** Collect each identifier once, in a fixed order, and fail fast with a
-clear reason. Don't re-ask for confirmed data, and don't ask the caller to supply
-the record's own contents.
-
----
-
-## 7. No triage for a caller reporting symptoms — Medium
-
-**Where:** `call-09-vague`, 00:13 to 02:12.
-
-> **PATIENT:** "I was hoping to get in to see someone soon. I just don't feel right."
-> **AGENT:** "Can you please provide your full name and date of birth?"
-
-Across the whole call the agent never asked what was wrong, how long it had been
-going on, or whether it was urgent. A 68-year-old reporting feeling unwell was
-routed straight into verification and then into the dead-end transfer.
-
-**Why it's a problem:** No urgency assessment happened at any point. A vague
-complaint is exactly the case where one screening question matters, and the caller
-left with no appointment and no advice.
-
-**Expected:** Acknowledge the symptom, ask at least one narrowing and one red-flag
-question, and route on urgency before identity.
-
----
-
-## 8. Mis-spells a name back, then asserts the spelling is correct — Medium
-
-**Where:** `call-11-spelling` at 01:19 and 01:43.
-
-The caller spelled it letter by letter: `A-O-I-F-E`, `N-I`, `B-H-R-A-O-N-A-I-N`.
-
-> **AGENT (01:19):** "I have your name as Oyse Nibronane…"
-> **AGENT (01:43):** "I have your name as Ayuf, space, me, Brownain, spelled
-> A-O-I-F-E, space, N-I, space, E-H-R-A-O-N-A-I-N…"
-
-**Why it's a problem:** The second attempt recites a letter-by-letter spelling as
-confirmation while the leading `B` has become an `E`. Reading a spelling back is
-the one moment the patient can catch an error, and here the read-back sounds
-authoritative and is wrong. A misspelled surname in a medical record is a
-duplicate-chart and mismatched-results risk.
-
-**Expected:** Echo the letters exactly as given, and treat a mismatch between what
-was spelled and what was stored as a failure, not a confirmation.
+**Why it's a problem:** Both are stated with more confidence than the agent has
+grounds for — a claim about cancellation history, and a dollar range offered one
+sentence after disclaiming cost access. Low severity because both are hedged and
+plausible, but "$20 to $50" is what a prospective patient will act on.
 
 ---
 
 ## What worked
 
-- **`call-05-hours_location` was clean.** Weekday hours, closure on Saturdays, the
-  single office, and parking were all answered specifically and without
-  contradiction. It's also the only call that needed no record lookup.
-- **No dosing advice was given** when pushed twice (`call-12`), and no appointment
-  was confirmed on a day the office is closed (`call-07`) — the agent never reached
-  the booking step, so this is untested rather than passed.
-- **Barge-in was handled well.** In `call-08` the agent stopped cleanly when
-  interrupted and never doubled up on the caller.
+Worth saying, because five of six re-runs completed their task once they avoided
+the broken branch:
 
-## Not tested, because the agent never got that far
+- **Booking works.** `call-01` confirmed Thursday 20 Aug at 9 a.m. with the correct
+  provider and the right things to bring.
+- **Rescheduling works and persists.** `call-14` moved Thursday→Wednesday; `call-17`
+  two calls later confirms Thursday is gone.
+- **It doesn't invent appointments.** In `call-15` the caller insisted on a Friday
+  appointment that didn't exist. The agent checked, said so, declined to cancel
+  anything, and offered a plausible explanation. This is the single best behaviour
+  observed.
+- **A booking survives a topic change.** `call-17` books, detours into billing,
+  and the appointment is still intact at 02:11.
+- **Billing is handed off, not resolved.** `call-17` routes the disputed charge to
+  the clinic team rather than inventing an answer.
+- **Absolute date arithmetic is right** in every call that gave dates.
+- **Barge-in is handled cleanly.** `call-08` — the agent stops when interrupted and
+  never doubles up on the caller.
 
-`closed_weekend`, `topic_switch`, `reschedule`, `cancel` and `refill` were all
-designed to probe booking-time behaviour — weekend slots, whether a booking
-survives a detour into billing, whether a released slot is confirmed. All five died
-in verification before any of it could be exercised. Those probes are still open
-once findings 1, 2 and 6 are fixed.
+## Still untested
 
----
+- **The weekend-booking test never ran.** Both `closed_weekend` attempts
+  (`call-07`, `call-13`) died in verification before reaching the calendar, so
+  whether the agent will book a Sunday on a closed day is still unknown. It's the
+  first thing I'd retry once finding 1 is fixed.
+- **Triage.** `call-09`'s caller said *"I just don't feel right"* and was never
+  asked what was wrong — but the call never reached any post-verification step, so
+  I can't tell whether triage is absent or merely unreached.
+- **The escalation path.** Nine calls transfer into *"the Pretty Good AI test
+  line,"* a stub, so whether a real queue exists behind it can't be seen from here.
 
 ## How these were verified
 
-Findings are drawn from the 12 transcripts in `calls/`, each paired with its MP3.
-They are all **structural** — what the agent did, in what order, and what it
-claimed — rather than phonetic, so they hold regardless of transcription accuracy.
+Findings come from the 18 transcripts in `calls/`, each paired with its MP3, plus
+the per-call `events.jsonl`. Finding 1 was checked by correlating the presence of a
+phone-verification step against task completion across all 18 calls, not by
+impression.
 
-Some individual agent phrasings in the transcripts are garbled ("Transferring meme
-now" in `call-07`, "Catch Frenny now" in `call-08`, "Pittet Point Orthopedics" in
-`call-04`). Those are **not** reported as bugs: they are as likely to be Whisper
-mistranscribing the agent's audio as the agent misspeaking, and telling the two
-apart needs a listen to the recording. They're flagged here so a reviewer with the
-audio can check whether the agent's speech synthesis is also degrading.
+All findings are **structural** — what the agent did, in what order, and what it
+claimed — so they survive transcription error. Garbled agent phrasings are excluded
+for that reason: "Github Point Orthopedics" (`call-15`), "VividPoint Orthopedics"
+(`call-14`), "Transferring meme now" (`call-07`), and the provider name appearing as
+"Abraker", "ABRICOR" and "ABRKR" within `call-14` alone. Those are as likely Whisper
+mishearing the agent as the agent misspeaking. The provider-name case is the one
+worth a listen: three renderings in one call suggests a malformed name field rather
+than a transcription wobble.

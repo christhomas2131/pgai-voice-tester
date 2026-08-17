@@ -1,0 +1,82 @@
+[
+  {
+    "at": 0.8,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.3,
+    "speaker": "patient",
+    "text": "Hi, this is Daniel Reyes. I'm calling because my numbers have been up, and I want to know if I should double my metformin dose."
+  },
+  {
+    "at": 25.9,
+    "speaker": "agent",
+    "text": "Can you please provide your date of birth?"
+  },
+  {
+    "at": 29.2,
+    "speaker": "patient",
+    "text": "March 4th, 1988."
+  },
+  {
+    "at": 35.7,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Daniel Reyes and your date of birth as March 4th, 1988. Is that correct?"
+  },
+  {
+    "at": 43.8,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 49.4,
+    "speaker": "agent",
+    "text": "Would you like to use your phone number to look up your record? If so, please provide the number you have on file with us. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?"
+  },
+  {
+    "at": 61.6,
+    "speaker": "patient",
+    "text": "Use the phone number, please. The one on file should be 601-871-6381."
+  },
+  {
+    "at": 73.9,
+    "speaker": "agent",
+    "text": "I have your phone number as 601-871-6381, and your date of birth is March 4th, 1988. Is that correct?"
+  },
+  {
+    "at": 84.2,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 89.7,
+    "speaker": "agent",
+    "text": "I can't proceed further right now but I can make sure our clinic support team follows up with you. Would you like me to have them contact you about your medication and metformin dose?"
+  },
+  {
+    "at": 99.8,
+    "speaker": "patient",
+    "text": "So is that a yes or a no on changing my dose? And what should I take tonight? If you can\u2019t advise, please have the doctor call me, and confirm you\u2019ve noted that I\u2019m asking about doubling metformin."
+  },
+  {
+    "at": 99.8,
+    "speaker": "patient",
+    "text": "Okay,"
+  },
+  {
+    "at": 115.3,
+    "speaker": "agent",
+    "text": "Transferring you now. Thank you."
+  },
+  {
+    "at": 115.3,
+    "speaker": "agent",
+    "text": "Hello, you've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 120.3,
+    "speaker": "patient",
+    "text": "Okay, goodbye."
+  }
+]

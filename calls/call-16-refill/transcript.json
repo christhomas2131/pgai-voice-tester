@@ -1,0 +1,92 @@
+[
+  {
+    "at": 6.5,
+    "speaker": "agent",
+    "text": "Esta llamada puede ser grabada para motivos de calidad y entrenamiento."
+  },
+  {
+    "at": 6.5,
+    "speaker": "agent",
+    "text": "Thanks for calling Pivot Point Orthopedics. Part of Pretty Good AI."
+  },
+  {
+    "at": 11.6,
+    "speaker": "patient",
+    "text": "Hi, this is Daniel Reyes. I\u2019m calling about a medication refill."
+  },
+  {
+    "at": 18.9,
+    "speaker": "agent",
+    "text": "please provide your date of birth."
+  },
+  {
+    "at": 21.7,
+    "speaker": "patient",
+    "text": "March 4th, 1988."
+  },
+  {
+    "at": 28.0,
+    "speaker": "agent",
+    "text": "Can you please spell your first and last name for me just to make sure I have it right? Your date of birth is March 4, 1988, correct?"
+  },
+  {
+    "at": 36.1,
+    "speaker": "patient",
+    "text": "Yeah, that\u2019s right. \n\nDaniel is D A N I E L. Reyes is R E Y E S."
+  },
+  {
+    "at": 50.9,
+    "speaker": "agent",
+    "text": "Would you like to use your phone number to look up your record? If so, please tell me the number you have on file with us. If you're not sure, just let me know."
+  },
+  {
+    "at": 59.9,
+    "speaker": "patient",
+    "text": "Sure, the number on file should be 601-871-6381."
+  },
+  {
+    "at": 70.4,
+    "speaker": "agent",
+    "text": "I have your phone number as 601-871-6381, and your date of birth is March 4th, 1988. Is that correct?"
+  },
+  {
+    "at": 80.6,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 84.6,
+    "speaker": "agent",
+    "text": "Thank you for confirming one mobile and I look up your record."
+  },
+  {
+    "at": 90.6,
+    "speaker": "patient",
+    "text": "Okay. I\u2019ll wait."
+  },
+  {
+    "at": 94.7,
+    "speaker": "agent",
+    "text": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them contact you about your medication refill?"
+  },
+  {
+    "at": 104.0,
+    "speaker": "patient",
+    "text": "Yes, please have them reach out. I\u2019m nearly out of lisinopril, and I need the refill sent to the CVS. I\u2019d also like to know how long it\u2019ll take and if I need to be seen first.\n\nThanks for your help\u2014goodbye."
+  },
+  {
+    "at": 110.8,
+    "speaker": "agent",
+    "text": "Transferring you now. Thank you."
+  },
+  {
+    "at": 110.8,
+    "speaker": "agent",
+    "text": "Hello, you've reached the pretty good AI test line, goodbye."
+  },
+  {
+    "at": 116.1,
+    "speaker": "patient",
+    "text": "Goodbye."
+  }
+]

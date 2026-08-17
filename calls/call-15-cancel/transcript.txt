@@ -1,0 +1,21 @@
+CALL: call-15-cancel
+SCENARIO: cancel
+GOAL: Cancel the Friday appointment. You do NOT want to rebook right now — if they push to rebook, say you'll call back once your schedule settles. Get clear confirmation that it's cancelled and check whether there's a cancellation fee.
+STARTED: 2026-08-17T22:23:59+00:00
+DURATION: 147.0s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Github Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, yeah—I need to cancel my appointment this Friday.
+[00:20] AGENT    I see you're calling from the number we have on file. Am I speaking with Daniel?
+[00:25] PATIENT  Yes, this is Daniel.
+[00:31] AGENT    please provide your date of birth.
+[00:34] PATIENT  March 4th, 1988.
+[00:42] AGENT    You have two upcoming appointments. One on Tuesday, August 18th, with Kelly Noble, MD, and another on Wednesday, August 19th, with Abraker. Which one would you like to cancel?
+[00:55] PATIENT  Sorry, I was trying to cancel the Friday one, but I’m not seeing a Friday date in what you read. Which of those two is the one that was originally scheduled for Friday?
+[01:08] AGENT    Your upcoming appointments are on Tuesday, August 18th and Wednesday, August 19th. Would you like to cancel one of these?
+[01:19] PATIENT  If there’s no Friday appointment on my schedule, I don’t want to cancel either of those yet. Could you check whether a Friday appointment was already canceled, or if I might be mixing up a different office?
+[01:35] AGENT    I checked your records and there are only two appointments on file Tuesday, August 18th and Wednesday, August 19th. There's no Friday appointment scheduled or recently canceled. It's possible you're thinking of a different office. Would you like to keep both appointments as they are?
+[01:53] PATIENT  Yes, keep them both as they are. Sounds like I mixed up offices. Before I go, if I had cancelled, would there have been a cancellation fee?
+[02:05] AGENT    There is usually no cancellation fee if you give advance notice, but specific policies can vary. If you ever need to cancel, just let us know as soon as possible. Would you like more details about our cancellation policy?
+[02:20] PATIENT  No, that’s okay. Thanks for explaining. Goodbye.

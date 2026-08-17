@@ -77,6 +77,14 @@ transcripts stamped at transcription time rather than speech time — which prod
 a call where the caller answers at 01:08 a question the agent asks at 01:09. Turns
 are now stamped when audio begins and sorted before writing.
 
+The third only surfaced after the calls were done, in my own test design: twelve
+personas down one phone number, against a system that keys records to caller ID.
+Setting `IDENTITY=on_file` swaps a scenario's persona for the identity the practice
+actually holds while leaving its task untouched, which is what the six re-runs use.
+Comparing the two sets is what isolated the critical finding — the flaw was hiding a
+sharper bug than the one it caused. Worth designing for next time: a test harness
+needs to control the state on the *other* side of the call, not just its own.
+
 ## Layout
 
 | File | Role |

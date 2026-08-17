@@ -1,0 +1,14 @@
+{
+  "scenario": "topic_switch",
+  "goal": "Start by booking a check-up. Once you're most of the way through booking, switch\nabruptly to the billing problem and push on it. Then, near the end, ask them to\nconfirm the appointment details again \u2014 you want to know whether the booking\nsurvived the detour.",
+  "probing": "Context retention across a topic switch. Does the appointment survive? Does it hand billing off correctly, or invent a resolution?",
+  "started_utc": "2026-08-17T22:28:51+00:00",
+  "identity": "on_file",
+  "call_sid": "CA24cca0250d2a7bb19210115af7234873",
+  "stream_sid": "MZb0bef0dbe9faba85e1ffd58839a833f1",
+  "hangup_reason": "Kept routine check-up for Tuesday Aug 18 at 10:30am; requested cancellation of unexpected new patient appointment on Wednesday Aug 19; billing question forwarded to clinic team.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 161.9,
+  "turns": 18,
+  "errors": []
+}

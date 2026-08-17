@@ -15,7 +15,7 @@ import asyncio
 import json
 import os
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket
 from starlette.websockets import WebSocketDisconnect
 
-from scenarios import SCENARIOS, Scenario
+from scenarios import ON_FILE_IDENTITY, SCENARIOS, Scenario
 
 load_dotenv()
 
@@ -479,9 +479,16 @@ async def media_stream(phone: WebSocket):
         await phone.close(code=1008, reason=f"unknown scenario {name!r}")
         return
 
+    # Run the task under the identity the practice actually has on file, so record
+    # lookup can succeed and the scenario tests what it was built to test.
+    identity = os.getenv("IDENTITY", "persona")
+    if identity == "on_file":
+        scenario = replace(scenario, identity=ON_FILE_IDENTITY)
+
     raw_dir = params.get("dir") or phone.query_params.get("dir")
     out_dir = Path(raw_dir) if raw_dir else CALLS_DIR / f"adhoc-{name}"
     log = CallLog(scenario, out_dir)
+    log.meta["identity"] = identity
     st = State()
     st.stream_sid = start.get("streamSid", "")
     log.meta["call_sid"] = start.get("callSid", "")

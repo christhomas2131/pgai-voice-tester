@@ -1,0 +1,92 @@
+[
+  {
+    "at": 0.9,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.1,
+    "speaker": "patient",
+    "text": "Hi, yeah, I\u2019d like to book a check-up, please."
+  },
+  {
+    "at": 19.5,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 25.3,
+    "speaker": "patient",
+    "text": "Yes, that's me."
+  },
+  {
+    "at": 28.8,
+    "speaker": "agent",
+    "text": "please provide your date of birth."
+  },
+  {
+    "at": 31.6,
+    "speaker": "patient",
+    "text": "March 4th, 1988."
+  },
+  {
+    "at": 38.8,
+    "speaker": "agent",
+    "text": "You mentioned you'd like to book a checkup. Just to confirm, is this a general office visit for routine care or a non-urgent concern?"
+  },
+  {
+    "at": 47.1,
+    "speaker": "patient",
+    "text": "Just a general routine check-up."
+  },
+  {
+    "at": 52.0,
+    "speaker": "agent",
+    "text": "Do you have a specific provider you'd like to see or are you open to the next available?"
+  },
+  {
+    "at": 57.3,
+    "speaker": "patient",
+    "text": "I\u2019m fine with the next available."
+  },
+  {
+    "at": 61.6,
+    "speaker": "agent",
+    "text": "Let me check for the next available appointments for a general routine checkup. You already have a routine office visit scheduled for Tuesday, August 18th at 10 30 a.m. Would you like to keep this appointment, reschedule it, or cancel it?"
+  },
+  {
+    "at": 78.2,
+    "speaker": "patient",
+    "text": "I'll keep it, that works."
+  },
+  {
+    "at": 83.0,
+    "speaker": "agent",
+    "text": "Great, your checkup is set for Tuesday, August 18th at 10.30am. Is there anything else I can help you with today?"
+  },
+  {
+    "at": 91.0,
+    "speaker": "patient",
+    "text": "Yeah, actually, there\u2019s a billing issue I wanted to ask about. I got a charge I don\u2019t recognize, and I\u2019d like to know what it\u2019s for."
+  },
+  {
+    "at": 101.4,
+    "speaker": "agent",
+    "text": "I've sent your billing question to the clinic team, they'll review the charge and contact you as soon as possible to explain what it's for. Is there anything else I can help with? I've documented your billing question for our clinic support team, they will review the charge and get back to you as soon as possible. Is there anything else I can help with right now?"
+  },
+  {
+    "at": 121.6,
+    "speaker": "patient",
+    "text": "Could you confirm the appointment details one more time, just to make sure it didn\u2019t get messed up while we talked about billing?"
+  },
+  {
+    "at": 131.6,
+    "speaker": "agent",
+    "text": "you have two upcoming appointments. Your office visit is scheduled for Tuesday, August 18th at 10 30 a.m. You also have a new patient appointment on Wednesday, August 19th at 10 30 a.m. Both are in person. Let me know if you need to make any changes."
+  },
+  {
+    "at": 149.6,
+    "speaker": "patient",
+    "text": "Okay, thanks for checking. I only needed the routine check-up, so please cancel the new patient appointment on Wednesday. Hey, and thanks for the help. Goodbye."
+  }
+]

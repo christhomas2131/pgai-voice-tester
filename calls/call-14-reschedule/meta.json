@@ -1,0 +1,13 @@
+{
+  "scenario": "reschedule",
+  "goal": "Move that Thursday 2pm appointment to sometime next week \u2014 a work trip came up.\nLate afternoon is best. Make sure you leave the call knowing the new day and time,\nand that the old one is cancelled.",
+  "probing": "Does it actually find the existing appointment, and does it confirm both the new booking AND the release of the old slot?",
+  "started_utc": "2026-08-17T22:20:44+00:00",
+  "identity": "on_file",
+  "call_sid": "CA2a1980b7b269d1f14383ae84a96bd718",
+  "stream_sid": "MZ0d049601f16ec1f9cd2073bcd7f12b47",
+  "ended_reason": "max_duration",
+  "duration_seconds": 182.2,
+  "turns": 18,
+  "errors": []
+}

@@ -45,6 +45,17 @@ Ending the call:
 """
 
 
+# The demo profile the practice actually holds against our calling number, created
+# by the first test call. Twelve personas down one caller-ID-keyed line meant ten of
+# them could never be found, so every booking-flow probe died in verification before
+# it tested anything. Re-running a scenario with IDENTITY=on_file swaps the persona's
+# details for these, which removes the mismatch and leaves the task intact.
+ON_FILE_IDENTITY = """\
+Your name is Daniel Reyes, born March 4th 1988. The number you're calling from,
+and the one the practice has on file, is 601-871-6381. You are an existing patient
+here. If they ask whether they're speaking with Daniel, say yes — that's you."""
+
+
 @dataclass(frozen=True)
 class Scenario:
     name: str

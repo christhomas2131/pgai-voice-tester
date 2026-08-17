@@ -1,0 +1,14 @@
+{
+  "scenario": "cancel",
+  "goal": "Cancel the Friday appointment. You do NOT want to rebook right now \u2014 if they push\nto rebook, say you'll call back once your schedule settles. Get clear confirmation\nthat it's cancelled and check whether there's a cancellation fee.",
+  "probing": "Does it accept a plain cancellation without forcing a rebook? Does it confirm cancellation unambiguously? Fee policy accurate?",
+  "started_utc": "2026-08-17T22:23:59+00:00",
+  "identity": "on_file",
+  "call_sid": "CAed759badcf47a957a6033ec431130ece",
+  "stream_sid": "MZ6d2c2965a0c995f6d3388e027c76eca3",
+  "hangup_reason": "No Friday appointment found; patient kept existing Tuesday and Wednesday appointments; confirmed typical cancellation fee policy is usually none with advance notice; caller declined more details and ended call.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 147.0,
+  "turns": 14,
+  "errors": []
+}
