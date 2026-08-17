@@ -1,0 +1,97 @@
+[
+  {
+    "at": 0.6,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. May I help you today?"
+  },
+  {
+    "at": 13.9,
+    "speaker": "patient",
+    "text": "Hi, I\u2019d like to book a check-up please."
+  },
+  {
+    "at": 19.7,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 25.7,
+    "speaker": "patient",
+    "text": "Uh, no, it\u2019s Wes Okafor. I\u2019m calling from 805-555-0121."
+  },
+  {
+    "at": 33.8,
+    "speaker": "agent",
+    "text": "please provide your full date of birth."
+  },
+  {
+    "at": 37.0,
+    "speaker": "patient",
+    "text": "August 6th, 1984."
+  },
+  {
+    "at": 43.4,
+    "speaker": "agent",
+    "text": "Just to confirm, can you please spell your first and last name for me?"
+  },
+  {
+    "at": 48.6,
+    "speaker": "patient",
+    "text": "Wes, W E S. Okafor, O K A F O R."
+  },
+  {
+    "at": 60.3,
+    "speaker": "agent",
+    "text": "Would you like me to look up your record using the phone number you have on file with us? If so, please provide that number. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?"
+  },
+  {
+    "at": 72.4,
+    "speaker": "patient",
+    "text": "Use the phone number, please. It\u2019s 805-555-0121."
+  },
+  {
+    "at": 82.5,
+    "speaker": "agent",
+    "text": "I have your phone number as 805-555-0121 and your date of birth as August 6th, 1984. Is that correct?"
+  },
+  {
+    "at": 94.0,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 97.4,
+    "speaker": "agent",
+    "text": "Thank you for confirming. One moment while I look up your record."
+  },
+  {
+    "at": 103.9,
+    "speaker": "patient",
+    "text": "Okay. I\u2019ll wait."
+  },
+  {
+    "at": 108.6,
+    "speaker": "agent",
+    "text": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to connect you to our patient support team?"
+  },
+  {
+    "at": 118.1,
+    "speaker": "patient",
+    "text": "Yes, please connect me to patient support."
+  },
+  {
+    "at": 124.8,
+    "speaker": "agent",
+    "text": "Transferring you now, thank you."
+  },
+  {
+    "at": 124.8,
+    "speaker": "agent",
+    "text": "Hello. You've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 130.3,
+    "speaker": "patient",
+    "text": "Oh, okay. Bye."
+  }
+]

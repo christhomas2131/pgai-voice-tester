@@ -1,0 +1,77 @@
+[
+  {
+    "at": 0.6,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.1,
+    "speaker": "patient",
+    "text": "Hi, um, I was hoping to get in to see someone soon. I just don't feel right."
+  },
+  {
+    "at": 21.0,
+    "speaker": "agent",
+    "text": "Can you please provide your full name and date of birth?"
+  },
+  {
+    "at": 24.9,
+    "speaker": "patient",
+    "text": "Ana Duarte. My date of birth is February 11th, 1958."
+  },
+  {
+    "at": 33.6,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Anna Duarte, and your date of birth as February 11th, 1958. Is that correct? If so, could you please spell your first and last name for me?"
+  },
+  {
+    "at": 44.9,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. First name Ana, A N A. Last name Duarte, D U A R T E."
+  },
+  {
+    "at": 57.3,
+    "speaker": "agent",
+    "text": "Would you like to use your phone number to look up your record? If so, please provide the number you have on file with us. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?"
+  },
+  {
+    "at": 68.9,
+    "speaker": "patient",
+    "text": "Sure, let\u2019s use the phone number. It should be 805-555-0187."
+  },
+  {
+    "at": 80.1,
+    "speaker": "agent",
+    "text": "I have your phone number as 805-550-187 and your date of birth is February 11th, 1958. Is that correct?"
+  },
+  {
+    "at": 91.3,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s right."
+  },
+  {
+    "at": 98.5,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 103.8,
+    "speaker": "patient",
+    "text": "Uh, no, it\u2019s Ana Duarte. I\u2019m calling from my number, like I said."
+  },
+  {
+    "at": 126.3,
+    "speaker": "agent",
+    "text": "Thanks for clarifying. I'm having trouble finding your record in our system. I'll connect you to our patient support team so they can help you get scheduled. Please stay on the line. Addressing you now, thank you."
+  },
+  {
+    "at": 126.3,
+    "speaker": "agent",
+    "text": "Hello, you've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 132.1,
+    "speaker": "patient",
+    "text": "Okay, thanks anyway. Goodbye."
+  }
+]

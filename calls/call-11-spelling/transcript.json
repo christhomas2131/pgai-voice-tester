@@ -1,0 +1,82 @@
+[
+  {
+    "at": 0.6,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.4,
+    "speaker": "patient",
+    "text": "Hi, I\u2019d like to book a first appointment, please."
+  },
+  {
+    "at": 20.2,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file, am I speaking with Daniel?"
+  },
+  {
+    "at": 25.2,
+    "speaker": "patient",
+    "text": "Uh, no, it\u2019s Aoife Ni Bhraonain. I\u2019m calling to set up my first appointment."
+  },
+  {
+    "at": 35.9,
+    "speaker": "agent",
+    "text": "please provide your data first."
+  },
+  {
+    "at": 38.8,
+    "speaker": "patient",
+    "text": "May 3rd, 1987."
+  },
+  {
+    "at": 47.6,
+    "speaker": "agent",
+    "text": "Could you please spell your first and last name for me just to make sure I have it right? I have your date of birth as May 3rd, 1987."
+  },
+  {
+    "at": 57.0,
+    "speaker": "patient",
+    "text": "First name Aoife: A, O, I, F, E.\n\nLast name Ni Bhraonain: N, I, then a space, B, H, R, A, O, N, A, I, N.\n\nCould you read that back to me?"
+  },
+  {
+    "at": 79.1,
+    "speaker": "agent",
+    "text": "I have your name as Oyse Nibronane and your date of birth as May 3rd 1987. Is that correct?"
+  },
+  {
+    "at": 88.3,
+    "speaker": "patient",
+    "text": "Close, thanks. It\u2019s Aoife Ni Bhraonain with a space between Ni and Bhraonain. The letters should match what I spelled. Could you confirm it\u2019s saved exactly that way?"
+  },
+  {
+    "at": 103.5,
+    "speaker": "agent",
+    "text": "I have your name as Ayuf, space, me, Brownain, spelled A-O-I-F-E, space, N-I, space, E-H-R-A-O-N-A-I-N, and your date of birth as May 3rd, 1987, is that correct?"
+  },
+  {
+    "at": 128.5,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct, thank you. There should be a space between Ni and Bhraonain, and everything else matches what I spelled.\n\nOkay, so could we go ahead and schedule that first appointment?"
+  },
+  {
+    "at": 159.9,
+    "speaker": "patient",
+    "text": "Okay, I\u2019m on the line."
+  },
+  {
+    "at": 159.9,
+    "speaker": "agent",
+    "text": "I wasn't able to find a matching record for you in our system. I'll connect you to our patient support team so they can help set up your first appointment. Please stay on the line. Transferring you now. Thank you."
+  },
+  {
+    "at": 159.9,
+    "speaker": "agent",
+    "text": "Hello, you've reached the pretty good AI test line, goodbye."
+  },
+  {
+    "at": 164.8,
+    "speaker": "patient",
+    "text": "Oh, okay then. Thanks anyway. Bye."
+  }
+]

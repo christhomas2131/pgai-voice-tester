@@ -1,0 +1,21 @@
+{
+  "scenario": "barge_in",
+  "goal": "Book any appointment in the next two weeks. You're rushed and distracted.",
+  "probing": "Barge-in and recovery. Does it stop talking when interrupted, keep state across interruptions, or lose the thread and restart?",
+  "started_utc": "2026-08-17T21:31:28+00:00",
+  "call_sid": "CA190acbf3793b8f8d133588efcc6aa5ea",
+  "stream_sid": "MZ5eb5ade871ebc948f2f7dee0d974b128",
+  "hangup_reason": "call transferred to test line, no booking possible",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 124.1,
+  "turns": 14,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

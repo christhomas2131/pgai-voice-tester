@@ -93,9 +93,10 @@ are now stamped when audio begins and sorted before writing.
 
 - Realtime's function-call events have moved between API versions, so the `hang_up`
   handler accepts both event shapes rather than betting on one.
-- Twilio dual-channel recording splits a *parent and child* call into separate
-  tracks. A `<Connect><Stream>` call has one leg, so the MP3 may be mono. It
-  doesn't affect the deliverable — speaker attribution comes from the Realtime
-  transcript events, not the audio — and `collect.py` reports the actual layout.
+- I expected `<Connect><Stream>` to defeat Twilio's dual-channel recording, since
+  dual-channel splits a *parent and child* call and a streamed call has one leg. It
+  doesn't: all 12 recordings came back genuinely dual-channel, so the MP3s carry
+  speaker separation as well as the transcripts. `collect.py` reports the layout
+  per call rather than assuming it.
 - Whisper occasionally mangles the practice's speech, which is why every candidate
   from `analyze.py` is checked against the recording before it reaches `BUGS.md`.

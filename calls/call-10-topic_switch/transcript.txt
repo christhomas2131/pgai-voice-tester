@@ -1,0 +1,26 @@
+CALL: call-10-topic_switch
+SCENARIO: topic_switch
+GOAL: Start by booking a check-up. Once you're most of the way through booking, switch abruptly to the billing problem and push on it. Then, near the end, ask them to confirm the appointment details again — you want to know whether the booking survived the detour.
+STARTED: 2026-08-17T21:36:16+00:00
+DURATION: 134.6s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. May I help you today?
+[00:13] PATIENT  Hi, I’d like to book a check-up please.
+[00:19] AGENT    I see you're calling from the number we have on file. Am I speaking with Daniel?
+[00:25] PATIENT  Uh, no, it’s Wes Okafor. I’m calling from 805-555-0121.
+[00:33] AGENT    please provide your full date of birth.
+[00:37] PATIENT  August 6th, 1984.
+[00:43] AGENT    Just to confirm, can you please spell your first and last name for me?
+[00:48] PATIENT  Wes, W E S. Okafor, O K A F O R.
+[01:00] AGENT    Would you like me to look up your record using the phone number you have on file with us? If so, please provide that number. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?
+[01:12] PATIENT  Use the phone number, please. It’s 805-555-0121.
+[01:22] AGENT    I have your phone number as 805-555-0121 and your date of birth as August 6th, 1984. Is that correct?
+[01:34] PATIENT  Yes, that’s correct.
+[01:37] AGENT    Thank you for confirming. One moment while I look up your record.
+[01:43] PATIENT  Okay. I’ll wait.
+[01:48] AGENT    I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to connect you to our patient support team?
+[01:58] PATIENT  Yes, please connect me to patient support.
+[02:04] AGENT    Transferring you now, thank you.
+[02:04] AGENT    Hello. You've reached the Pretty Good AI test line. Goodbye.
+[02:10] PATIENT  Oh, okay. Bye.

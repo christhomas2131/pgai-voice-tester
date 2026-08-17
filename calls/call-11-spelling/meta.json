@@ -1,0 +1,21 @@
+{
+  "scenario": "spelling",
+  "goal": "Book a first appointment. Your name is going to be a problem \u2014 spell it out when\nthey ask, letter by letter, and ask them to read it back. Correct them if they get\nit wrong. Also ask them to repeat the appointment time, because you didn't catch\nit the first time.",
+  "probing": "Speech recognition under accent and spelling. Does it capture the name, read it back accurately, and handle a repeat request gracefully?",
+  "started_utc": "2026-08-17T21:38:44+00:00",
+  "call_sid": "CA62d320ac7d39a27a819bbdb868784f34",
+  "stream_sid": "MZec3a3d3a996fda904d36b3be69480207",
+  "hangup_reason": "Call ended after transfer to test line; no appointment booking available.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 171.8,
+  "turns": 16,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

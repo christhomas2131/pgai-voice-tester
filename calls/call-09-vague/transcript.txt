@@ -1,0 +1,22 @@
+CALL: call-09-vague
+SCENARIO: vague
+GOAL: You want to see someone soon but you can't say what's wrong. Be genuinely unhelpful about specifics — "I just don't feel right", "I don't know, just off". Don't invent a clean symptom. See whether they can still get you to an appointment.
+STARTED: 2026-08-17T21:33:45+00:00
+DURATION: 137.1s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, um, I was hoping to get in to see someone soon. I just don't feel right.
+[00:21] AGENT    Can you please provide your full name and date of birth?
+[00:24] PATIENT  Ana Duarte. My date of birth is February 11th, 1958.
+[00:33] AGENT    Just to confirm, I have your name as Anna Duarte, and your date of birth as February 11th, 1958. Is that correct? If so, could you please spell your first and last name for me?
+[00:44] PATIENT  Yes, that’s correct. First name Ana, A N A. Last name Duarte, D U A R T E.
+[00:57] AGENT    Would you like to use your phone number to look up your record? If so, please provide the number you have on file with us. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?
+[01:08] PATIENT  Sure, let’s use the phone number. It should be 805-555-0187.
+[01:20] AGENT    I have your phone number as 805-550-187 and your date of birth is February 11th, 1958. Is that correct?
+[01:31] PATIENT  Yes, that’s right.
+[01:38] AGENT    I see you're calling from the number we have on file. Am I speaking with Daniel?
+[01:43] PATIENT  Uh, no, it’s Ana Duarte. I’m calling from my number, like I said.
+[02:06] AGENT    Thanks for clarifying. I'm having trouble finding your record in our system. I'll connect you to our patient support team so they can help you get scheduled. Please stay on the line. Addressing you now, thank you.
+[02:06] AGENT    Hello, you've reached the Pretty Good AI test line. Goodbye.
+[02:12] PATIENT  Okay, thanks anyway. Goodbye.

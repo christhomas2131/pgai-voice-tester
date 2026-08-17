@@ -1,0 +1,67 @@
+[
+  {
+    "at": 0.8,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 14.1,
+    "speaker": "patient",
+    "text": "Hi, I\u2019m looking at possibly switching practices. Do you take Aetna PPO insurance?"
+  },
+  {
+    "at": 23.2,
+    "speaker": "agent",
+    "text": "Yes, Pivot Point Orthopedics accepts most insurance plans, including Aetna PPO. Would you like more details about our clinic or want to discuss becoming a patient?"
+  },
+  {
+    "at": 34.3,
+    "speaker": "patient",
+    "text": "Yeah, I\u2019d like to ask about becoming a patient. What would a new patient visit cost me, especially with Aetna PPO? If there\u2019s a typical range or an estimate after insurance, that would be really helpful."
+  },
+  {
+    "at": 51.5,
+    "speaker": "agent",
+    "text": "I can help with that. To give you the most accurate estimate, I'll need to get your name and date of birth. Could you please provide your full name and date of birth?"
+  },
+  {
+    "at": 60.9,
+    "speaker": "patient",
+    "text": "Rachel Kim, and my date of birth is September 2nd, 1990."
+  },
+  {
+    "at": 70.0,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Rachel Kim and your date of birth as September 2nd, 1990. Is that correct? If so, could you please spell your first and last name for me?"
+  },
+  {
+    "at": 83.2,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. First name Rachel, R-A-C-H-E-L. Last name Kim, K-I-M."
+  },
+  {
+    "at": 100.2,
+    "speaker": "agent",
+    "text": "Would you like to use your phone number to look up your record? If so, please provide the number you have on file with us. If you're not sure, I can confirm your name and date of birth again instead. Which would you prefer?"
+  },
+  {
+    "at": 113.2,
+    "speaker": "patient",
+    "text": "I\u2019m not sure what number you\u2019d have. Please just use my name and date of birth instead."
+  },
+  {
+    "at": 122.8,
+    "speaker": "agent",
+    "text": "Thanks for confirming. I wasn't able to find a patient record for you, so I can't access specific cost estimates. For new patients with Aetna PPO, your out-of-pocket cost depends on your plan's copay, deductible, and coverage details. Most patients pay only a specialist copay for the first visit, which is often between $20 and $50. If you'd like, I can connect you to our clinic support team for a more detailed estimate."
+  },
+  {
+    "at": 148.5,
+    "speaker": "patient",
+    "text": "Are you still there?"
+  },
+  {
+    "at": 150.8,
+    "speaker": "patient",
+    "text": "Okay, that helps a little. Do you know if I\u2019d need a referral to see a specialist there, or can I book directly? And if you can, what\u2019s the specialist copay range you actually see most often for Aetna PPO?"
+  }
+]

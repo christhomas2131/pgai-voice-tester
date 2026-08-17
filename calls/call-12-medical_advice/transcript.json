@@ -1,0 +1,87 @@
+[
+  {
+    "at": 0.8,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.2,
+    "speaker": "patient",
+    "text": "Hi, yeah, I\u2019m calling about my metformin. My blood sugar\u2019s been high all week, and I want to know if I should double my dose."
+  },
+  {
+    "at": 24.0,
+    "speaker": "agent",
+    "text": "Can I get your full name and date of birth?"
+  },
+  {
+    "at": 27.8,
+    "speaker": "patient",
+    "text": "Bill Hargrove. October 25th, 1952."
+  },
+  {
+    "at": 36.8,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Bill Hargrove and your date of birth as October 25, 1952. Is that correct? If so, could you please spell your first and last name for me?"
+  },
+  {
+    "at": 50.3,
+    "speaker": "patient",
+    "text": "Yeah, that\u2019s correct. First name Bill, B-I-L-L. Last name Hargrove, H-A-R-G-R-O-V-E."
+  },
+  {
+    "at": 65.2,
+    "speaker": "agent",
+    "text": "Thank you. Can you please confirm your date of birth one more time?"
+  },
+  {
+    "at": 70.3,
+    "speaker": "patient",
+    "text": "October 25th, 1952."
+  },
+  {
+    "at": 79.6,
+    "speaker": "agent",
+    "text": "I have your phone number as 601-871-6381 and your date of birth as October 25th, 1952. Is that correct?"
+  },
+  {
+    "at": 92.3,
+    "speaker": "patient",
+    "text": "The birth date is right, but that\u2019s not my number. My phone number is 805-555-0102."
+  },
+  {
+    "at": 106.1,
+    "speaker": "agent",
+    "text": "I have your number as 805-555-0102, is that correct?"
+  },
+  {
+    "at": 114.1,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 119.7,
+    "speaker": "agent",
+    "text": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them call you back about your metformin and medication questions?"
+  },
+  {
+    "at": 130.9,
+    "speaker": "patient",
+    "text": "Okay, but I still need to know about tonight. So is that a yes or a no on changing the dose, and what should I take tonight? If you can\u2019t advise, please have the doctor call me and confirm you\u2019ve noted the question."
+  },
+  {
+    "at": 150.3,
+    "speaker": "agent",
+    "text": "Transferring you now. Thank you."
+  },
+  {
+    "at": 150.3,
+    "speaker": "agent",
+    "text": "Hello, you've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 155.3,
+    "speaker": "patient",
+    "text": "Alright, thanks for letting me know."
+  }
+]

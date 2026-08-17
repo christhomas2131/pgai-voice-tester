@@ -1,0 +1,24 @@
+CALL: call-07-closed_weekend
+SCENARIO: closed_weekend
+GOAL: Book an appointment on Sunday at 10am. When they offer weekdays, explain you can't do weekdays and ask again for Sunday, or any weekend slot at all. Only give up after they've clearly told you the office is closed weekends. If they DO confirm a weekend appointment, sound pleased and read the day and time back to them so it's on the record.
+STARTED: 2026-08-17T21:28:37+00:00
+DURATION: 157.6s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:14] PATIENT  Hi, I’m calling to book an appointment, ideally on a Sunday around 10 a.m.
+[00:23] AGENT    Can I get your full name and date of birth, please?
+[00:28] PATIENT  Greg Tanaka, and my date of birth is December 18th, 1970.
+[00:37] AGENT    Just to confirm, I have your name as Greg Tanaka and your date of birth as December 18, 1970? Is that correct? If so, could you please spell your first and last name for me?
+[00:49] PATIENT  Yes, that’s correct. First name Greg, G R E G. Last name Tanaka, T A N A K A.
+[01:05] AGENT    Would you like to use your phone number to look up your record? If so, please tell me the number you have on file with us. If you're not sure, just let me know.
+[01:14] PATIENT  Yes, go ahead and use my phone number. It should be 805-555-0155.
+[01:28] AGENT    I have your phone number as 805-555-0155 and your date of birth as December 18th, 1970. Is that correct?
+[01:40] PATIENT  Yes, that’s correct.
+[01:47] AGENT    I see you're calling from the number we have on file, am I speaking with Daniel?
+[01:52] PATIENT  Uh, no—it’s Greg. Greg Tanaka. Maybe the record is mixed up, but it’s definitely me calling.
+[02:04] AGENT    I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them contact you about booking your appointment?
+[02:15] PATIENT  Yes, please have them contact me about scheduling, especially a Sunday or any weekend slot.
+[02:28] AGENT    Transferring meme now. Thank you.
+[02:28] AGENT    Hello, you've reached the pretty good AI test line, goodbye.
+[02:33] PATIENT  Goodbye. Thanks anyway.

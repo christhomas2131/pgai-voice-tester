@@ -1,0 +1,21 @@
+CALL: call-08-barge_in
+SCENARIO: barge_in
+GOAL: Book any appointment in the next two weeks. You're rushed and distracted.
+STARTED: 2026-08-17T21:31:28+00:00
+DURATION: 124.1s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:12] PATIENT  Hi, I’m trying to book an appointment sometime in the next two weeks. I’m calling from the car, so I might be a little quick.
+[00:23] AGENT    No problem. May I have your full name and date of birth?
+[00:28] PATIENT  Steph Lowe, and my date of birth is April 27, 1996.
+[00:38] AGENT    Just to confirm, I have your name as Steph Lowe and your date of birth as April 27th, 1996. Is that correct? If so, please spell your first and last name for me.
+[00:51] PATIENT  Yeah, that’s correct. First name is S T E P H, last name is L O W E.
+[01:06] AGENT    I have your phone number as 601-871-6381 and your date of birth as April 27th, 1996. Is that correct?
+[01:17] PATIENT  No, that's not right. My number is 805-555-0164. Date of birth is correct.
+[01:33] AGENT    I'm unable to locate your record in our system. I can connect you to our patient support team. However, I'm a pretty good AI and can do many of the things an operator can. Do you want to give me a try?
+[01:45] PATIENT  Yeah, that’s fine. If you can book me something, I’m happy to try you. I just need any appointment in the next two weeks, and I’m kind of in a hurry.
+[01:45] PATIENT  Alright,
+[01:53] AGENT    Catch Frenny now. Thank you.
+[01:53] AGENT    Hello, you've reached the Pretty Good AI test line. Goodbye.
+[01:58] PATIENT  Uh, okay then—goodbye.

@@ -41,8 +41,10 @@ def add_inline(paragraph, text: str) -> None:
             run.font.color.rgb = CODE_GREY
         elif piece.startswith("**") and piece.endswith("**"):
             paragraph.add_run(piece[2:-2]).bold = True
-        elif piece.startswith("["):
-            label, url = re.match(r"\[([^\]]+)\]\(([^)]+)\)", piece).groups()
+        elif link := re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", piece):
+            # fullmatch, not match: a checklist item's "[ ] " also starts with a
+            # bracket and is not a link.
+            label, url = link.groups()
             run = paragraph.add_run(label)
             run.font.color.rgb = LINK_BLUE
             run.underline = True

@@ -1,0 +1,87 @@
+[
+  {
+    "at": 0.6,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 14.1,
+    "speaker": "patient",
+    "text": "Hi, I\u2019m calling to book an appointment, ideally on a Sunday around 10 a.m."
+  },
+  {
+    "at": 23.9,
+    "speaker": "agent",
+    "text": "Can I get your full name and date of birth, please?"
+  },
+  {
+    "at": 28.2,
+    "speaker": "patient",
+    "text": "Greg Tanaka, and my date of birth is December 18th, 1970."
+  },
+  {
+    "at": 37.4,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Greg Tanaka and your date of birth as December 18, 1970? Is that correct? If so, could you please spell your first and last name for me?"
+  },
+  {
+    "at": 49.0,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. First name Greg, G R E G. Last name Tanaka, T A N A K A."
+  },
+  {
+    "at": 65.5,
+    "speaker": "agent",
+    "text": "Would you like to use your phone number to look up your record? If so, please tell me the number you have on file with us. If you're not sure, just let me know."
+  },
+  {
+    "at": 74.9,
+    "speaker": "patient",
+    "text": "Yes, go ahead and use my phone number. It should be 805-555-0155."
+  },
+  {
+    "at": 88.3,
+    "speaker": "agent",
+    "text": "I have your phone number as 805-555-0155 and your date of birth as December 18th, 1970. Is that correct?"
+  },
+  {
+    "at": 100.2,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 107.0,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file, am I speaking with Daniel?"
+  },
+  {
+    "at": 112.8,
+    "speaker": "patient",
+    "text": "Uh, no\u2014it\u2019s Greg. Greg Tanaka. Maybe the record is mixed up, but it\u2019s definitely me calling."
+  },
+  {
+    "at": 124.2,
+    "speaker": "agent",
+    "text": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to have them contact you about booking your appointment?"
+  },
+  {
+    "at": 135.2,
+    "speaker": "patient",
+    "text": "Yes, please have them contact me about scheduling, especially a Sunday or any weekend slot."
+  },
+  {
+    "at": 148.0,
+    "speaker": "agent",
+    "text": "Transferring meme now. Thank you."
+  },
+  {
+    "at": 148.0,
+    "speaker": "agent",
+    "text": "Hello, you've reached the pretty good AI test line, goodbye."
+  },
+  {
+    "at": 153.2,
+    "speaker": "patient",
+    "text": "Goodbye. Thanks anyway."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "scenario": "insurance",
+  "goal": "Find out whether they take Aetna PPO, what a new-patient visit would cost you, and\nwhether you need a referral to see a specialist there. Push for specifics if the\nanswers are vague, then wrap up.",
+  "probing": "Insurance handling. Does it claim network participation or quote costs it has no basis for? Does it know when to defer to billing?",
+  "started_utc": "2026-08-17T21:25:22+00:00",
+  "call_sid": "CA5cde9f955b8bc9765988d1747092b174",
+  "stream_sid": "MZ6de9517768ddc321154dfe90b708f019",
+  "ended_reason": "max_duration",
+  "duration_seconds": 182.8,
+  "turns": 13,
+  "errors": []
+}

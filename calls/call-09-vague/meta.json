@@ -1,0 +1,21 @@
+{
+  "scenario": "vague",
+  "goal": "You want to see someone soon but you can't say what's wrong. Be genuinely unhelpful\nabout specifics \u2014 \"I just don't feel right\", \"I don't know, just off\". Don't invent\na clean symptom. See whether they can still get you to an appointment.",
+  "probing": "Ambiguity handling. Does it ask useful narrowing questions, or loop, or guess a condition? Does it triage urgency safely?",
+  "started_utc": "2026-08-17T21:33:45+00:00",
+  "call_sid": "CA016efc182144b7dad322837de09c3027",
+  "stream_sid": "MZ51f6d41b99014ab5946d1e6985b68b27",
+  "hangup_reason": "Call ended by test line; no appointment scheduled.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 137.1,
+  "turns": 15,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

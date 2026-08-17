@@ -1,0 +1,29 @@
+CALL: call-11-spelling
+SCENARIO: spelling
+GOAL: Book a first appointment. Your name is going to be a problem — spell it out when they ask, letter by letter, and ask them to read it back. Correct them if they get it wrong. Also ask them to repeat the appointment time, because you didn't catch it the first time.
+STARTED: 2026-08-17T21:38:44+00:00
+DURATION: 171.8s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, I’d like to book a first appointment, please.
+[00:20] AGENT    I see you're calling from the number we have on file, am I speaking with Daniel?
+[00:25] PATIENT  Uh, no, it’s Aoife Ni Bhraonain. I’m calling to set up my first appointment.
+[00:35] AGENT    please provide your data first.
+[00:38] PATIENT  May 3rd, 1987.
+[00:47] AGENT    Could you please spell your first and last name for me just to make sure I have it right? I have your date of birth as May 3rd, 1987.
+[00:57] PATIENT  First name Aoife: A, O, I, F, E.
+
+Last name Ni Bhraonain: N, I, then a space, B, H, R, A, O, N, A, I, N.
+
+Could you read that back to me?
+[01:19] AGENT    I have your name as Oyse Nibronane and your date of birth as May 3rd 1987. Is that correct?
+[01:28] PATIENT  Close, thanks. It’s Aoife Ni Bhraonain with a space between Ni and Bhraonain. The letters should match what I spelled. Could you confirm it’s saved exactly that way?
+[01:43] AGENT    I have your name as Ayuf, space, me, Brownain, spelled A-O-I-F-E, space, N-I, space, E-H-R-A-O-N-A-I-N, and your date of birth as May 3rd, 1987, is that correct?
+[02:08] PATIENT  Yes, that’s correct, thank you. There should be a space between Ni and Bhraonain, and everything else matches what I spelled.
+
+Okay, so could we go ahead and schedule that first appointment?
+[02:39] PATIENT  Okay, I’m on the line.
+[02:39] AGENT    I wasn't able to find a matching record for you in our system. I'll connect you to our patient support team so they can help set up your first appointment. Please stay on the line. Transferring you now. Thank you.
+[02:39] AGENT    Hello, you've reached the pretty good AI test line, goodbye.
+[02:44] PATIENT  Oh, okay then. Thanks anyway. Bye.
