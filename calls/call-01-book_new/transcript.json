@@ -1,72 +1,82 @@
 [
   {
-    "at": 7.3,
+    "at": 0.6,
     "speaker": "agent",
-    "text": "Esta llamada puede ser grabada para prop\u00f3sitos de calidad y entrenamiento."
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics. Part of Pretty Good AI. How may I help you today?"
   },
   {
-    "at": 7.6,
+    "at": 13.8,
     "speaker": "patient",
-    "text": "Hi, I\u2019m calling to"
+    "text": "Hi, yeah, I\u2019m hoping to schedule a routine physical as a new patient."
   },
   {
-    "at": 16.8,
-    "speaker": "patient",
-    "text": "Daniel Reyes."
-  },
-  {
-    "at": 17.8,
+    "at": 21.4,
     "speaker": "agent",
-    "text": "Thank you for calling Pivot Point Orthopedics. Would you like to create a demo patient profile? I just need your first and last name to get started."
+    "text": "I see you're calling from the number we have on file, am I speaking with Daniel?"
   },
   {
-    "at": 32.5,
+    "at": 27.2,
+    "speaker": "patient",
+    "text": "Yes, this is Daniel speaking."
+  },
+  {
+    "at": 31.8,
     "speaker": "agent",
-    "text": "Your patient profile is set up and your date of birth is July 4th, 2000 for demo purposes. How may I help you today?"
+    "text": "Please provide your date of birth."
   },
   {
-    "at": 32.9,
+    "at": 34.7,
     "speaker": "patient",
-    "text": "I\u2019m actually March 4th, 1988, just to correct that. I\u2019d like to book a routine physical. Mornings are easiest for me."
+    "text": "March 4th, 1988."
   },
   {
-    "at": 52.7,
-    "speaker": "patient",
-    "text": "Yes, that\u2019s right. Just a general routine physical."
-  },
-  {
-    "at": 53.0,
+    "at": 42.0,
     "speaker": "agent",
-    "text": "You'd like to book a routine physical, just to confirm this would be a general office visit for routine care. Is that right?"
+    "text": "Thanks, Daniel. Just to confirm, you'd like to schedule a new patient consultation for a routine physical? Is that correct?"
   },
   {
-    "at": 68.4,
+    "at": 50.1,
     "speaker": "patient",
-    "text": "10:30 with Dr. Kelly Noble works for me."
+    "text": "Yes, that\u2019s right. A routine physical as a new patient."
   },
   {
-    "at": 69.0,
+    "at": 56.9,
     "speaker": "agent",
-    "text": "We have morning openings for a routine physical on Tuesday, August 18th. Would you like 10 30 a.m with Dr. Kelly Noble or Dr. Zbigniew Likoski?"
+    "text": "Do you have a specific provider you'd like to see, or are you open to the next available?"
   },
   {
-    "at": 92.4,
+    "at": 63.2,
     "speaker": "patient",
-    "text": "Hey, are you still there? I\u2019ve got you down for 10:30 with Dr. Kelly Noble if you\u2019re still on the line, and I can help with anything else before we wrap up."
+    "text": "I\u2019m open to the next available. Mornings are easier for me since I work in the afternoons."
   },
   {
-    "at": 94.4,
+    "at": 71.1,
     "speaker": "agent",
-    "text": "Your appointment is set for Tuesday, August 18th at 1030 a.m. with Dr. Kelly Noble at Pivot Point Orthopedics. Please bring your photo ID, insurance card, a list of current medications, and any imaging discs if you have them."
+    "text": "The soonest openings I see are in the afternoon. Would you like me to check for morning slots later in the week, or is there a specific day that works best for you?"
   },
   {
-    "at": 96.5,
+    "at": 81.7,
     "speaker": "patient",
-    "text": "Okay, thanks for confirming everything. Let me just wrap this up with you."
+    "text": "Could you check for morning slots later in the week, like Thursday or Friday?"
   },
   {
-    "at": 96.5,
+    "at": 89.6,
+    "speaker": "agent",
+    "text": "I found morning openings on Thursday, August 20th with ABRKR. The earliest is at 9 a.m. Would you like to book that slot?"
+  },
+  {
+    "at": 98.7,
     "speaker": "patient",
-    "text": "Perfect, that\u2019s all I needed. I\u2019ll see you Tuesday at 10:30, and I\u2019ll bring those items. Thanks, have a good day."
+    "text": "Yes, 9 a.m. on Thursday works. Please book it. And what should I bring as a new patient?"
+  },
+  {
+    "at": 108.0,
+    "speaker": "agent",
+    "text": "Your appointment is set for Thursday, August 20th at 9 a.m. with Dr. Abreker at Pivot Point Orthopedics. Please bring your government-issued photo ID, insurance card, a list of your current medications, and any imaging discs if you have them."
+  },
+  {
+    "at": 125.8,
+    "speaker": "patient",
+    "text": "Okay, thanks for confirming everything; let me wrap this up."
   }
 ]

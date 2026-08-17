@@ -1,0 +1,24 @@
+CALL: call-04-refill
+SCENARIO: refill
+GOAL: Get the lisinopril refill sent to that CVS. Mention you're nearly out. Find out how long it'll take and whether you need to be seen before they'll refill it.
+STARTED: 2026-08-17T21:20:25+00:00
+DURATION: 177.9s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pittet Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, this is Priya Nair. I’m calling about a refill for my lisinopril. I’m nearly out and need it sent to the CVS on Main Street.
+[00:24] AGENT    Can you please provide your date of birth?
+[00:27] PATIENT  January 30th, 1980.
+[00:33] AGENT    Just to confirm, I have your name as Priya Nair and your date of birth as January 30th, 1980. Is that correct? If so, please spell your first and last name for me.
+[00:46] PATIENT  Yes, that’s correct. First name Priya, P-R-I-Y-A. Last name Nair, N-A-I-R.
+[01:02] AGENT    Would you like to use your phone number to look up your records? If so, please tell me the number you have on file with us. If you're not sure I can confirm your name and date of birth again, let me know how you'd like to proceed.
+[01:14] PATIENT  Yes, use the phone number. It should be 805-555-0173.
+[01:26] AGENT    Add your phone number as 805-555-0173 and your date of birth as January 30th, 1980. Is that correct?
+[01:37] PATIENT  Yes, that’s correct.
+[01:44] AGENT    I see you're calling from the number we have on file. Am I speaking with Daniel?
+[01:50] PATIENT  Uh, no, it’s just me, Priya Nair. I’m calling about my lisinopril refill, so I think the record might be mixed up.
+[02:00] AGENT    I can connect you to our patient support team. However, I'm a pretty good AI and can do many of the things an operator can. Do you want to give me a try or would you prefer to speak with someone from the support team?
+[02:13] PATIENT  Let’s try you first. If you can straighten out the record and send the refill to the CVS on Main Street, that would be great. I’m down to about four pills, and I’d also like to know how long it’ll take and if I need an appointment first.
+[02:47] AGENT    I'm unable to access your record right now, so I can't process the refill directly. I'll connect you to our patient support team so they can help with your medication and update your information. Please stay on the line. Transferring you now. Thank you.
+[02:47] AGENT    Hello. You've reached the Pretty Good AI test line. Goodbye.
+[02:52] PATIENT  Okay, thanks anyway. Goodbye.

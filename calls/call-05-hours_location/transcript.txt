@@ -1,0 +1,15 @@
+CALL: call-05-hours_location
+SCENARIO: hours_location
+GOAL: Find out three things: whether they're open Saturdays and what the weekday hours are, whether there's more than one office and which is closer to downtown, and whether there's parking. Get real answers, then thank them and hang up.
+STARTED: 2026-08-17T21:23:36+00:00
+DURATION: 93.2s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, I’m just calling to ask about your hours and locations before I become a patient.
+[00:22] AGENT    Pivot Point Orthopedics is open Monday through Friday. Our address is 1234 Recovery Way, Suite 200, Austin. Is there anything else you'd like to know about the clinic?
+[00:34] PATIENT  Yeah, could you tell me what your weekday hours are, and if you’re open on Saturdays at all?
+[00:44] AGENT    We're open Monday, Tuesday, and Thursday from 9 a.m. to 4 p.m., Wednesday from 12 p.m. to 7 p.m., and Friday from 9 a.m. to 12 p.m. We're closed on Saturdays. Would you like more details about our services or providers?
+[01:00] PATIENT  Do you have more than one office, and which one is closest to downtown? Also, is there parking available?
+[01:10] AGENT    We have just one office located at 1234 Recovery Way, Suite 200, Austin. It's near downtown. Free patient parking is available in the surface lot in front of the building. Anything else I can help with?
+[01:26] PATIENT  Thanks, that covers what I needed. I appreciate it.

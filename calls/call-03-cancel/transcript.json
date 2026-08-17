@@ -1,0 +1,82 @@
+[
+  {
+    "at": 0.5,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 14.2,
+    "speaker": "patient",
+    "text": "Hi, this is Marcus Bell. I need to cancel my follow-up this Friday morning."
+  },
+  {
+    "at": 22.5,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 28.0,
+    "speaker": "patient",
+    "text": "Uh, no, it\u2019s Marcus Bell. I\u2019m calling from 805-555-0110."
+  },
+  {
+    "at": 37.5,
+    "speaker": "agent",
+    "text": "Please provide your date of birth."
+  },
+  {
+    "at": 40.5,
+    "speaker": "patient",
+    "text": "November 9th, 1975."
+  },
+  {
+    "at": 46.9,
+    "speaker": "agent",
+    "text": "Just to confirm, can you please spell your first and last name for me?"
+  },
+  {
+    "at": 51.5,
+    "speaker": "patient",
+    "text": "Marcus Bell. That\u2019s M-A-R-C-U-S, and Bell, B-E-L-L."
+  },
+  {
+    "at": 65.3,
+    "speaker": "agent",
+    "text": "Would you like me to look up your record using the phone number you have on file with us? If so, please tell me the number you gave the clinic. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?"
+  },
+  {
+    "at": 78.0,
+    "speaker": "patient",
+    "text": "Phone number is 805-555-0110."
+  },
+  {
+    "at": 87.8,
+    "speaker": "agent",
+    "text": "I have your phone number as 805-555-0110 and your date of birth as November 9th, 1975. Is that correct?"
+  },
+  {
+    "at": 100.2,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 100.2,
+    "speaker": "patient",
+    "text": "Okay,"
+  },
+  {
+    "at": 119.6,
+    "speaker": "agent",
+    "text": "I can't locate your record in our system right now. I'll connect you to our patient support team for help with your cancellation. Please stay on the line. Transferring you now. Thank you."
+  },
+  {
+    "at": 119.6,
+    "speaker": "agent",
+    "text": "Hello, you've reached the pretty good AI test line, goodbye."
+  },
+  {
+    "at": 124.9,
+    "speaker": "patient",
+    "text": "Okay, thanks anyway. Goodbye."
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "scenario": "reschedule",
+  "goal": "Move that Thursday 2pm appointment to sometime next week \u2014 a work trip came up.\nLate afternoon is best. Make sure you leave the call knowing the new day and time,\nand that the old one is cancelled.",
+  "probing": "Does it actually find the existing appointment, and does it confirm both the new booking AND the release of the old slot?",
+  "started_utc": "2026-08-17T21:15:23+00:00",
+  "call_sid": "CA7791924bba809fcca1bfc15ac16c64a5",
+  "stream_sid": "MZ3af89322a66cba54cc2dd826177a24bd",
+  "hangup_reason": "transfer ended on test line; could not reschedule or confirm cancellation of original appointment",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 146.0,
+  "turns": 18,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

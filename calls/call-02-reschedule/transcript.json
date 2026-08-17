@@ -1,0 +1,92 @@
+[
+  {
+    "at": 0.7,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.7,
+    "speaker": "patient",
+    "text": "Hi, I need to reschedule an appointment I have this Thursday at 2 with Dr. Patel."
+  },
+  {
+    "at": 22.3,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 27.7,
+    "speaker": "patient",
+    "text": "No, this is Karen Whitfield. I'm the patient."
+  },
+  {
+    "at": 33.1,
+    "speaker": "agent",
+    "text": "please provide your date of birth."
+  },
+  {
+    "at": 35.9,
+    "speaker": "patient",
+    "text": "July 22nd, 1961."
+  },
+  {
+    "at": 43.6,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Karen Whitfield and your date of birth as July 22, 1961. Is that correct? If so, please spell your first and last name for me."
+  },
+  {
+    "at": 54.9,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. My first name is K-A-R-E-N, and my last name is W-H-I-T-F-I-E-L-D."
+  },
+  {
+    "at": 73.6,
+    "speaker": "agent",
+    "text": "Would you like me to look up your record using the phone number you have on file with us? If so, please provide that number. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?"
+  },
+  {
+    "at": 86.0,
+    "speaker": "patient",
+    "text": "Use the phone number, please. It\u2019s 805-555-0198."
+  },
+  {
+    "at": 96.9,
+    "speaker": "agent",
+    "text": "I have your phone number is 805-555-0198 and your day of birth is July 22nd, 1961, is that correct?"
+  },
+  {
+    "at": 107.2,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. I\u2019d like to move my Thursday 2 pm appointment to sometime next week, preferably late afternoon."
+  },
+  {
+    "at": 117.4,
+    "speaker": "agent",
+    "text": "I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to connect you to our patient support team?"
+  },
+  {
+    "at": 126.4,
+    "speaker": "patient",
+    "text": "Yes, that would be great. Please connect me to the patient support team so we can reschedule and cancel the old time."
+  },
+  {
+    "at": 126.4,
+    "speaker": "patient",
+    "text": "Okay,"
+  },
+  {
+    "at": 133.8,
+    "speaker": "agent",
+    "text": "Transfer you now. Thank you"
+  },
+  {
+    "at": 133.8,
+    "speaker": "agent",
+    "text": "Hello. You've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 139.3,
+    "speaker": "patient",
+    "text": "Alright, I guess I\u2019ll have to try again later. Goodbye."
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "scenario": "refill",
+  "goal": "Get the lisinopril refill sent to that CVS. Mention you're nearly out. Find out how\nlong it'll take and whether you need to be seen before they'll refill it.",
+  "probing": "Refill workflow. Does it capture drug/dose/pharmacy correctly, set a realistic timeline, and avoid promising a refill it can't authorise?",
+  "started_utc": "2026-08-17T21:20:25+00:00",
+  "call_sid": "CA8f0236d4d552b0904e63d6259488bccb",
+  "stream_sid": "MZ946804788439c9ee6bd48d07acaa0c78",
+  "hangup_reason": "Transferred to patient support but reached test line; caller ended call after goodbye.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 177.9,
+  "turns": 17,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "scenario": "hours_location",
+  "goal": "Find out three things: whether they're open Saturdays and what the weekday hours\nare, whether there's more than one office and which is closer to downtown, and\nwhether there's parking. Get real answers, then thank them and hang up.",
+  "probing": "Factual accuracy on hours, locations, parking. Watch for invented specifics or vague non-answers presented as answers.",
+  "started_utc": "2026-08-17T21:23:36+00:00",
+  "call_sid": "CA371095bccde30234505016ca8adfb08f",
+  "stream_sid": "MZe09eded2e9aff152153fd9f97129c90a",
+  "hangup_reason": "Asked about weekday and Saturday hours, confirmed single office near downtown, and confirmed free patient parking; caller ended after thanking receptionist.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 93.2,
+  "turns": 8,
+  "errors": []
+}

@@ -1,0 +1,21 @@
+{
+  "scenario": "cancel",
+  "goal": "Cancel the Friday appointment. You do NOT want to rebook right now \u2014 if they push\nto rebook, say you'll call back once your schedule settles. Get clear confirmation\nthat it's cancelled and check whether there's a cancellation fee.",
+  "probing": "Does it accept a plain cancellation without forcing a rebook? Does it confirm cancellation unambiguously? Fee policy accurate?",
+  "started_utc": "2026-08-17T21:18:02+00:00",
+  "call_sid": "CA3284b9f0e3d36e52405e437d0b304f65",
+  "stream_sid": "MZ3ecef22ea1fddb755133c997723af642",
+  "hangup_reason": "Caller was transferred, reached a test line with no support available, and ended the call without cancellation confirmation.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 130.0,
+  "turns": 16,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+[
+  {
+    "at": 0.6,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pittet Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.2,
+    "speaker": "patient",
+    "text": "Hi, this is Priya Nair. I\u2019m calling about a refill for my lisinopril. I\u2019m nearly out and need it sent to the CVS on Main Street."
+  },
+  {
+    "at": 24.5,
+    "speaker": "agent",
+    "text": "Can you please provide your date of birth?"
+  },
+  {
+    "at": 27.5,
+    "speaker": "patient",
+    "text": "January 30th, 1980."
+  },
+  {
+    "at": 33.7,
+    "speaker": "agent",
+    "text": "Just to confirm, I have your name as Priya Nair and your date of birth as January 30th, 1980. Is that correct? If so, please spell your first and last name for me."
+  },
+  {
+    "at": 46.6,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct. First name Priya, P-R-I-Y-A. Last name Nair, N-A-I-R."
+  },
+  {
+    "at": 62.3,
+    "speaker": "agent",
+    "text": "Would you like to use your phone number to look up your records? If so, please tell me the number you have on file with us. If you're not sure I can confirm your name and date of birth again, let me know how you'd like to proceed."
+  },
+  {
+    "at": 74.7,
+    "speaker": "patient",
+    "text": "Yes, use the phone number. It should be 805-555-0173."
+  },
+  {
+    "at": 86.2,
+    "speaker": "agent",
+    "text": "Add your phone number as 805-555-0173 and your date of birth as January 30th, 1980. Is that correct?"
+  },
+  {
+    "at": 97.9,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s correct."
+  },
+  {
+    "at": 104.8,
+    "speaker": "agent",
+    "text": "I see you're calling from the number we have on file. Am I speaking with Daniel?"
+  },
+  {
+    "at": 110.0,
+    "speaker": "patient",
+    "text": "Uh, no, it\u2019s just me, Priya Nair. I\u2019m calling about my lisinopril refill, so I think the record might be mixed up."
+  },
+  {
+    "at": 120.7,
+    "speaker": "agent",
+    "text": "I can connect you to our patient support team. However, I'm a pretty good AI and can do many of the things an operator can. Do you want to give me a try or would you prefer to speak with someone from the support team?"
+  },
+  {
+    "at": 133.9,
+    "speaker": "patient",
+    "text": "Let\u2019s try you first. If you can straighten out the record and send the refill to the CVS on Main Street, that would be great. I\u2019m down to about four pills, and I\u2019d also like to know how long it\u2019ll take and if I need an appointment first."
+  },
+  {
+    "at": 167.3,
+    "speaker": "agent",
+    "text": "I'm unable to access your record right now, so I can't process the refill directly. I'll connect you to our patient support team so they can help with your medication and update your information. Please stay on the line. Transferring you now. Thank you."
+  },
+  {
+    "at": 167.3,
+    "speaker": "agent",
+    "text": "Hello. You've reached the Pretty Good AI test line. Goodbye."
+  },
+  {
+    "at": 172.9,
+    "speaker": "patient",
+    "text": "Okay, thanks anyway. Goodbye."
+  }
+]

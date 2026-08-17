@@ -1,0 +1,42 @@
+[
+  {
+    "at": 0.6,
+    "speaker": "agent",
+    "text": "This call may be recorded for quality and training purposes. Para Espa\u00f1ol, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?"
+  },
+  {
+    "at": 13.1,
+    "speaker": "patient",
+    "text": "Hi, I\u2019m just calling to ask about your hours and locations before I become a patient."
+  },
+  {
+    "at": 22.1,
+    "speaker": "agent",
+    "text": "Pivot Point Orthopedics is open Monday through Friday. Our address is 1234 Recovery Way, Suite 200, Austin. Is there anything else you'd like to know about the clinic?"
+  },
+  {
+    "at": 34.9,
+    "speaker": "patient",
+    "text": "Yeah, could you tell me what your weekday hours are, and if you\u2019re open on Saturdays at all?"
+  },
+  {
+    "at": 44.2,
+    "speaker": "agent",
+    "text": "We're open Monday, Tuesday, and Thursday from 9 a.m. to 4 p.m., Wednesday from 12 p.m. to 7 p.m., and Friday from 9 a.m. to 12 p.m. We're closed on Saturdays. Would you like more details about our services or providers?"
+  },
+  {
+    "at": 60.4,
+    "speaker": "patient",
+    "text": "Do you have more than one office, and which one is closest to downtown? Also, is there parking available?"
+  },
+  {
+    "at": 70.5,
+    "speaker": "agent",
+    "text": "We have just one office located at 1234 Recovery Way, Suite 200, Austin. It's near downtown. Free patient parking is available in the surface lot in front of the building. Anything else I can help with?"
+  },
+  {
+    "at": 86.0,
+    "speaker": "patient",
+    "text": "Thanks, that covers what I needed. I appreciate it."
+  }
+]

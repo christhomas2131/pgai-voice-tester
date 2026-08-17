@@ -1,0 +1,25 @@
+CALL: call-02-reschedule
+SCENARIO: reschedule
+GOAL: Move that Thursday 2pm appointment to sometime next week — a work trip came up. Late afternoon is best. Make sure you leave the call knowing the new day and time, and that the old one is cancelled.
+STARTED: 2026-08-17T21:15:23+00:00
+DURATION: 146.0s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:00] AGENT    This call may be recorded for quality and training purposes. Para Español, oprima el 2. Thanks for calling Pivot Point Orthopedics, part of Pretty Good AI. How may I help you today?
+[00:13] PATIENT  Hi, I need to reschedule an appointment I have this Thursday at 2 with Dr. Patel.
+[00:22] AGENT    I see you're calling from the number we have on file. Am I speaking with Daniel?
+[00:27] PATIENT  No, this is Karen Whitfield. I'm the patient.
+[00:33] AGENT    please provide your date of birth.
+[00:35] PATIENT  July 22nd, 1961.
+[00:43] AGENT    Just to confirm, I have your name as Karen Whitfield and your date of birth as July 22, 1961. Is that correct? If so, please spell your first and last name for me.
+[00:54] PATIENT  Yes, that’s correct. My first name is K-A-R-E-N, and my last name is W-H-I-T-F-I-E-L-D.
+[01:13] AGENT    Would you like me to look up your record using the phone number you have on file with us? If so, please provide that number. If you're not sure, I can confirm your name and date of birth again. Which would you prefer?
+[01:26] PATIENT  Use the phone number, please. It’s 805-555-0198.
+[01:36] AGENT    I have your phone number is 805-555-0198 and your day of birth is July 22nd, 1961, is that correct?
+[01:47] PATIENT  Yes, that’s correct. I’d like to move my Thursday 2 pm appointment to sometime next week, preferably late afternoon.
+[01:57] AGENT    I can't proceed further right now, but I can make sure our clinic support team follows up with you. Would you like me to connect you to our patient support team?
+[02:06] PATIENT  Yes, that would be great. Please connect me to the patient support team so we can reschedule and cancel the old time.
+[02:06] PATIENT  Okay,
+[02:13] AGENT    Transfer you now. Thank you
+[02:13] AGENT    Hello. You've reached the Pretty Good AI test line. Goodbye.
+[02:19] PATIENT  Alright, I guess I’ll have to try again later. Goodbye.
