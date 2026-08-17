@@ -1,0 +1,21 @@
+{
+  "scenario": "book_new",
+  "goal": "Book a routine physical. You're flexible: any weekday, mornings are easier because\nyou work afternoons. Get an actual day and time confirmed before you hang up, and\nask what you need to bring as a new patient.",
+  "probing": "Baseline happy path. Does it collect the right details, offer real slots, and confirm a specific date and time?",
+  "started_utc": "2026-08-17T21:08:19+00:00",
+  "call_sid": "CAf421b513b6f15b19fafe6752fd1e0d3a",
+  "stream_sid": "MZb26d0d91925b2a068404570640b4da7e",
+  "hangup_reason": "appointment booked for Tuesday August 18 at 10:30am with Dr. Kelly Noble; caller confirmed and ended call",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 125.6,
+  "turns": 14,
+  "errors": [
+    {
+      "type": "invalid_request_error",
+      "code": "response_cancel_not_active",
+      "message": "Cancellation failed: no active response found",
+      "param": null,
+      "event_id": null
+    }
+  ]
+}

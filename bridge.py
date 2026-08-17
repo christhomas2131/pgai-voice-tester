@@ -22,6 +22,7 @@ from pathlib import Path
 import websockets
 from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket
+from starlette.websockets import WebSocketDisconnect
 
 from scenarios import SCENARIOS, Scenario
 
@@ -32,12 +33,13 @@ CALLS_DIR = Path(__file__).parent / "calls"
 # Mutual silence handling. Their agent pauses, our bot waits for the pause to end,
 # nobody speaks. Nudge first, give up second.
 #
-# Tuned up from 10s after the first loopback run: a voice agent can genuinely take
-# 15-20s to come back on a lookup, and a premature "are you still there?" reads far
-# worse on a recording than simply waiting does.
-NUDGE_AFTER = 18.0
-HANGUP_AFTER = 35.0
-MAX_NUDGES = 2
+# Tuned against real calls, twice. The practice's agent routinely takes ~20s to
+# come back on a lookup, so 10s and then 18s both produced spurious "are you still
+# there?" turns on the recording. One late nudge beats two early ones: waiting
+# reads as patience, interrupting reads as a broken bot.
+NUDGE_AFTER = 28.0
+HANGUP_AFTER = 50.0
+MAX_NUDGES = 1
 
 # If Twilio never echoes our goodbye mark back, close anyway.
 DRAIN_TIMEOUT = 10.0
@@ -98,10 +100,19 @@ class CallLog:
     def elapsed(self) -> float:
         return time.monotonic() - self.t0
 
-    def add(self, speaker: str, text: str) -> None:
+    def add(self, speaker: str, text: str, at: float | None = None) -> None:
+        """Record a turn, stamped with when it was SPOKEN.
+
+        `at` matters. Transcripts resolve well after the audio they describe —
+        inbound speech has to be transcribed, outbound audio plays out after the
+        model finishes generating it. Stamping turns at the moment the event
+        arrives puts them in the wrong order, and produces transcripts where the
+        caller answers a question before it was asked.
+        """
         text = (text or "").strip()
         if text:
-            self.turns.append(Turn(round(self.elapsed(), 1), speaker, text))
+            when = self.elapsed() if at is None else at
+            self.turns.append(Turn(round(max(when, 0.0), 1), speaker, text))
 
     def event(self, ev: dict) -> None:
         """Full event firehose, minus the audio payloads. Debugging gold."""
@@ -114,6 +125,9 @@ class CallLog:
         self._events.flush()
 
     def close(self, ended: str) -> None:
+        # Turns are stamped with when they were spoken, but they arrive out of
+        # order because transcription lags speech by a variable amount.
+        self.turns.sort(key=lambda t: t.at)
         self.meta["ended_reason"] = ended
         self.meta["duration_seconds"] = round(self.elapsed(), 1)
         self.meta["turns"] = len(self.turns)
@@ -161,6 +175,10 @@ class State:
     # from when Twilio echoes the drain mark back, not from response.done.
     draining_since: float = 0.0
     marks: int = 0
+    # When the current turn's audio actually began, so transcripts can be stamped
+    # with speech time rather than transcription-completion time.
+    agent_turn_at: float = 0.0
+    bot_turn_at: float = 0.0
     nudges: int = 0
     hanging_up: bool = False
     ended: str = ""
@@ -215,18 +233,6 @@ def session_config(scenario: Scenario) -> dict:
             "tool_choice": "auto",
         },
     }
-
-
-def stream_path(scenario: str, out_dir: Path) -> str:
-    """Query string for the /ws route.
-
-    Lives here rather than in the callers because both run_calls.py and the
-    loopback harness need it escaped identically — the repo path contains spaces,
-    and an unescaped one produces a request line the server rejects outright.
-    """
-    from urllib.parse import quote
-
-    return f"/ws?scenario={quote(scenario)}&dir={quote(str(out_dir))}"
 
 
 async def open_realtime():
@@ -295,6 +301,8 @@ async def model_to_phone(phone: WebSocket, model, st: State, log: CallLog) -> st
         log.event(ev)
 
         if kind == "response.output_audio.delta":
+            if not st.bot_speaking:
+                st.bot_turn_at = log.elapsed()  # first audio of this turn
             st.bot_speaking = True
             await phone.send_json(
                 {
@@ -305,6 +313,7 @@ async def model_to_phone(phone: WebSocket, model, st: State, log: CallLog) -> st
             )
 
         elif kind == "input_audio_buffer.speech_started":
+            st.agent_turn_at = log.elapsed()
             # Their agent started talking. Flush whatever of ours is still queued
             # on the line, otherwise both voices play at once.
             if st.bot_speaking:
@@ -338,10 +347,10 @@ async def model_to_phone(phone: WebSocket, model, st: State, log: CallLog) -> st
                 st.bot_speaking = False
 
         elif kind == "conversation.item.input_audio_transcription.completed":
-            log.add("agent", ev.get("transcript", ""))
+            log.add("agent", ev.get("transcript", ""), at=st.agent_turn_at)
 
         elif kind == "response.output_audio_transcript.done":
-            log.add("patient", ev.get("transcript", ""))
+            log.add("patient", ev.get("transcript", ""), at=st.bot_turn_at)
 
         elif kind == "error":
             log.errors.append(ev.get("error", ev))
@@ -409,8 +418,10 @@ async def watchdog(model, st: State, scenario: Scenario) -> str:
                         "type": "response.create",
                         "response": {
                             "instructions": (
-                                "The line has gone quiet. Briefly and naturally "
-                                "check whether they're still there."
+                                "The line has gone quiet. You are the CALLER, not "
+                                "the receptionist — do not offer help or read "
+                                "anything back to them. Just check they're still "
+                                "there, in one short sentence, and stop."
                             )
                         },
                     }
@@ -430,19 +441,51 @@ async def health():
     return {"ok": True, "scenarios": sorted(SCENARIOS)}
 
 
+async def await_start(phone: WebSocket, timeout: float = 15.0) -> dict:
+    """Consume Twilio's opening frames and return the contents of 'start'.
+
+    Twilio sends 'connected' and then 'start'; anything the caller wants to hand
+    the stream arrives in start.customParameters. It is NOT available at handshake
+    time, because Twilio drops the query string from the <Stream> url — which
+    presents as a stream that connects and is instantly refused.
+    """
+    async with asyncio.timeout(timeout):
+        while True:
+            msg = json.loads(await phone.receive_text())
+            if msg.get("event") == "start":
+                return msg.get("start", {}) or {}
+
+
 @app.websocket("/ws")
 async def media_stream(phone: WebSocket):
     await phone.accept()
 
-    name = phone.query_params.get("scenario", "")
+    try:
+        start = await await_start(phone)
+    except (TimeoutError, WebSocketDisconnect, json.JSONDecodeError) as exc:
+        print(f"[bridge] no start frame: {type(exc).__name__}")
+        await phone.close(code=1002)
+        return
+
+    params = start.get("customParameters") or {}
+    # Query string is the fallback so the loopback harness and manual pokes at the
+    # endpoint keep working; Twilio itself always uses customParameters.
+    name = params.get("scenario") or phone.query_params.get("scenario", "")
     scenario = SCENARIOS.get(name)
     if scenario is None:
+        # Loud, because from Twilio's side this is indistinguishable from the
+        # bridge crashing: it just sees the server drop the connection.
+        print(f"[bridge] refusing stream: unknown scenario {name!r}")
         await phone.close(code=1008, reason=f"unknown scenario {name!r}")
         return
 
-    out_dir = Path(phone.query_params.get("dir") or CALLS_DIR / f"adhoc-{name}")
+    raw_dir = params.get("dir") or phone.query_params.get("dir")
+    out_dir = Path(raw_dir) if raw_dir else CALLS_DIR / f"adhoc-{name}"
     log = CallLog(scenario, out_dir)
     st = State()
+    st.stream_sid = start.get("streamSid", "")
+    log.meta["call_sid"] = start.get("callSid", "")
+    log.meta["stream_sid"] = st.stream_sid
     ended = "unknown"
 
     try:
@@ -475,7 +518,7 @@ async def media_stream(phone: WebSocket):
         log.close(ended)
         try:
             await phone.close()
-        except RuntimeError:
+        except (RuntimeError, WebSocketDisconnect):
             pass  # already gone
         print(f"[{out_dir.name}] {ended} — {len(log.turns)} turns, "
               f"{log.meta.get('duration_seconds')}s")

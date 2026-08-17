@@ -40,6 +40,10 @@ GAP_BETWEEN_CALLS = 8  # seconds, so we're not hammering their line
 DONE = {"completed", "failed", "busy", "no-answer", "canceled"}
 
 
+class TunnelError(RuntimeError):
+    """A tunnel failed to come up. Retryable."""
+
+
 # --------------------------------------------------------------------------- #
 # Plumbing
 # --------------------------------------------------------------------------- #
@@ -56,24 +60,36 @@ def next_call_dir(scenario: str) -> Path:
 
 
 def start_cloudflared(port: int) -> tuple[str, subprocess.Popen]:
-    """Cloudflare quick tunnel. Anonymous — no account, no authtoken."""
+    """Cloudflare quick tunnel. Anonymous — no account, no authtoken.
+
+    Waits for "Registered tunnel connection", not just for the URL. cloudflared
+    prints the hostname several seconds before the tunnel is actually registered
+    at the edge, and a call placed in that window reaches nothing.
+    """
     proc = subprocess.Popen(
         ["cloudflared", "tunnel", "--url", f"http://localhost:{port}"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,
         text=True,
     )
-    pattern = re.compile(r"https://[a-z0-9-]+\.trycloudflare\.com")
-    deadline = time.monotonic() + 30
+    # Quick tunnel hostnames are several dash-separated words. Must not match
+    # api.trycloudflare.com, which cloudflared prints in its own startup banner
+    # and which resolves perfectly well while serving none of your traffic.
+    pattern = re.compile(r"https://(?:[a-z0-9]+-){2,}[a-z0-9]+\.trycloudflare\.com")
+    url = ""
+    deadline = time.monotonic() + 40
     while time.monotonic() < deadline:
         line = proc.stderr.readline()
         if not line and proc.poll() is not None:
             break
-        found = pattern.search(line or "")
-        if found:
-            return found.group(0).replace("https://", "wss://"), proc
+        if not url:
+            found = pattern.search(line)
+            if found:
+                url = found.group(0)
+        if url and "Registered tunnel connection" in line:
+            return url.replace("https://", "wss://"), proc
     proc.terminate()
-    sys.exit("cloudflared never reported a tunnel URL.")
+    raise TunnelError("cloudflared never registered a tunnel connection")
 
 
 def start_ngrok(port: int) -> tuple[str, subprocess.Popen]:
@@ -94,37 +110,103 @@ def start_ngrok(port: int) -> tuple[str, subprocess.Popen]:
             pass
         time.sleep(0.5)
     proc.terminate()
-    sys.exit(
-        "ngrok started but never reported a public URL. Most likely it has no "
-        "authtoken: run `ngrok config add-authtoken <token>`, or install "
-        "cloudflared instead (`brew install cloudflared`), which needs no account."
+    raise TunnelError(
+        "ngrok never reported a public URL. Most likely the authtoken is wrong — "
+        "note that the dashboard shows both an API key (ng-...) and an authtoken, "
+        "and only the authtoken works here."
     )
 
 
-def open_tunnel(port: int) -> tuple[str, subprocess.Popen]:
-    # cloudflared first: quick tunnels are anonymous, ngrok requires a signup.
-    if shutil.which("cloudflared"):
-        return start_cloudflared(port)
-    if shutil.which("ngrok"):
-        return start_ngrok(port)
-    sys.exit(
-        "No tunnel available and PUBLIC_WSS_URL is not set.\n"
-        "Install one: `brew install cloudflared` (no account needed), or set "
-        "PUBLIC_WSS_URL in .env to your own public wss:// URL."
-    )
+def tunnel_is_reachable(
+    wss_url: str, timeout: float = 90.0, initial_delay: float = 8.0
+) -> str:
+    """Confirm the tunnel serves traffic from the public internet. '' if it does.
+
+    Without this check, an unregistered tunnel looks exactly like a bug in the
+    bridge: Twilio dials, reaches nothing, hangs up after about a second, and
+    reports a WebSocket error against your server.
+
+    The initial delay is load-bearing, not politeness. Probe before the hostname
+    is published and macOS caches the NXDOMAIN, after which every retry in this
+    loop fails from cache even once the record exists — the resolver, not the
+    tunnel, becomes the problem. (`host` appears to work throughout, because it
+    queries DNS directly and never consults the OS cache.) So: wait for the
+    record to exist before asking about it even once, then allow a window long
+    enough to outlast a negative TTL if we lose that race anyway.
+    """
+    health = wss_url.replace("wss://", "https://") + "/health"
+    time.sleep(initial_delay)
+    deadline = time.monotonic() + timeout
+    last = "no attempt made"
+    while time.monotonic() < deadline:
+        try:
+            with urllib.request.urlopen(health, timeout=5) as r:
+                if json.load(r).get("ok"):
+                    return ""
+            last = "/health did not report ok"
+        except Exception as exc:
+            last = f"{type(exc).__name__}: {exc}"
+        time.sleep(3.0)
+    return last
+
+
+def establish_tunnel(port: int, attempts: int = 3) -> tuple[str, subprocess.Popen]:
+    """Open a tunnel and don't return until traffic actually flows through it.
+
+    Quick tunnels fail to come up often enough that one attempt isn't enough, and
+    a dead tunnel costs a wasted phone call to discover.
+    """
+    # cloudflared first because quick tunnels need no account, but anonymous
+    # tunnels get rate limited, so fall through to ngrok rather than giving up.
+    tools = [
+        (name, fn)
+        for name, fn in (("cloudflared", start_cloudflared), ("ngrok", start_ngrok))
+        if shutil.which(name)
+    ]
+    if not tools:
+        sys.exit(
+            "No tunnel available and PUBLIC_WSS_URL is not set.\n"
+            "Install one: `brew install cloudflared` (no account needed), or set "
+            "PUBLIC_WSS_URL in .env to your own public wss:// URL."
+        )
+
+    last = ""
+    for tool, start in tools:
+        for attempt in range(1, attempts + 1):
+            try:
+                wss, proc = start(port)
+            except TunnelError as exc:
+                last = f"{tool}: {exc}"
+                print(f"  {tool} {attempt}/{attempts}: {exc}")
+                continue
+            problem = tunnel_is_reachable(wss)
+            if not problem:
+                return wss, proc
+            last = f"{tool}: {problem}"
+            print(f"  {tool} {attempt}/{attempts}: {wss} unreachable ({problem})")
+            proc.terminate()
+    sys.exit(f"Could not establish a working tunnel. Last error — {last}")
 
 
 def twiml_for(wss_url: str, scenario: str, out_dir: Path) -> str:
+    """Build the TwiML for one call.
+
+    Scenario and output directory travel as <Parameter> children, not as a query
+    string on the url. Twilio discards the query string, and the bridge then has
+    no idea which patient to play — it connects and is immediately refused.
+    """
     from xml.sax.saxutils import quoteattr
 
-    from bridge import stream_path
-
-    url = wss_url + stream_path(scenario, out_dir)
-    # quoteattr, not an f-string: TwiML is parsed as XML, so the & separating the
-    # query parameters has to be escaped or Twilio rejects the document.
+    params = "".join(
+        f"<Parameter name={quoteattr(k)} value={quoteattr(str(v))}/>"
+        for k, v in (("scenario", scenario), ("dir", out_dir))
+    )
     # <Connect> holds the call open for as long as the stream lives, which means
     # the bridge closing the socket is what ends the call.
-    return f"<Response><Connect><Stream url={quoteattr(url)}/></Connect></Response>"
+    return (
+        f"<Response><Connect><Stream url={quoteattr(wss_url + '/ws')}>"
+        f"{params}</Stream></Connect></Response>"
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -187,9 +269,13 @@ async def run(args) -> None:
     wss = args.public_url or os.getenv("PUBLIC_WSS_URL")
     if wss:
         print(f"Using tunnel from config: {wss}")
+        problem = await asyncio.to_thread(tunnel_is_reachable, wss)
+        if problem:
+            sys.exit(f"{wss} is not reachable from the public internet ({problem})")
     else:
-        wss, ngrok = open_tunnel(port)
-        print(f"Opened tunnel: {wss}")
+        print("Opening tunnel...")
+        wss, ngrok = await asyncio.to_thread(establish_tunnel, port)
+        print(f"Tunnel up and reachable: {wss}")
 
     print(f"Calling {TARGET} from {from_number} — {len(names)} scenario(s)\n")
 

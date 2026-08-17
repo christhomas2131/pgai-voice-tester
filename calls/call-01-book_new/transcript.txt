@@ -1,0 +1,21 @@
+CALL: call-01-book_new
+SCENARIO: book_new
+GOAL: Book a routine physical. You're flexible: any weekday, mornings are easier because you work afternoons. Get an actual day and time confirmed before you hang up, and ask what you need to bring as a new patient.
+STARTED: 2026-08-17T21:08:19+00:00
+DURATION: 125.6s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:07] AGENT    Esta llamada puede ser grabada para propósitos de calidad y entrenamiento.
+[00:07] PATIENT  Hi, I’m calling to
+[00:16] PATIENT  Daniel Reyes.
+[00:17] AGENT    Thank you for calling Pivot Point Orthopedics. Would you like to create a demo patient profile? I just need your first and last name to get started.
+[00:32] AGENT    Your patient profile is set up and your date of birth is July 4th, 2000 for demo purposes. How may I help you today?
+[00:32] PATIENT  I’m actually March 4th, 1988, just to correct that. I’d like to book a routine physical. Mornings are easiest for me.
+[00:52] PATIENT  Yes, that’s right. Just a general routine physical.
+[00:53] AGENT    You'd like to book a routine physical, just to confirm this would be a general office visit for routine care. Is that right?
+[01:08] PATIENT  10:30 with Dr. Kelly Noble works for me.
+[01:09] AGENT    We have morning openings for a routine physical on Tuesday, August 18th. Would you like 10 30 a.m with Dr. Kelly Noble or Dr. Zbigniew Likoski?
+[01:32] PATIENT  Hey, are you still there? I’ve got you down for 10:30 with Dr. Kelly Noble if you’re still on the line, and I can help with anything else before we wrap up.
+[01:34] AGENT    Your appointment is set for Tuesday, August 18th at 1030 a.m. with Dr. Kelly Noble at Pivot Point Orthopedics. Please bring your photo ID, insurance card, a list of current medications, and any imaging discs if you have them.
+[01:36] PATIENT  Okay, thanks for confirming everything. Let me just wrap this up with you.
+[01:36] PATIENT  Perfect, that’s all I needed. I’ll see you Tuesday at 10:30, and I’ll bring those items. Thanks, have a good day.

@@ -1,0 +1,72 @@
+[
+  {
+    "at": 7.3,
+    "speaker": "agent",
+    "text": "Esta llamada puede ser grabada para prop\u00f3sitos de calidad y entrenamiento."
+  },
+  {
+    "at": 7.6,
+    "speaker": "patient",
+    "text": "Hi, I\u2019m calling to"
+  },
+  {
+    "at": 16.8,
+    "speaker": "patient",
+    "text": "Daniel Reyes."
+  },
+  {
+    "at": 17.8,
+    "speaker": "agent",
+    "text": "Thank you for calling Pivot Point Orthopedics. Would you like to create a demo patient profile? I just need your first and last name to get started."
+  },
+  {
+    "at": 32.5,
+    "speaker": "agent",
+    "text": "Your patient profile is set up and your date of birth is July 4th, 2000 for demo purposes. How may I help you today?"
+  },
+  {
+    "at": 32.9,
+    "speaker": "patient",
+    "text": "I\u2019m actually March 4th, 1988, just to correct that. I\u2019d like to book a routine physical. Mornings are easiest for me."
+  },
+  {
+    "at": 52.7,
+    "speaker": "patient",
+    "text": "Yes, that\u2019s right. Just a general routine physical."
+  },
+  {
+    "at": 53.0,
+    "speaker": "agent",
+    "text": "You'd like to book a routine physical, just to confirm this would be a general office visit for routine care. Is that right?"
+  },
+  {
+    "at": 68.4,
+    "speaker": "patient",
+    "text": "10:30 with Dr. Kelly Noble works for me."
+  },
+  {
+    "at": 69.0,
+    "speaker": "agent",
+    "text": "We have morning openings for a routine physical on Tuesday, August 18th. Would you like 10 30 a.m with Dr. Kelly Noble or Dr. Zbigniew Likoski?"
+  },
+  {
+    "at": 92.4,
+    "speaker": "patient",
+    "text": "Hey, are you still there? I\u2019ve got you down for 10:30 with Dr. Kelly Noble if you\u2019re still on the line, and I can help with anything else before we wrap up."
+  },
+  {
+    "at": 94.4,
+    "speaker": "agent",
+    "text": "Your appointment is set for Tuesday, August 18th at 1030 a.m. with Dr. Kelly Noble at Pivot Point Orthopedics. Please bring your photo ID, insurance card, a list of current medications, and any imaging discs if you have them."
+  },
+  {
+    "at": 96.5,
+    "speaker": "patient",
+    "text": "Okay, thanks for confirming everything. Let me just wrap this up with you."
+  },
+  {
+    "at": 96.5,
+    "speaker": "patient",
+    "text": "Perfect, that\u2019s all I needed. I\u2019ll see you Tuesday at 10:30, and I\u2019ll bring those items. Thanks, have a good day."
+  }
+]

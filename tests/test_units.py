@@ -124,6 +124,27 @@ def test_transcript_is_ordered_labelled_and_stamped(tmp_path):
     assert meta["turns"] == 2
 
 
+def test_turns_are_ordered_by_when_they_were_spoken(tmp_path):
+    # Transcription lags speech, so events arrive out of order. A live call
+    # produced a transcript where the caller answered at 01:08 a question the
+    # agent only "asked" at 01:09. Turns must sort by speech time.
+    log = bridge.CallLog(SCENARIOS["book_new"], tmp_path)
+    log.add("patient", "10:30 with Dr. Noble works for me.", at=68.0)
+    log.add("agent", "Would you like 10:30 with Dr. Noble?", at=55.0)
+    log.close("done")
+
+    turns = json.loads((tmp_path / "transcript.json").read_text())
+    assert [t["speaker"] for t in turns] == ["agent", "patient"]
+    assert [t["at"] for t in turns] == [55.0, 68.0]
+
+
+def test_add_falls_back_to_now_when_no_timestamp_given(tmp_path):
+    log = bridge.CallLog(SCENARIOS["book_new"], tmp_path)
+    log.t0 -= 30
+    log.add("agent", "hello")
+    assert log.turns[0].at >= 30.0
+
+
 def test_event_log_strips_audio_payloads(tmp_path):
     log = bridge.CallLog(SCENARIOS["refill"], tmp_path)
     log.event({"type": "response.output_audio.delta", "delta": "A" * 4096})
@@ -135,31 +156,37 @@ def test_event_log_strips_audio_payloads(tmp_path):
 # --- twiml ------------------------------------------------------------------- #
 
 
-def test_twiml_wires_scenario_and_output_dir(tmp_path):
-    xml = run_calls.twiml_for("wss://x.ngrok.app", "closed_weekend", tmp_path / "call-01")
-    assert xml.startswith("<Response><Connect><Stream url=") and xml.endswith("/></Connect></Response>")
-    assert "scenario=closed_weekend" in xml
-    assert "wss://x.ngrok.app/ws?" in xml
-
-
-def test_twiml_is_valid_xml_with_two_query_params(tmp_path):
-    # A bare & between query parameters is not valid XML, and Twilio rejects the
-    # whole document. Parse it rather than trusting the string.
+def _stream_el(xml):
     from xml.etree import ElementTree
 
+    return ElementTree.fromstring(xml).find("Connect/Stream")
+
+
+def _params(xml):
+    return {p.attrib["name"]: p.attrib["value"] for p in _stream_el(xml).findall("Parameter")}
+
+
+def test_twiml_is_valid_xml(tmp_path):
     xml = run_calls.twiml_for("wss://x.ngrok.app", "refill", tmp_path / "call-01")
-    url = ElementTree.fromstring(xml).find("Connect/Stream").attrib["url"]
-    assert "scenario=refill" in url and "dir=" in url
+    assert _stream_el(xml) is not None
 
 
-def test_twiml_escapes_paths_with_spaces(tmp_path):
-    # The repo lives under "Automata Projects - Mac" — an unescaped space here
-    # produces TwiML Twilio silently refuses to parse.
-    from xml.etree import ElementTree
+def test_twiml_passes_scenario_as_a_parameter_not_a_query_string(tmp_path):
+    # Twilio drops the query string from the Stream url. Put the scenario there
+    # and the bridge connects, finds no scenario, and refuses the stream — which
+    # from Twilio's side looks like the server crashing.
+    xml = run_calls.twiml_for("wss://x.ngrok.app", "closed_weekend", tmp_path / "call-01")
+    assert _stream_el(xml).attrib["url"] == "wss://x.ngrok.app/ws"
+    assert "?" not in _stream_el(xml).attrib["url"]
+    assert _params(xml)["scenario"] == "closed_weekend"
 
-    xml = run_calls.twiml_for("wss://x.ngrok.app", "refill", tmp_path / "a b" / "c")
-    url = ElementTree.fromstring(xml).find("Connect/Stream").attrib["url"]
-    assert " " not in url
+
+def test_twiml_carries_the_output_dir_verbatim_including_spaces(tmp_path):
+    # The repo lives under "Automata Projects - Mac". As an XML attribute the
+    # space is fine, but it must survive the round trip unmangled.
+    target = tmp_path / "a b" / "c"
+    xml = run_calls.twiml_for("wss://x.ngrok.app", "refill", target)
+    assert _params(xml)["dir"] == str(target)
 
 
 def test_call_dirs_increment(tmp_path, monkeypatch):

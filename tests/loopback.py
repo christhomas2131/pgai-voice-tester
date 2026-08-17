@@ -35,7 +35,7 @@ import uvicorn  # noqa: E402
 import websockets  # noqa: E402
 from dotenv import load_dotenv  # noqa: E402
 
-from bridge import open_realtime, stream_path, vad_config  # noqa: E402
+from bridge import open_realtime, vad_config  # noqa: E402
 from scenarios import ORDER, SCENARIOS  # noqa: E402
 
 load_dotenv()
@@ -161,7 +161,10 @@ async def loopback(name: str) -> Path:
     while not server.started:
         await asyncio.sleep(0.05)
 
-    url = f"ws://127.0.0.1:{port}" + stream_path(name, out_dir)
+    # Bare /ws with the scenario in customParameters, exactly as Twilio does it.
+    # The harness used to pass a query string instead, which is precisely why it
+    # failed to catch Twilio dropping the query string on the first live call.
+    url = f"ws://127.0.0.1:{port}/ws"
     print(f"loopback: {name} -> {out_dir}")
 
     try:
@@ -203,6 +206,10 @@ async def loopback(name: str) -> Path:
                         "start": {
                             "streamSid": "MZloopback",
                             "callSid": "CAloopback",
+                            "customParameters": {
+                                "scenario": name,
+                                "dir": str(out_dir),
+                            },
                             "mediaFormat": {
                                 "encoding": "audio/x-mulaw",
                                 "sampleRate": 8000,
