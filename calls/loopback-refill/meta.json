@@ -1,0 +1,13 @@
+{
+  "scenario": "refill",
+  "goal": "Get the lisinopril refill sent to that CVS. Mention you're nearly out. Find out how\nlong it'll take and whether you need to be seen before they'll refill it.",
+  "probing": "Refill workflow. Does it capture drug/dose/pharmacy correctly, set a realistic timeline, and avoid promising a refill it can't authorise?",
+  "started_utc": "2026-08-17T20:39:01+00:00",
+  "call_sid": "CAloopback",
+  "stream_sid": "MZloopback",
+  "hangup_reason": "Refill request submitted; patient informed of expected 1-2 business day turnaround and possible need for appointment if provider requires it.",
+  "ended_reason": "bot_hung_up",
+  "duration_seconds": 105.7,
+  "turns": 10,
+  "errors": []
+}

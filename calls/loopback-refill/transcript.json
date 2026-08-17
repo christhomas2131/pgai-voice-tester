@@ -1,0 +1,52 @@
+[
+  {
+    "at": 8.7,
+    "speaker": "agent",
+    "text": "Good morning, Lakeside Family Medicine. This is Denise at the front desk. How can I help you today?"
+  },
+  {
+    "at": 10.3,
+    "speaker": "patient",
+    "text": "Hi, I\u2019m calling to request a refill for my lisinopril. I\u2019m getting close to running out."
+  },
+  {
+    "at": 25.1,
+    "speaker": "patient",
+    "text": "Priya Nair, and my date of birth is January 30th, 1980."
+  },
+  {
+    "at": 25.2,
+    "speaker": "agent",
+    "text": "Okay, I can help with that. Please tell me your full name and date of birth so I can pull up your chart."
+  },
+  {
+    "at": 45.9,
+    "speaker": "agent",
+    "text": "Thanks, CREA. Let me check your chart and see what we can do about that refill. Got it. I'll send a refill request to the provider. Which pharmacy should we use? Name and location, please?"
+  },
+  {
+    "at": 46.0,
+    "speaker": "patient",
+    "text": "CVS on Main Street. The phone number is 805-555-0173."
+  },
+  {
+    "at": 72.1,
+    "speaker": "agent",
+    "text": "Perfect! CBS on Main Street at 805-555-0173. I've added that to the request. Your provider will review it and the pharmacy will reach out when it's ready. If anything changes, we'll give you a call."
+  },
+  {
+    "at": 72.8,
+    "speaker": "patient",
+    "text": "Okay, thanks. Do you have a sense of how long it usually takes, and if I need to be seen before they\u2019ll refill it? I\u2019ve only got about four pills left."
+  },
+  {
+    "at": 100.6,
+    "speaker": "agent",
+    "text": "Usually, it's about one to two business days, but it can vary a bit by provider and pharmacy. If they need to see you first, we'll contact you to set that up, so keep an ear out. And you should be okay with four left. If you're down to the last one or two, call us again."
+  },
+  {
+    "at": 101.1,
+    "speaker": "patient",
+    "text": "Okay, thanks for walking through that with me. I appreciate it."
+  }
+]

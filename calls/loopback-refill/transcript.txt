@@ -1,0 +1,17 @@
+CALL: loopback-refill
+SCENARIO: refill
+GOAL: Get the lisinopril refill sent to that CVS. Mention you're nearly out. Find out how long it'll take and whether you need to be seen before they'll refill it.
+STARTED: 2026-08-17T20:39:01+00:00
+DURATION: 105.7s
+ENDED: bot_hung_up
+------------------------------------------------------------------------------
+[00:08] AGENT    Good morning, Lakeside Family Medicine. This is Denise at the front desk. How can I help you today?
+[00:10] PATIENT  Hi, I’m calling to request a refill for my lisinopril. I’m getting close to running out.
+[00:25] PATIENT  Priya Nair, and my date of birth is January 30th, 1980.
+[00:25] AGENT    Okay, I can help with that. Please tell me your full name and date of birth so I can pull up your chart.
+[00:45] AGENT    Thanks, CREA. Let me check your chart and see what we can do about that refill. Got it. I'll send a refill request to the provider. Which pharmacy should we use? Name and location, please?
+[00:46] PATIENT  CVS on Main Street. The phone number is 805-555-0173.
+[01:12] AGENT    Perfect! CBS on Main Street at 805-555-0173. I've added that to the request. Your provider will review it and the pharmacy will reach out when it's ready. If anything changes, we'll give you a call.
+[01:12] PATIENT  Okay, thanks. Do you have a sense of how long it usually takes, and if I need to be seen before they’ll refill it? I’ve only got about four pills left.
+[01:40] AGENT    Usually, it's about one to two business days, but it can vary a bit by provider and pharmacy. If they need to see you first, we'll contact you to set that up, so keep an ear out. And you should be okay with four left. If you're down to the last one or two, call us again.
+[01:41] PATIENT  Okay, thanks for walking through that with me. I appreciate it.

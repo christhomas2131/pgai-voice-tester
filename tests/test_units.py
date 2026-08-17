@@ -77,9 +77,27 @@ def test_vad_type_switches(monkeypatch):
     monkeypatch.setenv("VAD_TYPE", "semantic_vad")
     assert bridge.vad_config()["type"] == "semantic_vad"
     monkeypatch.setenv("VAD_TYPE", "server_vad")
-    cfg = bridge.vad_config()
-    assert cfg["type"] == "server_vad"
-    assert cfg["silence_duration_ms"] == 500
+    assert bridge.vad_config()["type"] == "server_vad"
+
+
+def test_vad_silence_is_long_enough_for_a_mid_sentence_pause(monkeypatch):
+    # 500 ms chopped one agent turn into four in the first loopback run.
+    monkeypatch.delenv("VAD_SILENCE_MS", raising=False)
+    monkeypatch.setenv("VAD_TYPE", "server_vad")
+    assert bridge.vad_config()["silence_duration_ms"] >= 800
+
+
+def test_vad_silence_is_overridable(monkeypatch):
+    monkeypatch.setenv("VAD_TYPE", "server_vad")
+    monkeypatch.setenv("VAD_SILENCE_MS", "1200")
+    assert bridge.vad_config()["silence_duration_ms"] == 1200
+
+
+def test_watchdog_waits_longer_than_an_agent_lookup():
+    # A voice agent doing a lookup can take 15-20s. Nudging sooner than that puts
+    # a spurious "are you still there?" on the recording.
+    assert bridge.NUDGE_AFTER >= 15
+    assert bridge.HANGUP_AFTER > bridge.NUDGE_AFTER
 
 
 # --- transcript -------------------------------------------------------------- #
@@ -155,24 +173,51 @@ def test_call_dirs_increment(tmp_path, monkeypatch):
 # --- paced relay ------------------------------------------------------------- #
 
 
-def test_paced_relay_emits_twilio_sized_frames():
-    from tests.loopback import FRAME_BYTES, PacedRelay
+def _relay_run(feed_bytes, seconds):
+    from tests.loopback import PacedRelay
 
     sent = []
 
+    async def collect(payload):
+        sent.append(base64.b64decode(payload))
+
     async def scenario():
-        relay = PacedRelay(lambda p: _collect(sent, p))
+        relay = PacedRelay(collect)
         relay.start()
-        relay.feed(base64.b64encode(b"\xff" * (FRAME_BYTES * 3)).decode())
-        await asyncio.sleep(0.15)
+        if feed_bytes:
+            relay.feed(base64.b64encode(feed_bytes).decode())
+        await asyncio.sleep(seconds)
         relay.stop()
 
-    async def _collect(dest, payload):
-        dest.append(payload)
-
     asyncio.run(scenario())
-    assert len(sent) == 3
-    assert all(len(base64.b64decode(p)) == FRAME_BYTES for p in sent)
+    return sent
+
+
+def test_paced_relay_emits_twilio_sized_frames():
+    from tests.loopback import FRAME_BYTES
+
+    sent = _relay_run(b"\x01" * (FRAME_BYTES * 3), 0.15)
+    assert all(len(f) == FRAME_BYTES for f in sent)
+    # The three fed frames come out intact and in order.
+    assert b"".join(sent).startswith(b"\x01" * (FRAME_BYTES * 3))
+
+
+def test_paced_relay_keeps_the_line_open_when_idle():
+    # A real phone line carries silence frames. If the relay sends nothing while
+    # idle, the far end's VAD never sees a turn end and no transcript is produced
+    # — the bug that made the first loopback run silent.
+    from tests.loopback import FRAME_BYTES, SILENCE
+
+    sent = _relay_run(b"", 0.15)
+    assert len(sent) >= 4, "relay went quiet instead of sending silence"
+    assert all(f == SILENCE * FRAME_BYTES for f in sent)
+
+
+def test_paced_relay_pads_a_short_tail_rather_than_stalling():
+    from tests.loopback import FRAME_BYTES, SILENCE
+
+    sent = _relay_run(b"\x02" * 40, 0.08)
+    assert sent[0] == b"\x02" * 40 + SILENCE * (FRAME_BYTES - 40)
 
 
 def test_paced_relay_clear_drops_queued_audio():
@@ -188,7 +233,7 @@ def test_paced_relay_clear_drops_queued_audio():
 # --- watchdog ---------------------------------------------------------------- #
 
 
-@pytest.mark.parametrize("quiet,expect_nudge", [(5, False), (12, True)])
+@pytest.mark.parametrize("quiet,expect_nudge", [(5, False), (bridge.NUDGE_AFTER + 2, True)])
 def test_watchdog_nudges_only_after_silence(quiet, expect_nudge, monkeypatch):
     sent = []
 

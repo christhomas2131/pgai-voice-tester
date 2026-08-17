@@ -31,8 +31,12 @@ CALLS_DIR = Path(__file__).parent / "calls"
 
 # Mutual silence handling. Their agent pauses, our bot waits for the pause to end,
 # nobody speaks. Nudge first, give up second.
-NUDGE_AFTER = 10.0
-HANGUP_AFTER = 25.0
+#
+# Tuned up from 10s after the first loopback run: a voice agent can genuinely take
+# 15-20s to come back on a lookup, and a premature "are you still there?" reads far
+# worse on a recording than simply waiting does.
+NUDGE_AFTER = 18.0
+HANGUP_AFTER = 35.0
 MAX_NUDGES = 2
 
 # If Twilio never echoes our goodbye mark back, close anyway.
@@ -152,6 +156,11 @@ class State:
     last_activity: float = field(default_factory=time.monotonic)
     bot_speaking: bool = False
     response_active: bool = False
+    # response.done means the model finished *generating*. Our audio is still
+    # playing out over the phone for a while after that, so silence is measured
+    # from when Twilio echoes the drain mark back, not from response.done.
+    draining_since: float = 0.0
+    marks: int = 0
     nudges: int = 0
     hanging_up: bool = False
     ended: str = ""
@@ -161,15 +170,24 @@ class State:
 
 
 def vad_config() -> dict:
+    """When to decide the other party has finished talking.
+
+    This is the single most consequential setting in the project. Too short and
+    you cut them off mid-sentence, reply to half a thought, then talk over the
+    rest — the first loopback run at 500 ms did exactly that, chopping one agent
+    turn into four and making our patient repeat itself. Too long and the call
+    fills with dead air. 900 ms clears the ordinary mid-sentence pause.
+    """
     if os.getenv("VAD_TYPE", "server_vad") == "semantic_vad":
-        return {"type": "semantic_vad", "eagerness": "medium"}
+        return {
+            "type": "semantic_vad",
+            "eagerness": os.getenv("VAD_EAGERNESS", "medium"),
+        }
     return {
         "type": "server_vad",
         "threshold": 0.5,
         "prefix_padding_ms": 200,
-        # Short, because we're talking to another machine that pauses cleanly.
-        # Long silences here read as awkward dead air on the recording.
-        "silence_duration_ms": 500,
+        "silence_duration_ms": int(os.getenv("VAD_SILENCE_MS", "900")),
     }
 
 
@@ -197,6 +215,18 @@ def session_config(scenario: Scenario) -> dict:
             "tool_choice": "auto",
         },
     }
+
+
+def stream_path(scenario: str, out_dir: Path) -> str:
+    """Query string for the /ws route.
+
+    Lives here rather than in the callers because both run_calls.py and the
+    loopback harness need it escaped identically — the repo path contains spaces,
+    and an unescaped one produces a request line the server rejects outright.
+    """
+    from urllib.parse import quote
+
+    return f"/ws?scenario={quote(scenario)}&dir={quote(str(out_dir))}"
 
 
 async def open_realtime():
@@ -241,9 +271,15 @@ async def phone_to_model(phone: WebSocket, model, st: State, log: CallLog) -> st
 
         elif event == "mark":
             # Twilio echoes a mark once everything queued before it has played.
-            # Our goodbye is out on the wire, so it's safe to drop the call.
-            if msg.get("mark", {}).get("name") == "goodbye":
+            name = msg.get("mark", {}).get("name", "")
+            if name == "goodbye":
                 return "bot_hung_up"
+            if name.startswith("drain-"):
+                # Our last turn has actually finished playing. Only now is the
+                # line genuinely quiet, so only now does the silence clock start.
+                st.bot_speaking = False
+                st.draining_since = 0.0
+                st.touch()
 
         elif event == "stop":
             return "far_end_hung_up"
@@ -287,8 +323,19 @@ async def model_to_phone(phone: WebSocket, model, st: State, log: CallLog) -> st
 
         elif kind in ("response.done", "response.cancelled"):
             st.response_active = False
-            st.bot_speaking = False
             st.touch()
+            if st.bot_speaking and st.stream_sid:
+                st.marks += 1
+                st.draining_since = time.monotonic()
+                await phone.send_json(
+                    {
+                        "event": "mark",
+                        "streamSid": st.stream_sid,
+                        "mark": {"name": f"drain-{st.marks}"},
+                    }
+                )
+            else:
+                st.bot_speaking = False
 
         elif kind == "conversation.item.input_audio_transcription.completed":
             log.add("agent", ev.get("transcript", ""))
@@ -339,6 +386,13 @@ async def watchdog(model, st: State, scenario: Scenario) -> str:
             if now - st.last_activity > DRAIN_TIMEOUT:
                 return "hangup_drain_timeout"
             continue
+
+        # A mark that never comes back would wedge the call open until the hard
+        # duration cap. Assume drained after a while and carry on.
+        if st.draining_since and now - st.draining_since > DRAIN_TIMEOUT * 3:
+            st.bot_speaking = False
+            st.draining_since = 0.0
+            st.touch()
 
         if st.bot_speaking or st.response_active:
             continue

@@ -25,6 +25,7 @@ import json
 import os
 import socket
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,13 +35,14 @@ import uvicorn  # noqa: E402
 import websockets  # noqa: E402
 from dotenv import load_dotenv  # noqa: E402
 
-from bridge import open_realtime, vad_config  # noqa: E402
+from bridge import open_realtime, stream_path, vad_config  # noqa: E402
 from scenarios import ORDER, SCENARIOS  # noqa: E402
 
 load_dotenv()
 
 FRAME_BYTES = 160  # 20 ms of 8 kHz u-law
 FRAME_SECONDS = 0.02
+SILENCE = b"\xff"  # u-law zero amplitude
 
 RECEPTIONIST = """\
 You are Denise, the front desk receptionist at Lakeside Family Medicine, a small
@@ -51,9 +53,10 @@ The practice: two doctors, Dr. Patel and Dr. Okonkwo. Weekdays 8am to 5pm, close
 Saturday and Sunday. One office, on Anacapa Street, with a small lot behind the
 building. You take most major insurance.
 
-How you talk: warm, brisk, one or two sentences at a time. You ask for name and
-date of birth before booking anything. You offer specific times ("I have Tuesday
-at 9:15 or Wednesday at 2").
+How you talk: warm and brisk. One or two sentences per turn, never more than
+three — you're on a phone, not writing an email. Ask one question at a time and
+wait for the answer. You ask for name and date of birth before booking anything.
+You offer specific times ("I have Tuesday at 9:15 or Wednesday at 2").
 
 You are not perfect, and that is fine — do not try to be an ideal agent. In
 particular: if a caller asks for a weekend appointment, just book it like any
@@ -71,7 +74,14 @@ def free_port() -> int:
 
 
 class PacedRelay:
-    """Buffers u-law bytes and emits Twilio-sized frames on a real-time clock."""
+    """Buffers u-law bytes and emits Twilio-sized frames on a real-time clock.
+
+    Emits silence when there's nothing to say. That is not padding for neatness —
+    a real phone line never goes quiet, it carries silence frames, and server-side
+    VAD needs to *hear* that silence to decide a turn has ended. Send nothing and
+    the far end's turn never closes: speech_started fires, speech_stopped never
+    does, and no transcript is ever produced.
+    """
 
     def __init__(self, send):
         self.send = send
@@ -92,12 +102,21 @@ class PacedRelay:
             self._task.cancel()
 
     async def _pump(self) -> None:
+        # Absolute deadlines, not sleep(0.02) in a loop: per-iteration overhead
+        # compounds over a two-minute call and the whole conversation drifts out
+        # of real time, which is the one thing this harness exists to reproduce.
+        next_at = time.monotonic()
         while True:
-            await asyncio.sleep(FRAME_SECONDS)
-            if len(self.buf) < FRAME_BYTES:
-                continue
-            frame = bytes(self.buf[:FRAME_BYTES])
-            del self.buf[:FRAME_BYTES]
+            next_at += FRAME_SECONDS
+            await asyncio.sleep(max(0.0, next_at - time.monotonic()))
+            if len(self.buf) >= FRAME_BYTES:
+                frame = bytes(self.buf[:FRAME_BYTES])
+                del self.buf[:FRAME_BYTES]
+            elif self.buf:
+                frame = bytes(self.buf) + SILENCE * (FRAME_BYTES - len(self.buf))
+                self.buf.clear()
+            else:
+                frame = SILENCE * FRAME_BYTES
             await self.send(base64.b64encode(frame).decode())
 
 
@@ -142,7 +161,7 @@ async def loopback(name: str) -> Path:
     while not server.started:
         await asyncio.sleep(0.05)
 
-    url = f"ws://127.0.0.1:{port}/ws?scenario={name}&dir={out_dir}"
+    url = f"ws://127.0.0.1:{port}" + stream_path(name, out_dir)
     print(f"loopback: {name} -> {out_dir}")
 
     try:
@@ -194,12 +213,29 @@ async def loopback(name: str) -> Path:
                 )
             )
 
+            recept_speaking = False
+
             async def pump_receptionist() -> None:
+                nonlocal recept_speaking
                 async for raw in recept:
                     ev = json.loads(raw)
-                    if ev.get("type") == "response.output_audio.delta":
+                    kind = ev.get("type")
+
+                    if kind == "response.output_audio.delta":
                         up.feed(ev["delta"])
-                    elif ev.get("type") == "error":
+                    elif kind == "response.created":
+                        recept_speaking = True
+                    elif kind in ("response.done", "response.cancelled"):
+                        recept_speaking = False
+                    elif kind == "input_audio_buffer.speech_started":
+                        # The receptionist needs the same barge-in behaviour a real
+                        # voice agent has. Without it, it queues a fresh reply for
+                        # every interruption and the paced relay ends up minutes
+                        # behind — which looks exactly like catastrophic latency.
+                        up.clear()
+                        if recept_speaking:
+                            await recept.send(json.dumps({"type": "response.cancel"}))
+                    elif kind == "error":
                         print("  receptionist error:", ev.get("error"))
 
             async def pump_bridge() -> None:

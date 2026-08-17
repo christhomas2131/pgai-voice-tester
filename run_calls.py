@@ -15,9 +15,11 @@ import argparse
 import asyncio
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -53,14 +55,29 @@ def next_call_dir(scenario: str) -> Path:
     return d
 
 
+def start_cloudflared(port: int) -> tuple[str, subprocess.Popen]:
+    """Cloudflare quick tunnel. Anonymous — no account, no authtoken."""
+    proc = subprocess.Popen(
+        ["cloudflared", "tunnel", "--url", f"http://localhost:{port}"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    pattern = re.compile(r"https://[a-z0-9-]+\.trycloudflare\.com")
+    deadline = time.monotonic() + 30
+    while time.monotonic() < deadline:
+        line = proc.stderr.readline()
+        if not line and proc.poll() is not None:
+            break
+        found = pattern.search(line or "")
+        if found:
+            return found.group(0).replace("https://", "wss://"), proc
+    proc.terminate()
+    sys.exit("cloudflared never reported a tunnel URL.")
+
+
 def start_ngrok(port: int) -> tuple[str, subprocess.Popen]:
     """Open a tunnel and read the public URL back out of ngrok's local API."""
-    if not shutil.which("ngrok"):
-        sys.exit(
-            "ngrok is not installed and PUBLIC_WSS_URL is not set.\n"
-            "Either `brew install ngrok && ngrok config add-authtoken <token>`, "
-            "or put a public wss:// URL in .env as PUBLIC_WSS_URL."
-        )
     proc = subprocess.Popen(
         ["ngrok", "http", str(port), "--log", "stdout"],
         stdout=subprocess.DEVNULL,
@@ -75,18 +92,34 @@ def start_ngrok(port: int) -> tuple[str, subprocess.Popen]:
                     return t["public_url"].replace("https://", "wss://"), proc
         except Exception:
             pass
-        import time
-
         time.sleep(0.5)
     proc.terminate()
-    sys.exit("ngrok started but never reported a public URL. Check `ngrok http 8080`.")
+    sys.exit(
+        "ngrok started but never reported a public URL. Most likely it has no "
+        "authtoken: run `ngrok config add-authtoken <token>`, or install "
+        "cloudflared instead (`brew install cloudflared`), which needs no account."
+    )
+
+
+def open_tunnel(port: int) -> tuple[str, subprocess.Popen]:
+    # cloudflared first: quick tunnels are anonymous, ngrok requires a signup.
+    if shutil.which("cloudflared"):
+        return start_cloudflared(port)
+    if shutil.which("ngrok"):
+        return start_ngrok(port)
+    sys.exit(
+        "No tunnel available and PUBLIC_WSS_URL is not set.\n"
+        "Install one: `brew install cloudflared` (no account needed), or set "
+        "PUBLIC_WSS_URL in .env to your own public wss:// URL."
+    )
 
 
 def twiml_for(wss_url: str, scenario: str, out_dir: Path) -> str:
-    from urllib.parse import quote
     from xml.sax.saxutils import quoteattr
 
-    url = f"{wss_url}/ws?scenario={quote(scenario)}&dir={quote(str(out_dir))}"
+    from bridge import stream_path
+
+    url = wss_url + stream_path(scenario, out_dir)
     # quoteattr, not an f-string: TwiML is parsed as XML, so the & separating the
     # query parameters has to be escaped or Twilio rejects the document.
     # <Connect> holds the call open for as long as the stream lives, which means
@@ -112,8 +145,6 @@ def place_call(client: Client, from_number: str, twiml: str) -> str:
 
 
 def wait_for_call(client: Client, sid: str, limit: int = 300) -> str:
-    import time
-
     for _ in range(limit):
         status = client.calls(sid).fetch().status
         if status in DONE:
@@ -157,8 +188,8 @@ async def run(args) -> None:
     if wss:
         print(f"Using tunnel from config: {wss}")
     else:
-        wss, ngrok = start_ngrok(port)
-        print(f"Opened ngrok tunnel: {wss}")
+        wss, ngrok = open_tunnel(port)
+        print(f"Opened tunnel: {wss}")
 
     print(f"Calling {TARGET} from {from_number} — {len(names)} scenario(s)\n")
 
