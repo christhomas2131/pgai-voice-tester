@@ -15,7 +15,7 @@ from pathlib import Path
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt, RGBColor
+from docx.shared import Inches, Pt, RGBColor
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULTS = ["README.md", "ARCHITECTURE.md", "BUGS.md"]
@@ -85,11 +85,28 @@ def is_divider(line: str) -> bool:
     return bool(re.fullmatch(r"\|?[\s:|-]+\|?", line.strip())) and "-" in line
 
 
-def convert(md_path: Path) -> Path:
+def convert(md_path: Path, compact: bool = False) -> Path:
     doc = Document()
     style = doc.styles["Normal"]
     style.font.name = "Calibri"
-    style.font.size = Pt(11)
+    style.font.size = Pt(9.5 if compact else 11)
+
+    if compact:
+        # Squeeze onto one page: narrow margins, tight leading, no space between
+        # bullets, and headings that don't claim a third of the page.
+        for section in doc.sections:
+            section.top_margin = section.bottom_margin = Inches(0.5)
+            section.left_margin = section.right_margin = Inches(0.6)
+        style.paragraph_format.space_after = Pt(1)
+        style.paragraph_format.line_spacing = 1.0
+        for name, size in (("Heading 1", 14), ("Heading 2", 11), ("Heading 3", 10)):
+            heading = doc.styles[name]
+            heading.font.size = Pt(size)
+            heading.paragraph_format.space_before = Pt(5)
+            heading.paragraph_format.space_after = Pt(2)
+        bullet = doc.styles["List Bullet"].paragraph_format
+        bullet.space_after = Pt(1)
+        bullet.line_spacing = 1.0
 
     lines = md_path.read_text().splitlines()
     i = 0
@@ -142,7 +159,9 @@ def convert(md_path: Path) -> Path:
 
 
 def main() -> None:
-    targets = sys.argv[1:] or DEFAULTS
+    args = sys.argv[1:]
+    compact = "--compact" in args
+    targets = [a for a in args if not a.startswith("--")] or DEFAULTS
     for name in targets:
         path = Path(name)
         if not path.is_absolute():
@@ -150,7 +169,7 @@ def main() -> None:
         if not path.exists():
             print(f"skipped {path.name} (not found)")
             continue
-        out = convert(path)
+        out = convert(path, compact=compact)
         print(f"{path.name} -> {out.name} ({out.stat().st_size // 1024} KB)")
 
 
