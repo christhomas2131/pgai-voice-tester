@@ -26,18 +26,10 @@ bot saying goodbye and hanging up on its own; one hit the duration cap.
 ## Still yours
 
 - [ ] **Loom video 1** — project walkthrough, under 3 minutes, webcam on, your voice.
-- [ ] **Loom video 2** — you debugging with AI. Good material, in rough order of how
-      well it shows the loop:
-      1. The loopback harness went completely silent. The event log showed
-         `speech_started` with no `speech_stopped` — the relay sent nothing while
-         idle, but a real phone line carries silence frames and VAD needs to *hear*
-         the silence to close a turn.
-      2. First live call connected and was refused instantly. Twilio drops the query
-         string from `<Stream url>`, so the bridge never learned which scenario to
-         play. Fix: `<Parameter>` children, read from the `start` frame.
-      3. A transcript where the caller answers at 01:08 a question the agent asks at
-         01:09 — turns were stamped when the transcript resolved, not when the audio
-         was spoken.
+      Script: [LOOM1-WALKTHROUGH.md](LOOM1-WALKTHROUGH.md)
+- [ ] **Loom video 2** — you prompting AI to debug and fix the code.
+      Script: [LOOM2-DEBUGGING.md](LOOM2-DEBUGGING.md), which also explains how to
+      reproduce the bug live on camera in 20 seconds without placing a call.
 - [ ] **Both Looms set to public.**
 - [ ] **Push to a public GitHub repo.** Confirm `.env` is not in it:
       `git ls-files | grep -c '^\.env$'` should print `0`.
