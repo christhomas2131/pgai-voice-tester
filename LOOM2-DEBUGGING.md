@@ -7,20 +7,10 @@ Show the loop: symptom → hypothesis → evidence → fix → *then fix whateve
 have caught it*. One bug shown properly beats three summarised. Use the first live
 call: it died in one second and the error message blamed the wrong component.
 
-## Reproduce it live on camera, for free
-
-No phone call needed — the loopback harness reproduces the same class of failure in
-about 20 seconds. In `tests/loopback.py`, delete the `customParameters` block from
-the `start` frame, then:
-
-```bash
-python tests/loopback.py refill
-```
-
-The bridge prints `refusing stream: unknown scenario ''` and drops the connection —
-the same failure Twilio hit. Put the block back afterwards.
-
-## Beats
+**Reproduce it on camera, free:** delete the `customParameters` block from the
+`start` frame in `tests/loopback.py`, run `python tests/loopback.py refill`, and the
+bridge prints `refusing stream: unknown scenario ''` — the same failure Twilio hit,
+in 20 seconds and no phone call. Put the block back after.
 
 **0:00 · The symptom**
 - Placed my first real call. Twilio said `completed`. Duration: one second.
@@ -62,13 +52,8 @@ the same failure Twilio hit. Put the block back afterwards.
 - Every wrong turn came from trusting a framing — Twilio's, then my own. Every fix
   came from making the system say what it was actually doing, and re-running.
 
-## Reference — other bugs the loop caught (not narrated)
-
-- **Silence frames:** harness went silent. Event log showed `speech_started` with no
-  `speech_stopped` — a real line always sends silence frames and VAD must *hear*
-  them to close a turn.
-- **Playback vs. generation:** silence was timed from `response.done`, which is when
-  the model stops generating, not when audio stops playing. The bot got interrupted
-  by its own watchdog mid-sentence.
-- **Transcript ordering:** a call where the caller answers at 01:08 a question asked
-  at 01:09. Turns were stamped when transcription resolved, not when speech happened.
+**If asked what else (not narrated):** silence frames — harness went quiet, event log
+showed `speech_started` with no `speech_stopped`, because a real line always sends
+silence and VAD must hear it to close a turn. Playback vs. generation — silence timed
+from `response.done`, so the watchdog cut the bot off mid-sentence. Transcript
+ordering — turns stamped when transcription resolved, not when speech happened.
