@@ -115,7 +115,12 @@ def add_hyperlink(paragraph, url: str, label: str, size: Pt) -> None:
 
 
 def add_inline(
-    paragraph, text: str, size: Pt, bold: bool = False, italic: bool = False
+    paragraph,
+    text: str,
+    size: Pt,
+    bold: bool = False,
+    italic: bool = False,
+    mono: bool = True,
 ) -> None:
     """Emit runs for one line of inline Markdown.
 
@@ -128,13 +133,12 @@ def add_inline(
             continue
         if piece.startswith("`") and piece.endswith("`"):
             run = paragraph.add_run(piece[1:-1])
-            run.font.name = MONO_FONT
-            run.font.size = Pt(size.pt - 1.0)
             run.bold = bold
+            run.italic = italic
         elif piece.startswith("**") and piece.endswith("**"):
-            add_inline(paragraph, piece[2:-2], size, bold=True, italic=italic)
+            add_inline(paragraph, piece[2:-2], size, bold=True, italic=italic, mono=mono)
         elif piece.startswith("*") and piece.endswith("*"):
-            add_inline(paragraph, piece[1:-1], size, bold=bold, italic=True)
+            add_inline(paragraph, piece[1:-1], size, bold=bold, italic=True, mono=mono)
         elif link := re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", piece):
             label, url = link.groups()
             if "://" in url:
@@ -142,7 +146,7 @@ def add_inline(
                 add_hyperlink(paragraph, url, label.replace("`", ""), size)
             else:  # in-repo path: show it, don't pretend it's clickable
                 start = len(paragraph.runs)
-                add_inline(paragraph, label, size, bold=bold, italic=italic)
+                add_inline(paragraph, label, size, bold=bold, italic=italic, mono=mono)
                 for run in paragraph.runs[start:]:
                     run.font.color.rgb = LINK
         else:
@@ -206,33 +210,93 @@ def add_rule(doc) -> None:
     add_border(p, "bottom")
 
 
+CHAR_W = 0.078  # inches per character, bold Calibri at body size
+CELL_PAD = 0.17
+
+
+def column_widths(rows: list[list[str]], total: float) -> list[float]:
+    """Widths that never break a word mid-way.
+
+    Sizing purely by total content length starved short-but-unbreakable headers:
+    a "Severity" column beside a column of prose came out narrow enough to
+    hyphenate "Critical" and "Medium" across two lines.
+    """
+    n = len(rows[0])
+    plain = [[re.sub(r"[`*]", "", c) for c in row] for row in rows]
+    floors = [
+        max(max((len(w) for w in cell.split()), default=1) for cell in col) * CHAR_W
+        + CELL_PAD
+        for col in zip(*plain)
+    ]
+    weights = [max(len(cell) for cell in col) for col in zip(*plain)]
+    widths = [
+        max(f, w / sum(weights) * total) for f, w in zip(floors, weights)
+    ]
+    # Reclaim any overflow from columns that have slack above their floor.
+    for _ in range(6):
+        over = sum(widths) - total
+        if over <= 0.01:
+            break
+        slack = [max(0.0, w - f) for w, f in zip(widths, floors)]
+        if sum(slack) <= 0.01:
+            break
+        widths = [w - over * s / sum(slack) for w, s in zip(widths, slack)]
+    return widths
+
+
 def add_table(doc, rows: list[list[str]], size: Pt) -> None:
     table = doc.add_table(rows=len(rows), cols=len(rows[0]))
     table.style = "Table Grid"
     table.alignment = WD_TABLE_ALIGNMENT.LEFT
     table.autofit = False
 
-    # Column widths proportional to content, so a "#" column stays narrow.
-    weights = [max(len(r[c]) for r in rows) for c in range(len(rows[0]))]
-    floor = 0.55 / (TEXT_WIDTH.inches)
-    share = [max(w / sum(weights), floor) for w in weights]
-    share = [s / sum(share) for s in share]
+    tblPr = table._tbl.tblPr
+    layout = OxmlElement("w:tblLayout")
+    layout.set(qn("w:type"), "fixed")
+    tblPr.append(layout)
+    margins = OxmlElement("w:tblCellMar")
+    for edge, twips in (("top", "40"), ("bottom", "40"), ("left", "90"), ("right", "90")):
+        el = OxmlElement(f"w:{edge}")
+        el.set(qn("w:w"), twips)
+        el.set(qn("w:type"), "dxa")
+        margins.append(el)
+    tblPr.append(margins)
+
+    widths = column_widths(rows, TEXT_WIDTH.inches)
+
+    grid = table._tbl.find(qn("w:tblGrid"))
+    if grid is not None:
+        table._tbl.remove(grid)
+    grid = OxmlElement("w:tblGrid")
+    for w in widths:
+        col = OxmlElement("w:gridCol")
+        col.set(qn("w:w"), str(int(w * 1440)))
+        grid.append(col)
+    table._tbl.insert(list(table._tbl).index(tblPr) + 1, grid)
 
     for r, row in enumerate(rows):
+        # Keep a row on one page. A finding row splitting across a page break left
+        # an orphan cell sitting under the repeated header.
+        trPr = table.rows[r]._tr.get_or_add_trPr()
+        trPr.append(OxmlElement("w:cantSplit"))
+        if r == 0:
+            trPr.append(OxmlElement("w:tblHeader"))  # repeat header across pages
+
         for c, text in enumerate(row):
             cell = table.cell(r, c)
-            cell.width = Inches(TEXT_WIDTH.inches * share[c])
+            cell.width = Inches(widths[c])
             p = cell.paragraphs[0]
-            p.paragraph_format.space_before = Pt(2)
-            p.paragraph_format.space_after = Pt(2)
-            add_inline(p, text, Pt(size.pt - 0.5))
+            fmt = p.paragraph_format
+            fmt.space_before = Pt(1)
+            fmt.space_after = Pt(1)
+            fmt.line_spacing = 1.0
+            # mono=False: monospace in a narrow cell is wide and clashes.
+            add_inline(p, text, Pt(size.pt - 0.5), mono=False)
             if r == 0:
                 shade_cell(cell, HEAD_BG)
                 for run in p.runs:
                     run.bold = True
-    # Repeat the header if the table breaks across pages.
-    trPr = table.rows[0]._tr.get_or_add_trPr()
-    trPr.append(OxmlElement("w:tblHeader"))
+
     doc.add_paragraph().paragraph_format.space_after = Pt(0)
 
 
@@ -263,7 +327,8 @@ def starts_block(line: str) -> bool:
 
 
 def setup_styles(doc: Document, compact: bool) -> Pt:
-    size = Pt(9.5 if compact else 10.5)
+    # Compact stays readable: these are read off-screen while recording.
+    size = Pt(10.5)
     for section in doc.sections:
         section.top_margin = section.bottom_margin = Inches(0.5 if compact else 0.75)
         section.left_margin = section.right_margin = Inches(0.8)
@@ -272,11 +337,11 @@ def setup_styles(doc: Document, compact: bool) -> Pt:
     normal.font.name = BODY_FONT
     normal.font.size = size
     normal.font.color.rgb = INK
-    normal.paragraph_format.space_after = Pt(2 if compact else 6)
-    normal.paragraph_format.line_spacing = 1.0 if compact else 1.12
+    normal.paragraph_format.space_after = Pt(4 if compact else 6)
+    normal.paragraph_format.line_spacing = 1.08 if compact else 1.12
 
     heads = (
-        [("Heading 1", 14, 0, 5), ("Heading 2", 11.5, 8, 3), ("Heading 3", 10, 6, 2)]
+        [("Heading 1", 15, 0, 7), ("Heading 2", 12, 10, 4), ("Heading 3", 11, 7, 3)]
         if compact
         else [("Heading 1", 18, 0, 9), ("Heading 2", 13.5, 16, 6), ("Heading 3", 11.5, 12, 4)]
     )
@@ -296,8 +361,8 @@ def setup_styles(doc: Document, compact: bool) -> Pt:
             fmt = doc.styles[name].paragraph_format
         except KeyError:
             continue
-        fmt.space_after = Pt(1 if compact else 3)
-        fmt.line_spacing = 1.0 if compact else 1.12
+        fmt.space_after = Pt(2 if compact else 3)
+        fmt.line_spacing = 1.08 if compact else 1.12
     return size
 
 

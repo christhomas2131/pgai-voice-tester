@@ -1,16 +1,12 @@
 # Loom 2 — AI debugging walkthrough (~4 min)
 
-No time limit on this one — the 3-minute cap is on the walkthrough. Timings are
-measured at a normal speaking pace.
+No 3-minute cap on this one. Show the loop: symptom → hypothesis → evidence → fix →
+*then fix whatever should have caught it*. One bug properly beats three summarised.
 
-Show the loop: symptom → hypothesis → evidence → fix → *then fix whatever should
-have caught it*. One bug shown properly beats three summarised. Use the first live
-call: it died in one second and the error message blamed the wrong component.
-
-**Reproduce it on camera, free:** delete the `customParameters` block from the
-`start` frame in `tests/loopback.py`, run `python tests/loopback.py refill`, and the
-bridge prints `refusing stream: unknown scenario ''` — the same failure Twilio hit,
-in 20 seconds and no phone call. Put the block back after.
+**Reproduce it free, on camera:** delete the `customParameters` block from the `start`
+frame in `tests/loopback.py`, run `python tests/loopback.py refill`, and the bridge
+prints `refusing stream: unknown scenario ''` — the same failure Twilio hit, in 20
+seconds and no phone call.
 
 **0:00 · The symptom**
 - Placed my first real call. Twilio said `completed`. Duration: one second.
@@ -51,9 +47,3 @@ in 20 seconds and no phone call. Put the block back after.
 **3:45 · The habit, in one line**
 - Every wrong turn came from trusting a framing — Twilio's, then my own. Every fix
   came from making the system say what it was actually doing, and re-running.
-
-**If asked what else (not narrated):** silence frames — harness went quiet, event log
-showed `speech_started` with no `speech_stopped`, because a real line always sends
-silence and VAD must hear it to close a turn. Playback vs. generation — silence timed
-from `response.done`, so the watchdog cut the bot off mid-sentence. Transcript
-ordering — turns stamped when transcription resolved, not when speech happened.

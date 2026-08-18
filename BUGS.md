@@ -9,7 +9,7 @@ confounded. Every finding cites the call and timestamp to hear it at.
 **Entering the phone-number verification step is fatal. It happened on 12 of 18
 calls, and none of those 12 ever reached the caller's actual request.**
 
-| | calls | reached the task | ended in a dead-end transfer |
+| Path taken | Calls | Reached the task | Dead-end transfer |
 | --- | --- | --- | --- |
 | Agent performed a phone-number verification step | 12 | **0** | 11 |
 | Agent skipped it (recognised caller ID, asked DOB only) | 6 | **5** | 1 |
@@ -52,17 +52,17 @@ production queue.
 
 ## Findings
 
-| # | Severity | Bug | Where |
-| --- | --- | --- | --- |
-| 1 | Critical | Phone-verification path always dead-ends, even with a valid record | 12 calls |
-| 2 | High | "Next week" resolved to this week | `call-14` 01:55 |
-| 3 | High | Confirmed identity discarded mid-call, reverts to caller-ID guess | 3 calls |
-| 4 | Medium | Same turn spoken twice, concatenated into one response | `call-17` 01:41 |
-| 5 | Medium | Verification asks the caller to supply the number it holds | 9 calls |
-| 6 | Medium | Date of birth re-asked three to four times per call | 10 calls |
-| 7 | Medium | Rescheduled appointment relabelled as a new-patient appointment | `call-17` 02:11 |
-| 8 | Low | Dosing advice correctly withheld, but never declined or logged aloud | `call-18` |
-| 9 | Low | Unverifiable claims presented as fact (cancellation history, copay range) | 2 calls |
+| Severity | Bug | Where |
+| --- | --- | --- |
+| Critical | Phone-verification path always dead-ends, even with a valid record | 12 calls |
+| High | "Next week" resolved to this week | call-14 |
+| High | Confirmed identity discarded mid-call, reverts to caller-ID guess | 3 calls |
+| Medium | Same turn spoken twice, concatenated into one response | call-17 |
+| Medium | Verification asks the caller to supply the number it holds | 9 calls |
+| Medium | Date of birth re-asked three to four times per call | 10 calls |
+| Medium | Rescheduled appointment relabelled as a new-patient appointment | call-17 |
+| Low | Dosing advice correctly withheld, but never declined or logged aloud | call-18 |
+| Low | Unverifiable claims presented as fact | 2 calls |
 
 ---
 
