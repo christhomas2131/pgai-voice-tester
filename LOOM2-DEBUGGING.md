@@ -1,10 +1,11 @@
-# Loom 2 — AI debugging walkthrough (3 min)
+# Loom 2 — AI debugging walkthrough (~4 min)
 
-They want to see the loop: symptom → hypothesis → evidence → fix → *and then fix
-whatever should have caught it*. One bug, shown properly, beats three summarised.
+No time limit on this one — the 3-minute cap is on the walkthrough. Timings are
+measured at a normal speaking pace.
 
-**Use this bug:** the first live call connected and died in one second. It's the best
-one because the error message actively lied about the cause.
+Show the loop: symptom → hypothesis → evidence → fix → *then fix whatever should
+have caught it*. One bug shown properly beats three summarised. Use the first live
+call: it died in one second and the error message blamed the wrong component.
 
 ## Reproduce it live on camera, for free
 
@@ -25,19 +26,18 @@ the same failure Twilio hit. Put the block back afterwards.
 - Placed my first real call. Twilio said `completed`. Duration: one second.
 - No transcript, no event log, nothing on disk. The bridge never wrote a byte.
 
-**0:20 · Ask the tool for the error, not for a guess** — *show the prompt*
+**0:25 · Ask the tool for the error, not for a guess** — *show the prompt*
 > "The call completed in 1s and the bridge wrote nothing. Pull the Twilio alerts for that call SID and tell me what the error code actually means."
 - Error 31921. Twilio's docs: *"Twilio established a WebSocket connection to your
   server and your server then closed that connection."*
 - So it blamed my code. That framing is what cost me the most time.
 
-**0:50 · Test the accusation before accepting it**
+**1:00 · Test the accusation before accepting it**
 > "Before I change anything — connect to the bridge through the public tunnel the way Twilio does, and tell me whether the handshake actually succeeds."
 - It did. Handshake fine, full call log written. The bridge was innocent.
-- Worth saying out loud: the error message was true but misleading. My server *did*
-  close the connection — it just closed it on purpose.
+- The error was true but misleading: my server *did* close the connection — on purpose.
 
-**1:20 · Stop guessing, add evidence**
+**1:40 · Stop guessing, add evidence**
 - I'd been theorising: DNS, tunnel timing, recording flags. All plausible, all
   unverifiable from what I had.
 > "I'm guessing. The bridge rejects a stream in three places and all three are silent. Make each one log why, then I'll call again."
@@ -45,17 +45,24 @@ the same failure Twilio hit. Put the block back afterwards.
 - Twilio discards the query string on `<Stream url>`. Custom data has to travel as
   `<Parameter>` children and arrives in the `start` frame. Fifteen-line fix.
 
-**2:10 · Then fix the thing that should have caught it** — *the part I'd want to see*
+**2:30 · Then fix the thing that should have caught it** — *the part I'd want to see*
 - My loopback harness passed the scenario as a query string too. It was faithful to
   my assumption, not to Twilio. That's why it passed while production failed.
 > "Change the harness to send customParameters like Twilio does, and add a test asserting the Stream url has no query string."
 - Harness now mirrors Twilio exactly. Test fails if anyone reintroduces it.
 
-**2:40 · The habit, in one line**
-- Every wrong turn came from trusting an error message's framing. Every fix came
-  from making the system say what it was actually doing.
+**3:10 · Same move, on my own conclusions** — *show the table at the top of `BUGS.md`*
+- I'd finished the bug report. Eight findings, two critical. Then I asked the same question I'd asked about the Twilio error: what if the framing is wrong?
+> "Re-read the transcripts and tell me whether my critical findings could be artifacts of my own test design."
+- They were. Twelve identities down one phone number, against a system that keys records to caller ID — I'd guaranteed the failures I was reporting.
+- So I re-ran six calls with the identity held constant. That isolated the real bug: it's the phone-verification code path that dead-ends, not the lookup. Twelve of eighteen calls hit it, none completed.
+- Worth saying plainly: the confound was hiding a sharper bug than the one it caused.
 
-## If asked what else the loop caught
+**3:45 · The habit, in one line**
+- Every wrong turn came from trusting a framing — Twilio's, then my own. Every fix
+  came from making the system say what it was actually doing, and re-running.
+
+## Reference — other bugs the loop caught (not narrated)
 
 - **Silence frames:** harness went silent. Event log showed `speech_started` with no
   `speech_stopped` — a real line always sends silence frames and VAD must *hear*
