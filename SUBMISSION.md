@@ -31,10 +31,12 @@ the comparison between them is what isolated the critical finding.
 ## Still yours
 
 - [ ] **Loom video 1** — project walkthrough, under 3 minutes, webcam on, your voice.
-      Script: [LOOM1-WALKTHROUGH.md](LOOM1-WALKTHROUGH.md)
+      Script: [LOOM-SCRIPTS-PLAIN.md](LOOM-SCRIPTS-PLAIN.md) (plain English, no
+      timings) or [LOOM1-WALKTHROUGH.md](LOOM1-WALKTHROUGH.md) (timed beats)
 - [ ] **Loom video 2** — you prompting AI to debug and fix the code.
-      Script: [LOOM2-DEBUGGING.md](LOOM2-DEBUGGING.md), which also explains how to
-      reproduce the bug live on camera in 20 seconds without placing a call.
+      Script: [LOOM-SCRIPTS-PLAIN.md](LOOM-SCRIPTS-PLAIN.md) or
+      [LOOM2-DEBUGGING.md](LOOM2-DEBUGGING.md). Both explain how to reproduce the bug
+      live on camera in 20 seconds without placing a call.
 - [ ] **Both Looms set to public.**
 - [ ] **Push to a public GitHub repo.** Confirm `.env` is not in it:
       `git ls-files | grep -c '^\.env$'` should print `0`.
