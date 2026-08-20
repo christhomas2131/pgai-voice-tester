@@ -3,7 +3,7 @@
 An automated patient that phones a medical practice's AI receptionist, holds a real
 conversation with it, and writes down what went wrong.
 
-It places outbound calls to `+1-805-439-8008`, plays one of twelve patient personas
+It places outbound calls to `+1-805-439-8008`, plays one of a set of patient personas
 over the phone via OpenAI's Realtime API, records both sides, and drafts a bug
 report from the transcripts.
 
@@ -86,6 +86,12 @@ task alone -- see the top of [BUGS.md](BUGS.md) for why that was necessary:
 ```bash
 IDENTITY=on_file python run_calls.py --scenario closed_weekend reschedule cancel
 ```
+
+A further 20 probe scenarios are written but not yet run — `ROUND2` in
+`scenarios.py`. They target what the first 18 calls couldn't reach: emergency
+symptom triage, authentication with a wrong date of birth, disclosure of another
+patient's record, weekend booking, bot disclosure, double-booking, past dates. See
+the end of [BUGS.md](BUGS.md) for which to run first and why.
 
 ## Cost
 
